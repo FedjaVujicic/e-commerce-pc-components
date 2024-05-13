@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+html,
+body,
+.content {
+    min-height: 100vh;
+}
+
 .mouse-hover {
     cursor: pointer;
 }
