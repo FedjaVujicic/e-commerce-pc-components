@@ -82,7 +82,7 @@ namespace ComponentShopAPI.Controllers
                 }
             }
 
-            return Ok(await _context.Monitors.ToListAsync());
+            return NoContent();
         }
 
         // POST: api/Monitors
@@ -93,7 +93,7 @@ namespace ComponentShopAPI.Controllers
             _context.Monitors.Add(monitor);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Monitors.ToListAsync());
+            return CreatedAtAction("GetMonitor", new { id = monitor.Id }, monitor);
         }
 
         // DELETE: api/Monitors/5
@@ -109,7 +109,7 @@ namespace ComponentShopAPI.Controllers
             _context.Monitors.Remove(monitor);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Monitors.ToListAsync());
+            return NoContent();
         }
 
         private bool MonitorExists(int id)
