@@ -34,4 +34,14 @@ export class EditMonitorsComponent {
     this.monitorService.resetForm();
     this.isFormVisible = false;
   }
+
+  pageNext() {
+    this.monitorService.currentPage = this.monitorService.currentPage + 1;
+    this.monitorService.getMonitors();
+  }
+
+  pagePrev() {
+    this.monitorService.currentPage = this.monitorService.currentPage - 1;
+    this.monitorService.getMonitors();
+  }
 }

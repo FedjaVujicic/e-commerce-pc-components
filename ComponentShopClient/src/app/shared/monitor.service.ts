@@ -14,6 +14,10 @@ export class MonitorService {
   url: string = `${environment.apiBaseUrl}/Monitors`;
   monitorList: Array<Monitor> = [];
   formData: Monitor = new Monitor();
+  currentPage: number = 1;
+  pageSize: number = 5;
+  lastPage: number = 0;
+  totalMonitors: number = 0;
 
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
@@ -22,9 +26,12 @@ export class MonitorService {
   }
 
   getMonitors() {
-    return this.http.get(this.url).subscribe({
+    return this.http.get(this.url + `/currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response' }).subscribe({
       next: res => {
-        this.monitorList = res as Array<Monitor>;
+        this.monitorList = res.body as Array<Monitor>;
+        this.totalMonitors = parseInt(res.headers.get("X-Total-Count"));
+        this.lastPage = Math.floor(this.totalMonitors / this.pageSize) + 1;
+        if (this.totalMonitors % 5 == 0) this.lastPage -= 1;
       },
       error: err => {
         console.log(err);
@@ -47,7 +54,7 @@ export class MonitorService {
   postMonitor() {
     return this.http.post(this.url, this.formData).subscribe({
       next: res => {
-        this.monitorList = res as Array<Monitor>;
+        this.getMonitors();
         this.resetForm();
         this.toastr.success("Added");
       },
@@ -60,7 +67,10 @@ export class MonitorService {
   deleteMonitor(id: number) {
     return this.http.delete(this.url + `/${id}`).subscribe({
       next: res => {
-        this.monitorList = res as Array<Monitor>;
+        if (this.totalMonitors % this.pageSize == 1 && this.currentPage == this.lastPage) {
+          this.currentPage -= 1;
+        }
+        this.getMonitors();
         this.toastr.success("Deleted");
       },
       error: err => {
@@ -72,7 +82,7 @@ export class MonitorService {
   putMonitor(id: number, monitor: Monitor) {
     return this.http.put(this.url + `/${id}`, monitor).subscribe({
       next: res => {
-        this.monitorList = res as Array<Monitor>;
+        this.getMonitors();
         this.resetForm();
         this.toastr.success("Updated");
       },

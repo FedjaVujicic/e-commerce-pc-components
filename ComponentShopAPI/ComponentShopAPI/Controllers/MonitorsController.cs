@@ -17,9 +17,27 @@ namespace ComponentShopAPI.Controllers
 
         // GET: api/Monitors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors()
+        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetAllMonitors()
         {
             return Ok(await _context.Monitors.ToListAsync());
+        }
+
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}")]
+        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors(int currentPage, int pageSize)
+        {
+            var monitors = await _context.Monitors.ToListAsync();
+
+            Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
+            Response.Headers.Append("X-Total-Count", monitors.Count.ToString());
+
+            if (monitors.Count >= currentPage * pageSize)
+            {
+                return Ok(monitors.GetRange((currentPage - 1) * pageSize, pageSize));
+            }
+            else
+            {
+                return Ok(monitors.GetRange((currentPage - 1) * pageSize, monitors.Count - ((currentPage - 1) * pageSize)));
+            }
         }
 
         // GET: api/Monitors/5

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 import { Monitor } from '../../../models/monitor';
+import { EditMonitorsComponent } from '../edit-monitors.component';
 
 @Component({
   selector: 'app-edit-monitors-form',
@@ -9,7 +10,7 @@ import { Monitor } from '../../../models/monitor';
 })
 export class EditMonitorsFormComponent {
 
-  constructor(public monitorService: MonitorService) { }
+  constructor(public monitorService: MonitorService, private parent: EditMonitorsComponent) { }
 
   onSubmit() {
     if (this.monitorService.formData.id == 0) {
@@ -18,5 +19,6 @@ export class EditMonitorsFormComponent {
     else {
       this.monitorService.putMonitor(this.monitorService.formData.id, this.monitorService.formData);
     }
+    this.parent.hideForm();
   }
 }
