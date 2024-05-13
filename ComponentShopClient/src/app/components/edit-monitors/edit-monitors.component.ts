@@ -8,6 +8,8 @@ import { MonitorService } from '../../shared/monitor.service';
 })
 export class EditMonitorsComponent {
 
+  isFormVisible: boolean = false;
+
   constructor(public monitorService: MonitorService) { }
 
   ngOnInit() {
@@ -15,10 +17,21 @@ export class EditMonitorsComponent {
   }
 
   fillForm(id: number) {
+    this.showForm();
     this.monitorService.getMonitor(id);
   }
 
   deleteMonitor(id: number) {
     this.monitorService.deleteMonitor(id);
+  }
+
+  showForm() {
+    this.monitorService.resetForm();
+    this.isFormVisible = true;
+  }
+
+  hideForm() {
+    this.monitorService.resetForm();
+    this.isFormVisible = false;
   }
 }

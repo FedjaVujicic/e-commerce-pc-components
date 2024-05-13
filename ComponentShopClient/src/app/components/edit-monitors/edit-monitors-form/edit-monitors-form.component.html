@@ -1,38 +1,45 @@
 <form (submit)="onSubmit()">
-    <div class="mb-3">
+    <div class="mb-2">
+        <label for="name" class="form-label">Name</label>
         <input type="text" placeholder="Name" class="form-control" [(ngModel)]="monitorService.formData.name"
             name="name" autocomplete="off">
     </div>
-    <div class="mb-3">
+    <div class="mb-2">
+        <label for="size" class="form-label">Size</label>
         <input type="text" placeholder="Size(inches)" class="form-control" [(ngModel)]="monitorService.formData.size"
             name="size" autocomplete="off">
     </div>
-    <div class="row mb-3">
+    <div class="row mb-2">
         <div class="col-6">
+            <label for="width" class="form-label">Width</label>
             <input type="text" placeholder="Width(px)" class="form-control" [(ngModel)]="monitorService.formData.width"
                 name="width" autocomplete="off">
         </div>
         <div class="col-6">
+            <label for="height" class="form-label">Height</label>
             <input type="text" placeholder="Height(px)" class="form-control"
                 [(ngModel)]="monitorService.formData.height" name="height" autocomplete="off">
         </div>
     </div>
-    <div class="mb-3">
+    <div class="mb-2">
+        <label for="refreshRate" class="form-label">Refresh Rate</label>
         <input type="text" placeholder="Refresh Rate(Hz)" class="form-control"
             [(ngModel)]="monitorService.formData.refreshRate" name="refreshRate" autocomplete="off">
     </div>
-    <div class="mb-3">
+    <div class="mb-2">
+        <label for="price" class="form-label">Price</label>
         <input type="text" placeholder="Price" class="form-control" [(ngModel)]="monitorService.formData.price"
             name="price" autocomplete="off">
     </div>
-    <div class="mb-3">
+    <div class="mb-2">
+        <label for="availability" class="form-label">Availability</label>
         <select class="form-select" [(ngModel)]="monitorService.formData.availability" name="availability">
-            <option selected disabled hidden>Select Availability</option>
+            <option selected disabled hidden>...</option>
             <option value="In Stock">In Stock</option>
             <option value="Out of Stock">Out of Stock</option>
         </select>
     </div>
-    <div class="mb-3">
+    <div class="mb-2">
         <button type="submit" class="btn btn-success w-100">Submit</button>
     </div>
 
