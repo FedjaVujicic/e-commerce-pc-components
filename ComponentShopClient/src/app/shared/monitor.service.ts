@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Monitor } from '../models/monitor';
-import { Observable } from 'rxjs';
-import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({

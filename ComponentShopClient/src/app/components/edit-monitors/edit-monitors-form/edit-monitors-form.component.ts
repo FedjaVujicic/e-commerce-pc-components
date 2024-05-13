@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
-import { Monitor } from '../../../models/monitor';
 import { EditMonitorsComponent } from '../edit-monitors.component';
 
 @Component({
