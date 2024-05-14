@@ -65,7 +65,7 @@ export class MonitorService {
   deleteMonitor(id: number) {
     return this.http.delete(this.url + `/${id}`).subscribe({
       next: res => {
-        if (this.totalMonitors % this.pageSize == 1 && this.currentPage == this.lastPage) {
+        if (this.totalMonitors % this.pageSize == 1 && this.currentPage == this.lastPage && this.currentPage > 1) {
           this.currentPage -= 1;
         }
         this.getMonitors();

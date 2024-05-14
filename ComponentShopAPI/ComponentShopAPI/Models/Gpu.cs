@@ -9,7 +9,7 @@ namespace ComponentShopAPI.Models
         [Required]
         public string? Name { get; set; }
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string? Availability { get; set; }
         public string? Slot { get; set; }
         public int Memory { get; set; }
