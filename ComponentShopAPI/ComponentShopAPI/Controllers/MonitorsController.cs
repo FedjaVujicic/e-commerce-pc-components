@@ -15,15 +15,8 @@ namespace ComponentShopAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Monitors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetAllMonitors()
-        {
-            return Ok(await _context.Monitors.ToListAsync());
-        }
-
-        [HttpGet("currentPage={currentPage}&pageSize={pageSize}")]
-        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors(int currentPage, int pageSize)
+        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors([FromQuery] int currentPage, [FromQuery] int pageSize)
         {
             var monitors = await _context.Monitors.ToListAsync();
 

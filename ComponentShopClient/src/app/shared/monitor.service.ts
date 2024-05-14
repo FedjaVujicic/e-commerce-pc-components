@@ -24,7 +24,7 @@ export class MonitorService {
   }
 
   getMonitors() {
-    return this.http.get(this.url + `/currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response' }).subscribe({
+    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response' }).subscribe({
       next: res => {
         this.monitorList = res.body as Array<Monitor>;
         this.totalMonitors = parseInt(res.headers.get("X-Total-Count"));
