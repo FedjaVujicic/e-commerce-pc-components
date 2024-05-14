@@ -29,7 +29,7 @@ export class MonitorService {
         this.monitorList = res.body as Array<Monitor>;
         this.totalMonitors = parseInt(res.headers.get("X-Total-Count"));
         this.lastPage = Math.floor(this.totalMonitors / this.pageSize) + 1;
-        if (this.totalMonitors % 5 == 0) this.lastPage -= 1;
+        if (this.totalMonitors % this.pageSize == 0) this.lastPage -= 1;
       },
       error: err => {
         console.log(err);
