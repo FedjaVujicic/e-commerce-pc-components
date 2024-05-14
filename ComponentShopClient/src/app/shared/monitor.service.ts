@@ -16,11 +16,26 @@ export class MonitorService {
   pageSize: number = 5;
   lastPage: number = 0;
   totalMonitors: number = 0;
+  searchParam: string = "";
 
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   resetForm() {
     this.formData = new Monitor();
+  }
+
+  searchMonitors() {
+    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response' }).subscribe({
+      next: res => {
+        this.monitorList = res.body as Array<Monitor>;
+        this.totalMonitors = parseInt(res.headers.get("X-Total-Count"));
+        this.lastPage = Math.floor(this.totalMonitors / this.pageSize) + 1;
+        if (this.totalMonitors % this.pageSize == 0) this.lastPage -= 1;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   getMonitors() {

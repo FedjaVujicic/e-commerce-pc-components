@@ -50,7 +50,7 @@ namespace ComponentShopAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GraphicsCards");
+                    b.ToTable("GraphicsCards", (string)null);
                 });
 
             modelBuilder.Entity("ComponentShopAPI.Models.Monitor", b =>
@@ -85,7 +85,7 @@ namespace ComponentShopAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Monitors");
+                    b.ToTable("Monitors", (string)null);
                 });
 #pragma warning restore 612, 618
         }

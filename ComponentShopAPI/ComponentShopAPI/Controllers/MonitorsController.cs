@@ -16,9 +16,17 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors([FromQuery] int currentPage, [FromQuery] int pageSize)
+        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors
+            ([FromQuery] int currentPage, [FromQuery] int pageSize, [FromQuery] string searchParam = "")
         {
             var monitors = await _context.Monitors.ToListAsync();
+
+            if (searchParam != "")
+            {
+                monitors = monitors.Where(monitor =>
+                    monitor.Name.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+            }
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
             Response.Headers.Append("X-Total-Count", monitors.Count.ToString());

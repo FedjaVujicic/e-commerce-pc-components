@@ -44,4 +44,8 @@ export class EditMonitorsComponent {
     this.monitorService.currentPage = this.monitorService.currentPage - 1;
     this.monitorService.getMonitors();
   }
+
+  searchMonitor() {
+    this.monitorService.searchMonitors();
+  }
 }
