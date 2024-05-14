@@ -9,37 +9,39 @@
                 <button type="button" class="btn btn-secondary fw-bold w-100" (click)="hideForm()">Cancel</button>
             </div>
         </div>
-        <div class="mt-4 mb-2 d-flex">
-            <input type="text" placeholder="Search..." class="form-control me-2">
-            <button type="submit" class="btn btn-success">Search</button>
-        </div>
-        <ul class="list-group mb-2">
-            <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
-                *ngFor="let monitor of monitorService.monitorList">
-                <div class="d-flex flex-grow-1" (click)="fillForm(monitor.id)">
-                    <div class="flex-grow-1">
-                        <div class="fw-bold fs-5">{{ monitor.name }}</div>
-                        <div>Size: {{ monitor.size }}"</div>
-                        <div>Resolution: {{ monitor.width }}x{{ monitor.height }}</div>
-                        <div>Refresh Rate: {{ monitor.refreshRate }}Hz</div>
+        <ng-container *ngIf="monitorService.totalMonitors > 0">
+            <div class="mt-4 mb-2 d-flex">
+                <input type="text" placeholder="Search..." class="form-control me-2">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+            <ul class="list-group mb-2">
+                <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
+                    *ngFor="let monitor of monitorService.monitorList">
+                    <div class="d-flex flex-grow-1" (click)="fillForm(monitor.id)">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold fs-5">{{ monitor.name }}</div>
+                            <div>Size: {{ monitor.size }}"</div>
+                            <div>Resolution: {{ monitor.width }}x{{ monitor.height }}</div>
+                            <div>Refresh Rate: {{ monitor.refreshRate }}Hz</div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="fw-bold fs-5">{{ monitor.price }}$</div>
+                            <div style="min-width: 100px">{{ monitor.availability }}</div>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column justify-content-center">
-                        <div class="fw-bold fs-5">{{ monitor.price }}$</div>
-                        <div style="min-width: 100px">{{ monitor.availability }}</div>
+                    <div class="d-flex flex-column justify-content-around ms-3">
+                        <div class="fa-solid fa-trash-can fa-2x mouse-hover" (click)="deleteMonitor(monitor.id)"></div>
                     </div>
-                </div>
-                <div class="d-flex flex-column justify-content-around ms-3">
-                    <div class="fa-solid fa-trash-can fa-2x mouse-hover" (click)="deleteMonitor(monitor.id)"></div>
-                </div>
-            </li>
-        </ul>
-        <div class="d-flex justify-content-center align-items-center">
-            <i class="fa-solid fa-circle-arrow-left mouse-hover" (click)="pagePrev()"
-                *ngIf="this.monitorService.currentPage > 1"></i>
-            <div class="ms-2">{{monitorService.currentPage}}/</div>
-            <div class="me-2">{{monitorService.lastPage}}</div>
-            <i class="fa-solid fa-circle-arrow-right mouse-hover" (click)="pageNext()"
-                *ngIf="this.monitorService.currentPage < this.monitorService.lastPage"></i>
-        </div>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-circle-arrow-left mouse-hover" (click)="pagePrev()"
+                    *ngIf="this.monitorService.currentPage > 1"></i>
+                <div class="ms-2">{{monitorService.currentPage}}/</div>
+                <div class="me-2">{{monitorService.lastPage}}</div>
+                <i class="fa-solid fa-circle-arrow-right mouse-hover" (click)="pageNext()"
+                    *ngIf="this.monitorService.currentPage < this.monitorService.lastPage"></i>
+            </div>
+        </ng-container>
     </div>
 </div>

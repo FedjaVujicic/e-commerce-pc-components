@@ -23,6 +23,11 @@ namespace ComponentShopAPI.Controllers
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
             Response.Headers.Append("X-Total-Count", monitors.Count.ToString());
 
+            if (monitors.Count == 0)
+            {
+                return Ok();
+            }
+
             if (monitors.Count >= currentPage * pageSize)
             {
                 return Ok(monitors.GetRange((currentPage - 1) * pageSize, pageSize));
