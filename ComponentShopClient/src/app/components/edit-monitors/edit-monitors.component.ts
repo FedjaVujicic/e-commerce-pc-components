@@ -21,10 +21,6 @@ export class EditMonitorsComponent {
     this.monitorService.getMonitor(id);
   }
 
-  deleteMonitor(id: number) {
-    this.monitorService.deleteMonitor(id);
-  }
-
   showForm() {
     this.monitorService.resetForm();
     this.isFormVisible = true;
@@ -45,7 +41,4 @@ export class EditMonitorsComponent {
     this.monitorService.getMonitors();
   }
 
-  searchMonitor() {
-    this.monitorService.searchMonitors();
-  }
 }
