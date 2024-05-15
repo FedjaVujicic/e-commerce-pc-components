@@ -2,7 +2,7 @@ export class Monitor {
     id: number = 0;
     name: string;
     price: number;
-    availability: string = "...";
+    availability: string;
     size: number;
     width: number;
     height: number;
