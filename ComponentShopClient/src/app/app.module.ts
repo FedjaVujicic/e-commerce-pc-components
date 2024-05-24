@@ -9,12 +9,16 @@ import { EditMonitorsComponent } from './components/edit-monitors/edit-monitors.
 import { EditMonitorsFormComponent } from './components/edit-monitors/edit-monitors-form/edit-monitors-form.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditMonitorsComponent,
     EditMonitorsFormComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
