@@ -11,17 +11,20 @@ export class LoginComponent {
 
   formUsername: string;
   formPassword: string;
-  loginErrorMsg: string = "Incorrect username or password";
+  loginFailed: boolean = false;
 
   constructor(private router: Router, public userService: UserService) { }
 
   onSubmit() {
     this.userService.loginUser(this.formUsername, this.formPassword).subscribe({
       next: res => {
-        if (!this.userService.loginFailed) {
+        if (res.loginSuccessful) {
           // Save user session
           // Navigate to home page
           this.router.navigate(["../edit-monitors"]);
+        }
+        else {
+          this.loginFailed = true;
         }
       },
       error: err => {

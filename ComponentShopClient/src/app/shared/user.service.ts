@@ -14,7 +14,6 @@ export class UserService {
 
   url: string = `${environment.apiBaseUrl}/Users`;
   currentUser: User;
-  loginFailed: boolean = false;
 
   loginUser(formUsername: string, formPassword: string) {
     return this.http.post<{ loginSuccessful: boolean, currentUser: User }>(this.url + `/login/?username=${formUsername}&password=${formPassword}`, {}).pipe(
@@ -22,7 +21,6 @@ export class UserService {
         if (res.loginSuccessful) {
           this.currentUser = res.currentUser as User;
         }
-        this.loginFailed = !res.loginSuccessful;
       })
     );
   }

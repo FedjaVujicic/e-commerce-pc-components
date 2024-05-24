@@ -10,7 +10,7 @@
                     [(ngModel)]="formPassword" name="password">
             </div>
             <button class="btn btn-success w-100 mb-3" type="submit">Sign in</button>
-            <div class="text-danger mb-2" *ngIf="userService.loginFailed">{{ loginErrorMsg }}</div>
+            <div class="text-danger mb-2" *ngIf="loginFailed">Incorrect username or password</div>
             <span>Don't have an account?
                 <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                     routerLink="../register">
