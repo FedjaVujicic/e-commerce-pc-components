@@ -99,10 +99,10 @@ namespace ComponentShopAPI.Controllers
 
             if (currentUser == null)
             {
-                return NotFound();
+                return Ok(new { isLoggedIn = false });
             }
 
-            return Ok(currentUser);
+            return Ok(new { currentUser, isLoggedIn = true });
         }
 
         // DELETE: api/Users/5
