@@ -13,13 +13,11 @@ export class UserService {
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   url: string = `${environment.apiBaseUrl}/Users`;
-  formUsername: string;
-  formPassword: string;
   currentUser: User;
   loginFailed: boolean = false;
 
-  loginUser() {
-    return this.httpClient.post<{ isLoggedIn: boolean, currentUser: User }>(this.url + `/login/?username=${this.formUsername}&password=${this.formPassword}`, {}).pipe(
+  loginUser(formUsername: string, formPassword: string) {
+    return this.httpClient.post<{ isLoggedIn: boolean, currentUser: User }>(this.url + `/login/?username=${formUsername}&password=${formPassword}`, {}).pipe(
       tap(res => {
         if (res.isLoggedIn) {
           this.currentUser = res.currentUser as User;
@@ -27,20 +25,6 @@ export class UserService {
         this.loginFailed = !res.isLoggedIn;
       })
     );
-
-    // return this.httpClient.post<{ isLoggedIn: boolean, currentUser: User }>(this.url + `/login/?username=${this.formUsername}&password=${this.formPassword}`, {}).subscribe({
-    //   next: res => {
-    //     if (res.isLoggedIn) {
-    //       this.currentUser = res.currentUser as User;
-    //     }
-    //     else {
-    //       console.log("Incorrect username or password");
-    //     }
-    //   },
-    //   error: err => {
-    //     console.log(err);
-    //   }
-    // });
   }
 
   registerUser() {

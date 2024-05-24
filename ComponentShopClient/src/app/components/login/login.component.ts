@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
+  formUsername: string;
+  formPassword: string;
   loginErrorMsg: string = "Incorrect username or password";
 
   constructor(private router: Router, public userService: UserService) { }
 
   onSubmit() {
-    this.userService.loginUser().subscribe({
+    this.userService.loginUser(this.formUsername, this.formPassword).subscribe({
       next: res => {
         if (!this.userService.loginFailed) {
           // Save user session

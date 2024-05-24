@@ -3,11 +3,11 @@
         <form (submit)="onSubmit()">
             <div class="mb-3">
                 <input type="text" placeholder="Username" class="form-control" autocomplete="off" required
-                    [(ngModel)]="userService.formUsername" name="username">
+                    [(ngModel)]="formUsername" name="username">
             </div>
             <div class="mb-3">
                 <input type="password" placeholder="Password" class="form-control" autocomplete="off" required
-                    [(ngModel)]="userService.formPassword" name="password">
+                    [(ngModel)]="formPassword" name="password">
             </div>
             <button class="btn btn-success w-100 mb-3" type="submit">Sign in</button>
             <div class="text-danger mb-2" *ngIf="userService.loginFailed">{{ loginErrorMsg }}</div>
