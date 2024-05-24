@@ -82,13 +82,13 @@ namespace ComponentShopAPI.Controllers
         {
             if (_context.Users.Any(user => user.Username == username))
             {
-                return Conflict(new { message = "Username already in use" });
+                return Ok(new { userExists = true });
             }
 
             _context.Users.Add(new User(username, password));
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Created("GetUsers", new { userExists = false });
         }
 
         // POST: api/Users/login
@@ -99,10 +99,10 @@ namespace ComponentShopAPI.Controllers
 
             if (currentUser == null)
             {
-                return Ok(new { isLoggedIn = false });
+                return Ok(new { loginSuccessful = false });
             }
 
-            return Ok(new { currentUser, isLoggedIn = true });
+            return Ok(new { currentUser, loginSuccessful = true });
         }
 
         // DELETE: api/Users/5

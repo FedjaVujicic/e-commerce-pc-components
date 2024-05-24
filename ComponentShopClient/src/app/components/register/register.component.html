@@ -2,15 +2,19 @@
     <div class="col-3 py-5 bg-dark-subtle rounded-3">
         <form (submit)="onSubmit()">
             <div class="mb-3">
-                <input type="text" placeholder="Username" class="form-control" autocomplete="off" required>
+                <input type="text" placeholder="Username" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formUsername" name="username">
             </div>
             <div class="mb-3">
-                <input type="password" placeholder="Password" class="form-control" autocomplete="off" required>
+                <input type="password" placeholder="Password" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formPassword" name="password">
             </div>
             <div class="mb-3">
-                <input type="password" placeholder="Confirm Password" class="form-control" autocomplete="off" required>
+                <input type="password" placeholder="Confirm Password" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formConfirmPassword" name="confirm-password">
             </div>
-            <button class="btn btn-success w-100 mb-3" type="submit">Sign in</button>
+            <button class="btn btn-success w-100 mb-3" type="submit">Register</button>
+            <div class="text-danger mb-2" *ngIf="registerFailed">{{ errorMsg }}</div>
             <span>Already have an account?
                 <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                     routerLink="../login">
