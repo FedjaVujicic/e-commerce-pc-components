@@ -10,6 +10,5 @@ namespace ComponentShopAPI.Models
 
         public DbSet<Monitor> Monitors { get; set; }
         public DbSet<Gpu> GraphicsCards { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 }
