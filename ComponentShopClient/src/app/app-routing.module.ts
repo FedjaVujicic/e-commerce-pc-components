@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { EditMonitorsComponent } from './components/edit-monitors/edit-monitors.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/login",
-    pathMatch: "full",
+    component: HomeComponent,
   },
   {
     path: "login",
