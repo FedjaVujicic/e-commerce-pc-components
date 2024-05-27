@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MonitorService } from '../../shared/monitor.service';
+import { MonitorService } from '../../../shared/monitor.service';
 
 @Component({
   selector: 'app-edit-monitors',

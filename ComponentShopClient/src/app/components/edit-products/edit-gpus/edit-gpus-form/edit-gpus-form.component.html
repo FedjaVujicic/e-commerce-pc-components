@@ -1,0 +1,50 @@
+<form (submit)="onSubmit()" ngNativeValidate>
+    <div class="mb-2">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" placeholder="Name" class="form-control" [(ngModel)]="gpuService.formData.name" name="name"
+            autocomplete="off" required>
+    </div>
+    <div class="mb-2">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" placeholder="Price" class="form-control" [(ngModel)]="gpuService.formData.price" name="price"
+            autocomplete="off" required>
+    </div>
+    <div class="mb-2">
+        <label for="name" class="form-label">Slot</label>
+        <input type="text" placeholder="Slot" class="form-control" [(ngModel)]="gpuService.formData.slot" name="slot"
+            autocomplete="off" required>
+    </div>
+    <div class="mb-2">
+        <label for="memory" class="form-label">Memory</label>
+        <input type="text" placeholder="Memory" class="form-control" [(ngModel)]="gpuService.formData.memory"
+            name="name" autocomplete="off" required>
+    </div>
+
+    <div class="mb-2">
+        <label for="memory" class="form-label">Ports</label>
+        <div class="mb-1 d-flex" *ngFor="let port of gpuService.formData.ports">
+            <input class="form-control me-1" type="text" disabled placeholder="{{ port }}">
+            <button (click)="removePort(port)" type="button" style="width:2.5rem"
+                class="btn btn-success fw-bold">-</button>
+        </div>
+
+        <div class="d-flex">
+            <input type="text" placeholder="Port" class="form-control me-1" autocomplete="off" [(ngModel)]="currentPort"
+                name="port">
+            <button (click)="addPort()" type="button" style="width:2.5rem" class="btn btn-success fw-bold">+</button>
+        </div>
+        <div *ngIf="noPorts" class="text-danger">Please add at least one port</div>
+    </div>
+
+    <div class="mb-2">
+        <label for="availability" class="form-label">Availability</label>
+        <select class="form-select" [(ngModel)]="gpuService.formData.availability" name="availability" required>
+            <option value="In Stock">In Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+        </select>
+    </div>
+    <div class="mb-2">
+        <button type="submit" class="btn btn-success w-100">Submit</button>
+    </div>
+
+</form>

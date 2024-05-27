@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ComponentShopAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ComponentShopAPI.Models;
 
 namespace ComponentShopAPI.Controllers
 {
@@ -20,18 +15,42 @@ namespace ComponentShopAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Gpus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Gpu>>> GetGraphicsCards()
+        public async Task<ActionResult<IEnumerable<Models.Gpu>>> GetGpus
+            ([FromQuery] int currentPage, [FromQuery] int pageSize, [FromQuery] string searchParam = "")
         {
-            return await _context.GraphicsCards.ToListAsync();
+            var gpus = await _context.Gpus.ToListAsync();
+
+            if (searchParam != "")
+            {
+                gpus = gpus.Where(gpu =>
+                    gpu.Name.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+            }
+
+            Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
+            Response.Headers.Append("X-Total-Count", gpus.Count.ToString());
+
+            if (gpus.Count == 0)
+            {
+                return Ok();
+            }
+
+            if (gpus.Count >= currentPage * pageSize)
+            {
+                return Ok(gpus.GetRange((currentPage - 1) * pageSize, pageSize));
+            }
+            else
+            {
+                return Ok(gpus.GetRange((currentPage - 1) * pageSize, gpus.Count - ((currentPage - 1) * pageSize)));
+            }
         }
 
         // GET: api/Gpus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Gpu>> GetGpu(int id)
+        public async Task<ActionResult<Models.Gpu>> GetGpu(int id)
         {
-            var gpu = await _context.GraphicsCards.FindAsync(id);
+            var gpu = await _context.Gpus.FindAsync(id);
 
             if (gpu == null)
             {
@@ -44,7 +63,7 @@ namespace ComponentShopAPI.Controllers
         // PUT: api/Gpus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGpu(int id, Gpu gpu)
+        public async Task<IActionResult> PutGpu(int id, Models.Gpu gpu)
         {
             if (id != gpu.Id)
             {
@@ -75,9 +94,9 @@ namespace ComponentShopAPI.Controllers
         // POST: api/Gpus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Gpu>> PostGpu(Gpu gpu)
+        public async Task<ActionResult<Models.Gpu>> PostGpu(Models.Gpu gpu)
         {
-            _context.GraphicsCards.Add(gpu);
+            _context.Gpus.Add(gpu);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetGpu", new { id = gpu.Id }, gpu);
@@ -87,13 +106,13 @@ namespace ComponentShopAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGpu(int id)
         {
-            var gpu = await _context.GraphicsCards.FindAsync(id);
+            var gpu = await _context.Gpus.FindAsync(id);
             if (gpu == null)
             {
                 return NotFound();
             }
 
-            _context.GraphicsCards.Remove(gpu);
+            _context.Gpus.Remove(gpu);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +120,7 @@ namespace ComponentShopAPI.Controllers
 
         private bool GpuExists(int id)
         {
-            return _context.GraphicsCards.Any(e => e.Id == id);
+            return _context.Gpus.Any(e => e.Id == id);
         }
     }
 }
