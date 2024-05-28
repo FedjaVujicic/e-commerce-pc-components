@@ -33,17 +33,13 @@ export class RegisterComponent {
       return;
     }
     this.userService.registerUser(this.formUsername, this.formPassword).subscribe({
-      next: res => {
-        if (res.userExists) {
-          this.registerFailed = true;
-          this.errorMsg = "Username already in use";
-        }
-        else {
-          this.router.navigate(["../login"]);
-          this.toastr.success("Success");
-        }
+      next: () => {
+        this.router.navigate(["../login"]);
+        this.toastr.success("Success");
       },
       error: err => {
+        this.registerFailed = true;
+        this.errorMsg = "Username already in use";
         console.log(err);
       }
     });

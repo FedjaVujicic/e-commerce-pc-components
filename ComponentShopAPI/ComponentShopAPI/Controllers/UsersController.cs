@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,122 +9,103 @@ namespace ComponentShopAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ComponentShopDBContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(ComponentShopDBContext context)
+        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Users
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        // POST: api/Users/register
-        [HttpPost("register")]
-        public async Task<ActionResult<User>> RegisterUser([FromQuery] string username, [FromQuery] string password)
-        {
-            if (_context.Users.Any(user => user.Username == username))
-            {
-                return Ok(new { userExists = true });
-            }
-
-            _context.Users.Add(new User(username, password));
-            await _context.SaveChangesAsync();
-
-            return Created("GetUsers", new { userExists = false });
-        }
-
-        // POST: api/Users/login
-        [HttpPost("login")]
-        public ActionResult<User> LoginUser([FromQuery] string username, [FromQuery] string password)
-        {
-            User? currentUser = _context.Users.Where(user => user.Username == username && user.Password == password).FirstOrDefault();
-
-            if (currentUser == null)
-            {
-                return Ok(new { loginSuccessful = false });
-            }
-
-            return Ok(new { currentUser, loginSuccessful = true });
-        }
-
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        [HttpGet("signOut")]
+        public async Task<IActionResult> SignOutUser()
         {
-            return _context.Users.Any(e => e.Id == id);
+            await _signInManager.SignOutAsync();
+            return Ok();
+        }
+
+        [HttpGet("getAllRoles")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetAllRoles()
+        {
+            return await _roleManager.Roles.ToListAsync();
+        }
+
+        [HttpPost("createRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateRole(string roleName)
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (roleExists)
+            {
+                return BadRequest(new { error = "Role already exists." });
+            }
+            await _roleManager.CreateAsync(new IdentityRole(roleName));
+            return Ok();
+        }
+
+        [HttpPost("deleteRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteRole(string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role == null)
+            {
+                return BadRequest(new { error = "Role does not exist." });
+            }
+            await _roleManager.DeleteAsync(role);
+            return Ok();
+        }
+
+        [HttpPost("setUserRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SetRole(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { error = "User does not exist." });
+            }
+            await _userManager.AddToRoleAsync(user, roleName);
+            return Ok();
+        }
+
+        [HttpDelete("removeUserRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveAdmin(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { error = "User does not exist." });
+            }
+            await _userManager.RemoveFromRoleAsync(user, roleName);
+
+            return Ok();
         }
     }
+
 }

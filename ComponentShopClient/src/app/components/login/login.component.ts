@@ -9,25 +9,19 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  formUsername: string;
+  formEmail: string;
   formPassword: string;
   loginFailed: boolean = false;
 
   constructor(private router: Router, public userService: UserService) { }
 
   onSubmit() {
-    this.userService.loginUser(this.formUsername, this.formPassword).subscribe({
-      next: res => {
-        if (res.loginSuccessful) {
-          // Save user session
-          // Navigate to home page
-          this.router.navigate(["../edit-monitors"]);
-        }
-        else {
-          this.loginFailed = true;
-        }
+    this.userService.loginUser(this.formEmail, this.formPassword).subscribe({
+      next: () => {
+        this.router.navigate([""]);
       },
       error: err => {
+        this.loginFailed = true;
         console.log(err);
       }
     });

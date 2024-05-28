@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComponentShopAPI.Models
 {
-    public class ComponentShopDBContext : DbContext
+    public class ComponentShopDBContext : IdentityDbContext
     {
         public ComponentShopDBContext(DbContextOptions options) : base(options)
         {
@@ -10,6 +11,5 @@ namespace ComponentShopAPI.Models
 
         public DbSet<Monitor> Monitors { get; set; }
         public DbSet<Gpu> Gpus { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 }

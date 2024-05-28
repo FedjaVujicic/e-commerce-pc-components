@@ -4,7 +4,10 @@
             <a href="" class="navbar-brand text-white fw-bold">PC Component Shop</a>
             <ul class="navbar-nav d-flex flex-grow-1 justify-content-end gap-5">
                 <li class="nav-item">
-                    <a href="" class="nav-link text-white">Login</a>
+                    <a routerLink="../login" class="nav-link text-white">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="signOut()" class="nav-link text-white mouse-hover">Logout</a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link text-white">
