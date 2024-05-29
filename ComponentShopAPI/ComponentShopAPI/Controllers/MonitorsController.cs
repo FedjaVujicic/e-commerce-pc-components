@@ -1,4 +1,5 @@
 ﻿using ComponentShopAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +64,7 @@ namespace ComponentShopAPI.Controllers
         // PUT: api/Monitors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutMonitor(int id, Models.Monitor monitor)
         {
             if (id != monitor.Id)
@@ -94,6 +96,7 @@ namespace ComponentShopAPI.Controllers
         // POST: api/Monitors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Models.Monitor>> PostMonitor(Models.Monitor monitor)
         {
             _context.Monitors.Add(monitor);
@@ -104,6 +107,7 @@ namespace ComponentShopAPI.Controllers
 
         // DELETE: api/Monitors/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMonitor(int id)
         {
             var monitor = await _context.Monitors.FindAsync(id);

@@ -1,4 +1,5 @@
 ﻿using ComponentShopAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +64,7 @@ namespace ComponentShopAPI.Controllers
         // PUT: api/Gpus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutGpu(int id, Models.Gpu gpu)
         {
             if (id != gpu.Id)
@@ -94,6 +96,7 @@ namespace ComponentShopAPI.Controllers
         // POST: api/Gpus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Models.Gpu>> PostGpu(Models.Gpu gpu)
         {
             _context.Gpus.Add(gpu);
@@ -104,6 +107,7 @@ namespace ComponentShopAPI.Controllers
 
         // DELETE: api/Gpus/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteGpu(int id)
         {
             var gpu = await _context.Gpus.FindAsync(id);

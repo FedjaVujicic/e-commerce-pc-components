@@ -25,7 +25,7 @@ export class MonitorService {
   }
 
   searchMonitors() {
-    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response' }).subscribe({
+    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.monitorList = res.body as Array<Monitor>;
         this.totalMonitors = parseInt(res.headers.get("X-Total-Count"));
@@ -53,7 +53,7 @@ export class MonitorService {
   }
 
   getMonitor(id: number) {
-    return this.http.get(this.url + `/${id}`).subscribe(
+    return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
       {
         next: res => {
           this.formData = res as Monitor;
@@ -65,7 +65,7 @@ export class MonitorService {
   }
 
   postMonitor() {
-    return this.http.post(this.url, this.formData).subscribe({
+    return this.http.post(this.url, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getMonitors();
         this.resetForm();
@@ -78,7 +78,7 @@ export class MonitorService {
   }
 
   deleteMonitor(id: number) {
-    return this.http.delete(this.url + `/${id}`).subscribe({
+    return this.http.delete(this.url + `/${id}`, { withCredentials: true }).subscribe({
       next: res => {
         if (this.totalMonitors % this.pageSize == 1 && this.currentPage == this.lastPage && this.currentPage > 1) {
           this.currentPage -= 1;
@@ -93,7 +93,7 @@ export class MonitorService {
   }
 
   putMonitor(id: number, monitor: Monitor) {
-    return this.http.put(this.url + `/${id}`, monitor).subscribe({
+    return this.http.put(this.url + `/${id}`, monitor, { withCredentials: true }).subscribe({
       next: res => {
         this.getMonitors();
         this.resetForm();

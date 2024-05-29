@@ -25,7 +25,7 @@ export class GpuService {
   }
 
   searchGpus() {
-    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response' }).subscribe({
+    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.gpuList = res.body as Array<Gpu>;
         this.totalGpus = parseInt(res.headers.get("X-Total-Count"));
@@ -39,7 +39,7 @@ export class GpuService {
   }
 
   getGpus() {
-    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response' }).subscribe({
+    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.gpuList = res.body as Array<Gpu>;
         this.totalGpus = parseInt(res.headers.get("X-Total-Count"));
@@ -53,7 +53,7 @@ export class GpuService {
   }
 
   getGpu(id: number) {
-    return this.http.get(this.url + `/${id}`).subscribe(
+    return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
       {
         next: res => {
           this.formData = res as Gpu;
@@ -65,7 +65,7 @@ export class GpuService {
   }
 
   postGpu() {
-    return this.http.post(this.url, this.formData).subscribe({
+    return this.http.post(this.url, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getGpus();
         this.resetForm();
@@ -78,7 +78,7 @@ export class GpuService {
   }
 
   deleteGpu(id: number) {
-    return this.http.delete(this.url + `/${id}`).subscribe({
+    return this.http.delete(this.url + `/${id}`, { withCredentials: true }).subscribe({
       next: res => {
         if (this.totalGpus % this.pageSize == 1 && this.currentPage == this.lastPage && this.currentPage > 1) {
           this.currentPage -= 1;
@@ -93,7 +93,7 @@ export class GpuService {
   }
 
   putGpu(id: number, gpu: Gpu) {
-    return this.http.put(this.url + `/${id}`, gpu).subscribe({
+    return this.http.put(this.url + `/${id}`, gpu, { withCredentials: true }).subscribe({
       next: res => {
         this.getGpus();
         this.resetForm();
