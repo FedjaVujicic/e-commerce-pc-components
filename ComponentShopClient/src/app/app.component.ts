@@ -8,10 +8,27 @@ import { UserService } from './shared/user.service';
 })
 export class AppComponent {
   title = 'ComponentShopClient';
+  isLoggedIn = false;
 
   constructor(public userService: UserService) { }
 
+  ngOnInit() {
+    this.userService.checkAuthStatus().subscribe({
+      next: () => { },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   signOut() {
-    this.userService.signOutUser().subscribe(() => { console.log("Success"); });
+    this.userService.signOutUser().subscribe({
+      next: () => {
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 }

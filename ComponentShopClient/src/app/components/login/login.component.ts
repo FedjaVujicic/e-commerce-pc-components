@@ -15,10 +15,24 @@ export class LoginComponent {
 
   constructor(private router: Router, public userService: UserService) { }
 
+  ngOnInit() {
+    this.userService.checkAuthStatus().subscribe({
+      next: () => {
+        if (this.userService.isLoggedIn) {
+          this.router.navigate([""]);
+        }
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   onSubmit() {
     this.userService.loginUser(this.formEmail, this.formPassword).subscribe({
       next: () => {
         this.router.navigate([""]);
+        window.location.reload();
       },
       error: err => {
         this.loginFailed = true;

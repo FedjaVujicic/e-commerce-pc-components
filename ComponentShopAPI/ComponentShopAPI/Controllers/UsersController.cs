@@ -106,6 +106,15 @@ namespace ComponentShopAPI.Controllers
 
             return Ok();
         }
-    }
 
+        [HttpGet("authStatus")]
+        public ActionResult GetAuthStatus()
+        {
+            if (User.Identity == null)
+            {
+                return Ok();
+            }
+            return Ok(new { isLoggedIn = User.Identity.IsAuthenticated });
+        }
+    }
 }
