@@ -2,8 +2,8 @@
 {
     public class MonitorQueryParameters
     {
-        public int currentPage { get; set; }
-        public int pageSize { get; set; }
-        public string searchParam { get; set; } = "";
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
+        public string Name { get; set; } = "";
     }
 }

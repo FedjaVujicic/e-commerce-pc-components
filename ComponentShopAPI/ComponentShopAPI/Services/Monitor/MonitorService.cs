@@ -8,20 +8,20 @@ namespace ComponentShopAPI.Services.Monitor
 
         public List<Models.Monitor> Search(List<Models.Monitor> monitors, MonitorQueryParameters queryParameters)
         {
-            return monitors.Where(monitor => monitor.Name.IndexOf(queryParameters.searchParam, StringComparison.OrdinalIgnoreCase) >= 0)
+            return monitors.Where(monitor => monitor.Name.IndexOf(queryParameters.Name, StringComparison.OrdinalIgnoreCase) >= 0)
                     .ToList();
         }
 
         public List<Models.Monitor> Paginate(List<Models.Monitor> monitors, MonitorQueryParameters queryParameters)
         {
-            if (monitors.Count() >= queryParameters.currentPage * queryParameters.pageSize)
+            if (monitors.Count() >= queryParameters.CurrentPage * queryParameters.PageSize)
             {
-                return monitors.GetRange((queryParameters.currentPage - 1) * queryParameters.pageSize, queryParameters.pageSize);
+                return monitors.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize, queryParameters.PageSize);
             }
             else
             {
-                return monitors.GetRange((queryParameters.currentPage - 1) * queryParameters.pageSize,
-                    monitors.Count - (queryParameters.currentPage - 1) * queryParameters.pageSize);
+                return monitors.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize,
+                    monitors.Count - (queryParameters.CurrentPage - 1) * queryParameters.PageSize);
             }
         }
     }
