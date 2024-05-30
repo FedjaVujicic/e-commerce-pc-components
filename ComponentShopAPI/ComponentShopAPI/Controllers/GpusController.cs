@@ -1,4 +1,6 @@
-﻿using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Helpers;
+using ComponentShopAPI.Models;
+using ComponentShopAPI.Services.Gpu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,42 +12,31 @@ namespace ComponentShopAPI.Controllers
     public class GpusController : ControllerBase
     {
         private readonly ComponentShopDBContext _context;
+        private readonly IGpuService _gpuService;
 
-        public GpusController(ComponentShopDBContext context)
+        public GpusController(ComponentShopDBContext context, IGpuService gpuService)
         {
             _context = context;
+            _gpuService = gpuService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Gpu>>> GetGpus
-            ([FromQuery] int currentPage, [FromQuery] int pageSize, [FromQuery] string searchParam = "")
+        public ActionResult<IEnumerable<Models.Gpu>> GetGpus
+            ([FromQuery] GpuQueryParameters queryParameters)
         {
-            var gpus = await _context.Gpus.ToListAsync();
-
-            if (searchParam != "")
-            {
-                gpus = gpus.Where(gpu =>
-                    gpu.Name.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .ToList();
-            }
+            var gpus = _gpuService.Search(_context.Gpus.ToList(), queryParameters);
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
-            Response.Headers.Append("X-Total-Count", gpus.Count.ToString());
+            Response.Headers.Append("X-Total-Count", gpus.Count().ToString());
 
-            if (gpus.Count == 0)
+            if (gpus.Count() == 0)
             {
                 return Ok();
             }
 
-            if (gpus.Count >= currentPage * pageSize)
-            {
-                return Ok(gpus.GetRange((currentPage - 1) * pageSize, pageSize));
-            }
-            else
-            {
-                return Ok(gpus.GetRange((currentPage - 1) * pageSize, gpus.Count - ((currentPage - 1) * pageSize)));
-            }
+            return Ok(_gpuService.Paginate(gpus, queryParameters));
         }
+
 
         // GET: api/Gpus/5
         [HttpGet("{id}")]

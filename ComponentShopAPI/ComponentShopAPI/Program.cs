@@ -1,4 +1,6 @@
 using ComponentShopAPI.Models;
+using ComponentShopAPI.Services.Gpu;
+using ComponentShopAPI.Services.Monitor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -33,6 +35,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ComponentShopDBContext>();
+
+builder.Services.AddScoped<IMonitorService, MonitorService>();
+builder.Services.AddScoped<IGpuService, GpuService>();
 
 var app = builder.Build();
 

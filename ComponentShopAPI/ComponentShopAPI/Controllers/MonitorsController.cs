@@ -1,4 +1,6 @@
-﻿using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Helpers;
+using ComponentShopAPI.Models;
+using ComponentShopAPI.Services.Monitor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,42 +12,31 @@ namespace ComponentShopAPI.Controllers
     public class MonitorsController : ControllerBase
     {
         private readonly ComponentShopDBContext _context;
+        private readonly IMonitorService _monitorService;
 
-        public MonitorsController(ComponentShopDBContext context)
+        public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService)
         {
             _context = context;
+            _monitorService = monitorService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Monitor>>> GetMonitors
-            ([FromQuery] int currentPage, [FromQuery] int pageSize, [FromQuery] string searchParam = "")
+        public ActionResult<IEnumerable<Models.Monitor>> GetMonitors
+            ([FromQuery] MonitorQueryParameters queryParameters)
         {
-            var monitors = await _context.Monitors.ToListAsync();
-
-            if (searchParam != "")
-            {
-                monitors = monitors.Where(monitor =>
-                    monitor.Name.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .ToList();
-            }
+            var monitors = _monitorService.Search(_context.Monitors.ToList(), queryParameters);
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
-            Response.Headers.Append("X-Total-Count", monitors.Count.ToString());
+            Response.Headers.Append("X-Total-Count", monitors.Count().ToString());
 
-            if (monitors.Count == 0)
+            if (monitors.Count() == 0)
             {
                 return Ok();
             }
 
-            if (monitors.Count >= currentPage * pageSize)
-            {
-                return Ok(monitors.GetRange((currentPage - 1) * pageSize, pageSize));
-            }
-            else
-            {
-                return Ok(monitors.GetRange((currentPage - 1) * pageSize, monitors.Count - ((currentPage - 1) * pageSize)));
-            }
+            return Ok(_monitorService.Paginate(monitors, queryParameters));
         }
+
 
         // GET: api/Monitors/5
         [HttpGet("{id}")]
