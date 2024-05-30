@@ -13,6 +13,6 @@ namespace ComponentShopAPI.Models
         public string? Availability { get; set; }
         public string? Slot { get; set; }
         public int Memory { get; set; }
-        public List<string>? Ports { get; set; }
+        public List<string> Ports { get; set; } = new List<string>();
     }
 }

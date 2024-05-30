@@ -113,6 +113,18 @@ namespace ComponentShopAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("supportedProperties")]
+        public ActionResult<IEnumerable<string>> GetSupportedProperties()
+        {
+            return Ok(
+                new
+                {
+                    resolutions = _context.Monitors.Select(monitor => $"{monitor.Width}x{monitor.Height}"),
+                    refreshRates = _context.Monitors.Select(monitor => monitor.RefreshRate)
+                }
+            );
+        }
+
         private bool MonitorExists(int id)
         {
             return _context.Monitors.Any(e => e.Id == id);

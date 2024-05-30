@@ -113,6 +113,19 @@ namespace ComponentShopAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("supportedProperties")]
+        public ActionResult<IEnumerable<string>> GetSupportedProperties()
+        {
+            return Ok(
+                new
+                {
+                    slots = _context.Gpus.Select(gpu => gpu.Slot),
+                    memories = _context.Gpus.Select(gpu => gpu.Memory),
+                    ports = _context.Gpus.AsEnumerable().SelectMany(gpu => gpu.Ports).Distinct()
+                }
+            );
+        }
+
         private bool GpuExists(int id)
         {
             return _context.Gpus.Any(e => e.Id == id);
