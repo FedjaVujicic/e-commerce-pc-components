@@ -85,11 +85,11 @@ namespace ComponentShopAPI.Controllers
         {
             if (User.Identity == null)
             {
-                return NotFound();
+                return NoContent();
             }
             if (User.Identity.Name == null)
             {
-                return NotFound();
+                return NoContent();
             }
 
             var username = User.Identity.Name;
@@ -97,7 +97,7 @@ namespace ComponentShopAPI.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NoContent();
             }
 
             var roles = await _userManager.GetRolesAsync(user);

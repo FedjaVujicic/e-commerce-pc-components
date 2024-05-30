@@ -8,17 +8,22 @@ import { UserService } from './shared/user.service';
 })
 export class AppComponent {
   title = 'ComponentShopClient';
-  isLoggedIn = false;
 
   constructor(public userService: UserService) { }
 
   ngOnInit() {
-    this.userService.checkAuthStatus().subscribe({
-      next: () => { },
-      error: err => {
-        console.log(err);
-      }
-    });
+    this.userService.getUserInfo().subscribe();
+  }
+
+  isAdmin() {
+    if (!this.userService.isLoggedIn) {
+      return false;
+    }
+    let role = JSON.parse(localStorage.getItem("currentUser")).role;
+    if (role != "Admin") {
+      return false;
+    }
+    return true;
   }
 
   signOut() {
