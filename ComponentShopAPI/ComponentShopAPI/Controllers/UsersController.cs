@@ -80,6 +80,34 @@ namespace ComponentShopAPI.Controllers
             return Ok();
         }
 
+        [HttpGet("userInfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            if (User.Identity == null)
+            {
+                return NotFound();
+            }
+            if (User.Identity.Name == null)
+            {
+                return NotFound();
+            }
+
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            return Ok(new
+            {
+                username = user.UserName,
+                role = roles.FirstOrDefault()
+            });
+        }
+
         [HttpPost("setUserRole")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SetRole(string userId, string roleName)
