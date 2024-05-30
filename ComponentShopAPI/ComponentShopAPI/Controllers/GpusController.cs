@@ -27,9 +27,9 @@ namespace ComponentShopAPI.Controllers
             var gpus = _gpuService.Search(_context.Gpus.ToList(), queryParameters);
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
-            Response.Headers.Append("X-Total-Count", gpus.Count().ToString());
+            Response.Headers.Append("X-Total-Count", gpus.Count.ToString());
 
-            if (gpus.Count() == 0)
+            if (gpus.Count == 0)
             {
                 return Ok();
             }

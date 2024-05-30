@@ -27,9 +27,9 @@ namespace ComponentShopAPI.Controllers
             var monitors = _monitorService.Search(_context.Monitors.ToList(), queryParameters);
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
-            Response.Headers.Append("X-Total-Count", monitors.Count().ToString());
+            Response.Headers.Append("X-Total-Count", monitors.Count.ToString());
 
-            if (monitors.Count() == 0)
+            if (monitors.Count == 0)
             {
                 return Ok();
             }
