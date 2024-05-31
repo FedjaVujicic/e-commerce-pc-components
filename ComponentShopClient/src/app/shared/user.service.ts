@@ -53,4 +53,15 @@ export class UserService {
       })
     );
   }
+
+  isAdminLoggedIn() {
+    if (!this.isLoggedIn) {
+      return false;
+    }
+    let role = JSON.parse(localStorage.getItem("currentUser")).role;
+    if (role != "Admin") {
+      return false;
+    }
+    return true;
+  }
 }

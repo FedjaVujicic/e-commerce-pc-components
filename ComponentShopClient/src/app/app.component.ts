@@ -15,17 +15,6 @@ export class AppComponent {
     this.userService.getUserInfo().subscribe();
   }
 
-  isAdmin() {
-    if (!this.userService.isLoggedIn) {
-      return false;
-    }
-    let role = JSON.parse(localStorage.getItem("currentUser")).role;
-    if (role != "Admin") {
-      return false;
-    }
-    return true;
-  }
-
   signOut() {
     this.userService.signOutUser().subscribe({
       next: () => {

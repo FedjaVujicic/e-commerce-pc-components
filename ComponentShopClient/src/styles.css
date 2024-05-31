@@ -9,3 +9,8 @@ body,
 .mouse-hover {
     cursor: pointer;
 }
+
+.btn-light-gray {
+    background-color: #d3d3d3c9;
+    border-color: #d3d3d3c9;
+}
