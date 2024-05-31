@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { GpuService } from '../../../../shared/gpu.service';
-import { EditGpusComponent } from '../edit-gpus.component';
+import { GpusComponent } from '../gpus.component';
 
 @Component({
-  selector: 'app-edit-gpus-form',
-  templateUrl: './edit-gpus-form.component.html',
-  styleUrl: './edit-gpus-form.component.css'
+  selector: 'app-gpus-form',
+  templateUrl: './gpus-form.component.html',
+  styleUrl: './gpus-form.component.css'
 })
-export class EditGpusFormComponent {
+export class GpusFormComponent {
 
-  constructor(public gpuService: GpuService, private parent: EditGpusComponent) { }
+  constructor(public gpuService: GpuService, private parent: GpusComponent) { }
 
   currentPort: string;
   noPorts: boolean;

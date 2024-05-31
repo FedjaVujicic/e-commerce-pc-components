@@ -2,11 +2,11 @@ import { Component, HostListener } from '@angular/core';
 import { GpuService } from '../../../shared/gpu.service';
 
 @Component({
-  selector: 'app-edit-gpus',
-  templateUrl: './edit-gpus.component.html',
-  styleUrl: './edit-gpus.component.css'
+  selector: 'app-gpus',
+  templateUrl: './gpus.component.html',
+  styleUrl: './gpus.component.css'
 })
-export class EditGpusComponent {
+export class GpusComponent {
 
   isFormVisible: boolean = false;
 

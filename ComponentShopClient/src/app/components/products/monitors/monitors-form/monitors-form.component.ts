@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { MonitorService } from '../../../../shared/monitor.service';
-import { EditMonitorsComponent } from '../edit-monitors.component';
+import { MonitorsComponent } from '../monitors.component';
 
 @Component({
-  selector: 'app-edit-monitors-form',
-  templateUrl: './edit-monitors-form.component.html',
-  styleUrl: './edit-monitors-form.component.css'
+  selector: 'app-monitors-form',
+  templateUrl: './monitors-form.component.html',
+  styleUrl: './monitors-form.component.css'
 })
-export class EditMonitorsFormComponent {
+export class MonitorsFormComponent {
 
-  constructor(public monitorService: MonitorService, private parent: EditMonitorsComponent) { }
+  constructor(public monitorService: MonitorService, private parent: MonitorsComponent) { }
 
   onSubmit() {
     if (this.monitorService.formData.id == 0) {

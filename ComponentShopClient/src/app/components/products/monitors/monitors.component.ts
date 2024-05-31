@@ -2,11 +2,11 @@ import { Component, HostListener } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 
 @Component({
-  selector: 'app-edit-monitors',
-  templateUrl: './edit-monitors.component.html',
-  styleUrl: './edit-monitors.component.css'
+  selector: 'app-monitors',
+  templateUrl: './monitors.component.html',
+  styleUrl: './monitors.component.css'
 })
-export class EditMonitorsComponent {
+export class MonitorsComponent {
 
   isFormVisible: boolean = false;
 
