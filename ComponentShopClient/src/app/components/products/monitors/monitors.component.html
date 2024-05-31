@@ -15,8 +15,7 @@
                 <div class="mb-2 d-flex">
                     <input type="text" placeholder="Search..." class="form-control me-2"
                         [(ngModel)]="monitorService.searchParam">
-                    <button type="submit" class="btn btn-success"
-                        (click)="monitorService.searchMonitors()">Search</button>
+                    <button type="submit" class="btn btn-success" (click)="monitorService.getMonitors()">Search</button>
                 </div>
                 <ul class="list-group mb-2 flex-grow-1">
                     <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"

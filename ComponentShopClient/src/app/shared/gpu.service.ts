@@ -24,22 +24,12 @@ export class GpuService {
     this.formData = new Gpu();
   }
 
-  searchGpus() {
-    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&searchParam=${this.searchParam}`, { observe: 'response', withCredentials: true }).subscribe({
-      next: res => {
-        this.gpuList = res.body as Array<Gpu>;
-        this.totalGpus = parseInt(res.headers.get("X-Total-Count"));
-        this.lastPage = Math.floor(this.totalGpus / this.pageSize) + 1;
-        if (this.totalGpus % this.pageSize == 0) this.lastPage -= 1;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-  }
-
   getGpus() {
-    return this.http.get(this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`, { observe: 'response', withCredentials: true }).subscribe({
+    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
+    if (this.searchParam != "") {
+      uri = uri.concat(`&name=${this.searchParam}`);
+    }
+    return this.http.get(uri, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.gpuList = res.body as Array<Gpu>;
         this.totalGpus = parseInt(res.headers.get("X-Total-Count"));
