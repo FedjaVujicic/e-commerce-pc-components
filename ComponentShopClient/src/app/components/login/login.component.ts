@@ -29,11 +29,16 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.userService.loginUser(this.formEmail, this.formPassword).subscribe(() => {
-      this.userService.getUserInfo().subscribe(() => {
-        this.router.navigate([""]);
-        window.location.reload();
-      });
+    this.userService.loginUser(this.formEmail, this.formPassword).subscribe({
+      next: () => {
+        this.userService.getUserInfo().subscribe(() => {
+          this.router.navigate([""]);
+          window.location.reload();
+        });
+      },
+      error: () => {
+        this.loginFailed = true;
+      }
     });
   }
 }
