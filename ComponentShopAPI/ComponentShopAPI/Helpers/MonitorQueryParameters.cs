@@ -7,7 +7,7 @@
         public string Name { get; set; } = "";
         public double PriceLow { get; set; } = 0;
         public double PriceHigh { get; set; } = 200000;
-        public bool AvailableOnly = false;
+        public bool AvailableOnly { get; set; } = false;
         public double SizeLow { get; set; } = 0;
         public double SizeHigh { get; set; } = 100;
         public string Resolution { get; set; } = "";

@@ -1,0 +1,39 @@
+<div style="max-width: 250px;" class="d-flex border rounded-2 flex-column">
+    <div class="h4 ms-2 mt-2 mb-3 fw-bold">Filters</div>
+    <div class="d-flex">
+        <div class="mb-2 mx-2">
+            <label for="priceLow" class="form-label">Price Low(€)</label>
+            <input type="number" class="form-control" [(ngModel)]="gpuService.priceLow" name="priceLow"
+                autocomplete="off">
+        </div>
+        <div class="mb-2 mx-2">
+            <label for="priceHigh" class="form-label">Price High(€)</label>
+            <input type="number" class="form-control" [(ngModel)]="gpuService.priceHigh" name="priceHigh"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="mx-2">
+        <label for="availableOnly" class="form-label me-2">Show only available products</label>
+        <input type="checkbox" class="form-check-input" [(ngModel)]="gpuService.availableOnly" name="availableOnly"
+            autocomplete="off">
+    </div>
+    <div class="mb-2 mx-2">
+        <label for="slot" class="form-label">Slot</label>
+        <select class="form-select" [(ngModel)]="gpuService.slot" name="slot" required>
+            <option value="">None</option>
+            <option *ngFor="let slot of supportedSlots">{{ slot }}</option>
+        </select>
+    </div>
+    <div class="mx-2" *ngFor="let port of supportedPorts">
+        <input type="checkbox" class="form-check-input me-2" [ngModel]="gpuService.selectedPorts[port]"
+            (ngModelChange)="togglePortSelection(port, $event)">
+        <label for="port" class="form-label">{{ port }}</label>
+    </div>
+    <div class="mb-2 mx-2">
+        <label for="memory" class="form-label">VRAM</label>
+        <select class="form-select" [(ngModel)]="gpuService.memory" name="memory" required>
+            <option value="">None</option>
+            <option *ngFor="let memory of supportedMemories">{{ memory }}</option>
+        </select>
+    </div>
+</div>

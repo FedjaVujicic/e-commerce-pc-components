@@ -10,13 +10,23 @@ import { ToastrService } from 'ngx-toastr';
 export class MonitorService {
 
   url: string = `${environment.apiBaseUrl}/Monitors`;
+
   monitorList: Array<Monitor> = [];
   formData: Monitor = new Monitor();
+
   currentPage: number = 1;
   pageSize: number = 5;
   lastPage: number = 0;
   totalMonitors: number = 0;
-  searchParam: string = "";
+
+  searchName: string = "";
+  priceLow: number = null;
+  priceHigh: number = null;
+  availableOnly: boolean = false;
+  sizeLow: number = null;
+  sizeHigh: number = null;
+  resolution: string = null;
+  refreshRate = null;
 
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
@@ -25,10 +35,8 @@ export class MonitorService {
   }
 
   getMonitors() {
-    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
-    if (this.searchParam != "") {
-      uri = uri.concat(`&name=${this.searchParam}`);
-    }
+    let uri: string = this.buildGetUri();
+
     return this.http.get(uri, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.monitorList = res.body as Array<Monitor>;
@@ -93,5 +101,38 @@ export class MonitorService {
         console.log(err);
       }
     })
+  }
+
+  getSupportedProperties() {
+    return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+  }
+
+  buildGetUri(): string {
+    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
+    if (this.searchName != "") {
+      uri = uri.concat(`&name=${this.searchName}`);
+    }
+    if (this.priceLow != null) {
+      uri = uri.concat(`&priceLow=${this.priceLow}`);
+    }
+    if (this.priceHigh != null) {
+      uri = uri.concat(`&priceHigh=${this.priceHigh}`);
+    }
+    if (this.availableOnly) {
+      uri = uri.concat(`&availableOnly=${this.availableOnly}`);
+    }
+    if (this.sizeLow != null) {
+      uri = uri.concat(`&sizeLow=${this.sizeLow}`);
+    }
+    if (this.sizeHigh != null) {
+      uri = uri.concat(`&sizeHigh=${this.sizeHigh}`);
+    }
+    if (this.resolution != null && this.resolution != "") {
+      uri = uri.concat(`&resolution=${this.resolution}`);
+    }
+    if (this.refreshRate != null && this.refreshRate != "") {
+      uri = uri.concat(`&refreshRate=${this.refreshRate}`);
+    }
+    return uri;
   }
 }

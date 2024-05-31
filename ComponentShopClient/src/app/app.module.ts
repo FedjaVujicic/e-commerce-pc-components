@@ -14,6 +14,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { GpusComponent } from './components/products/gpus/gpus.component';
 import { GpusFormComponent } from './components/products/gpus/gpus-form/gpus-form.component';
+import { MonitorsSearchComponent } from './components/products/monitors/monitors-search/monitors-search.component';
+import { GpusSearchComponent } from './components/products/gpus/gpus-search/gpus-search.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { GpusFormComponent } from './components/products/gpus/gpus-form/gpus-for
     HomeComponent,
     GpusComponent,
     GpusFormComponent,
+    MonitorsSearchComponent,
+    GpusSearchComponent,
   ],
   imports: [
     BrowserModule,

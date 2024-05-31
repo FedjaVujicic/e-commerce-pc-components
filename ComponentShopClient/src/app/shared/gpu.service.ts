@@ -10,13 +10,22 @@ import { ToastrService } from 'ngx-toastr';
 export class GpuService {
 
   url: string = `${environment.apiBaseUrl}/Gpus`;
+
   gpuList: Array<Gpu> = [];
   formData: Gpu = new Gpu();
+
   currentPage: number = 1;
   pageSize: number = 5;
   lastPage: number = 0;
   totalGpus: number = 0;
-  searchParam: string = "";
+
+  searchName: string = "";
+  priceLow: number = null;
+  priceHigh: number = null;
+  availableOnly: boolean = false;
+  slot: string = "";
+  memory = null;
+  selectedPorts: { [key: string]: boolean } = {};
 
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
@@ -25,10 +34,8 @@ export class GpuService {
   }
 
   getGpus() {
-    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
-    if (this.searchParam != "") {
-      uri = uri.concat(`&name=${this.searchParam}`);
-    }
+    let uri: string = this.buildGetUri();
+
     return this.http.get(uri, { observe: 'response', withCredentials: true }).subscribe({
       next: res => {
         this.gpuList = res.body as Array<Gpu>;
@@ -93,5 +100,35 @@ export class GpuService {
         console.log(err);
       }
     })
+  }
+
+  getSupportedProperties() {
+    return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+  }
+
+  buildGetUri(): string {
+    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
+    if (this.searchName != "") {
+      uri = uri.concat(`&name=${this.searchName}`);
+    }
+    if (this.priceLow != null) {
+      uri = uri.concat(`&priceLow=${this.priceLow}`);
+    }
+    if (this.priceHigh != null) {
+      uri = uri.concat(`&priceHigh=${this.priceHigh}`);
+    }
+    if (this.availableOnly) {
+      uri = uri.concat(`&availableOnly=${this.availableOnly}`);
+    }
+    if (this.slot != "") {
+      uri = uri.concat(`&slot=${this.slot}`);
+    }
+    if (this.memory != null && this.memory != "") {
+      uri = uri.concat(`&memory=${this.memory}`);
+    }
+    for (const port in this.selectedPorts) {
+      uri = uri.concat(`&ports=${port}`);
+    }
+    return uri;
   }
 }

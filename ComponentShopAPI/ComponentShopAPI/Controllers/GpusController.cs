@@ -119,8 +119,8 @@ namespace ComponentShopAPI.Controllers
             return Ok(
                 new
                 {
-                    slots = _context.Gpus.Select(gpu => gpu.Slot),
-                    memories = _context.Gpus.Select(gpu => gpu.Memory),
+                    slots = _context.Gpus.Select(gpu => gpu.Slot).Distinct(),
+                    memories = _context.Gpus.Select(gpu => gpu.Memory).Distinct(),
                     ports = _context.Gpus.AsEnumerable().SelectMany(gpu => gpu.Ports).Distinct()
                 }
             );

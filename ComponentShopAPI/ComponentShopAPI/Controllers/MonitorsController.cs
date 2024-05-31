@@ -119,8 +119,8 @@ namespace ComponentShopAPI.Controllers
             return Ok(
                 new
                 {
-                    resolutions = _context.Monitors.Select(monitor => $"{monitor.Width}x{monitor.Height}"),
-                    refreshRates = _context.Monitors.Select(monitor => monitor.RefreshRate)
+                    resolutions = _context.Monitors.Select(monitor => $"{monitor.Width}x{monitor.Height}").Distinct(),
+                    refreshRates = _context.Monitors.Select(monitor => monitor.RefreshRate).Distinct()
                 }
             );
         }
