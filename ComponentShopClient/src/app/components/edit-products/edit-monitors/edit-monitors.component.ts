@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 
 @Component({
@@ -38,6 +38,24 @@ export class EditMonitorsComponent {
 
   pagePrev() {
     this.monitorService.currentPage = this.monitorService.currentPage - 1;
+    this.monitorService.getMonitors();
+  }
+
+  @HostListener("window:resize", []) updatePageSize() {
+    // lg (for laptops and desktops - screens equal to or greater than 1200px wide)
+    // md (for small laptops - screens equal to or greater than 992px wide)
+    // sm (for tablets - screens equal to or greater than 768px wide)
+    // xs (for phones - screens less than 768px wide)
+
+    if (window.innerHeight >= 1200) {
+      this.monitorService.pageSize = 7; // lg
+    } else if (window.innerHeight >= 992) {
+      this.monitorService.pageSize = 5;//md
+    } else if (window.innerHeight >= 768) {
+      this.monitorService.pageSize = 4;//sm
+    } else if (window.innerHeight < 768) {
+      this.monitorService.pageSize = 3;//xs
+    }
     this.monitorService.getMonitors();
   }
 
