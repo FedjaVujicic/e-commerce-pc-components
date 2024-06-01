@@ -106,6 +106,30 @@ export class GpuService {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
   }
 
+  sortAscending() {
+    this.gpuList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return 1;
+      }
+      if (m1.price < m2.price) {
+        return -1;
+      }
+      return 0;
+    })
+  }
+
+  sortDescending() {
+    this.gpuList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return -1;
+      }
+      if (m1.price < m2.price) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+
   buildGetUri(): string {
     let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
     if (this.searchName != "") {

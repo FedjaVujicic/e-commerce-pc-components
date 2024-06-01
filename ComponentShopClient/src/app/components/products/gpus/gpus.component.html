@@ -12,10 +12,15 @@
         <div class="d-flex">
             <app-gpus-search></app-gpus-search>
             <div class="flex-grow-1 ms-1">
-                <div class="mb-2 d-flex">
-                    <input type="text" placeholder="Search..." class="form-control me-2"
+                <div class="mb-2 d-flex align-items-center">
+                    <input type="text" placeholder="Search..." class="form-control me-2 flex-grow-1"
                         [(ngModel)]="gpuService.searchName">
                     <button type="submit" class="btn btn-success" (click)="gpuService.getGpus()">Search</button>
+                    <span style="min-width: 60px" class="mx-2">Sort by:</span>
+                    <select style="max-width: 200px" class="form-select">
+                        <option (click)="gpuService.sortAscending()">Price Ascending</option>
+                        <option (click)="gpuService.sortDescending()">Price Descending</option>
+                    </select>
                 </div>
                 <ul class="list-group mb-2 flex-grow-1">
                     <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
