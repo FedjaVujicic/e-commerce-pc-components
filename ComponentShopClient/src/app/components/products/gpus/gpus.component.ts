@@ -44,4 +44,33 @@ export class GpusComponent {
     this.gpuService.currentPage = this.gpuService.currentPage - 1;
     this.gpuService.getGpus();
   }
+
+  setPageSize(pageSize: number) {
+    this.gpuService.pageSize = pageSize;
+    this.gpuService.getGpus();
+  }
+
+  sortByPriceAscending() {
+    this.gpuService.gpuList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return 1;
+      }
+      if (m1.price < m2.price) {
+        return -1;
+      }
+      return 0;
+    })
+  }
+
+  sortByPriceDescending() {
+    this.gpuService.gpuList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return -1;
+      }
+      if (m1.price < m2.price) {
+        return 1;
+      }
+      return 0;
+    })
+  }
 }

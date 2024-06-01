@@ -44,4 +44,34 @@ export class MonitorsComponent {
     this.monitorService.currentPage = this.monitorService.currentPage - 1;
     this.monitorService.getMonitors();
   }
+
+  setPageSize(pageSize: number) {
+    this.monitorService.pageSize = pageSize;
+    this.monitorService.getMonitors();
+  }
+
+  sortByPriceAscending() {
+    this.monitorService.monitorList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return 1;
+      }
+      if (m1.price < m2.price) {
+        return -1;
+      }
+      return 0;
+    })
+  }
+
+  sortByPriceDescending() {
+    this.monitorService.monitorList.sort((m1, m2) => {
+      if (m1.price > m2.price) {
+        return -1;
+      }
+      if (m1.price < m2.price) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+
 }
