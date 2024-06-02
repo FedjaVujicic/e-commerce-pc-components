@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-light-gray w-100" (click)="hideForm()">Cancel</button>
             </div>
         </div>
-        <div class="d-flex mb-2">
+        <div class="d-flex mb-2 justify-content-end">
             <div class="mb-3 flex-grow-1" *ngIf="!isFormVisible && userService.isAdminLoggedIn()">
                 <button type="button" class="btn btn-success fw-bold" (click)="showForm()">+ Add Item</button>
             </div>
