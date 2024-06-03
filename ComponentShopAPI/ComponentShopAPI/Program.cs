@@ -1,5 +1,6 @@
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Gpu;
+using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Monitor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 
 builder.Services.AddScoped<IMonitorService, MonitorService>();
 builder.Services.AddScoped<IGpuService, GpuService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
 

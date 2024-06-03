@@ -12,7 +12,10 @@ export class GpuService {
   url: string = `${environment.apiBaseUrl}/Gpus`;
 
   gpuList: Array<Gpu> = [];
-  formData: Gpu = new Gpu();
+  currentGpu: Gpu = new Gpu();
+  formData: FormData = new FormData();
+  imageName: string;
+  imageFile: File;
 
   currentPage: number = 1;
   pageSize: number = 5;
@@ -30,7 +33,15 @@ export class GpuService {
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   resetForm() {
-    this.formData = new Gpu();
+    this.currentGpu = new Gpu();
+    this.formData = new FormData();
+  }
+
+  getImageSrc(imageFile: any): string {
+    if (imageFile === null || imageFile === undefined) {
+      return "favicon.ico"
+    }
+    return 'data:' + imageFile.contentType + ';base64,' + imageFile.fileContents;
   }
 
   getGpus() {
@@ -53,7 +64,7 @@ export class GpuService {
     return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
       {
         next: res => {
-          this.formData = res as Gpu;
+          this.currentGpu = res as Gpu;
         },
         error: err => {
           console.log(err);
@@ -62,6 +73,7 @@ export class GpuService {
   }
 
   postGpu() {
+    this.createFormData();
     return this.http.post(this.url, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getGpus();
@@ -89,8 +101,9 @@ export class GpuService {
     });
   }
 
-  putGpu(id: number, gpu: Gpu) {
-    return this.http.put(this.url + `/${id}`, gpu, { withCredentials: true }).subscribe({
+  putGpu(id: number) {
+    this.createFormData();
+    return this.http.put(this.url + `/${id}`, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getGpus();
         this.resetForm();
@@ -104,6 +117,17 @@ export class GpuService {
 
   getSupportedProperties() {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+  }
+
+  createFormData() {
+    this.formData.append("name", this.currentGpu.name);
+    this.formData.append("price", this.currentGpu.price.toString());
+    this.formData.append("availability", this.currentGpu.availability);
+    this.formData.append("slot", this.currentGpu.slot);
+    this.formData.append("memory", this.currentGpu.memory.toString());
+    this.currentGpu.ports.forEach(port => {
+      this.formData.append("ports", port.toString());
+    });
   }
 
   buildGetUri(): string {

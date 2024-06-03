@@ -15,7 +15,7 @@ export class GpusFormComponent {
   noPorts: boolean;
 
   validateForm(): boolean {
-    if (this.gpuService.formData.ports.length == 0) {
+    if (this.gpuService.currentGpu.ports.length == 0) {
       this.noPorts = true;
       return false;
     }
@@ -24,24 +24,31 @@ export class GpusFormComponent {
 
   onSubmit(): void {
     this.validateForm();
-    if (this.gpuService.formData.id == 0) {
+    if (this.gpuService.currentGpu.id == 0) {
       this.gpuService.postGpu();
     }
     else {
-      this.gpuService.putGpu(this.gpuService.formData.id, this.gpuService.formData);
+      this.gpuService.putGpu(this.gpuService.currentGpu.id);
     }
     this.parent.hideForm();
   }
 
   addPort(): void {
-    this.gpuService.formData.ports.push(this.currentPort);
+    this.gpuService.currentGpu.ports.push(this.currentPort);
     this.currentPort = "";
   }
 
   removePort(port: string): void {
-    const index = this.gpuService.formData.ports.indexOf(port);
+    const index = this.gpuService.currentGpu.ports.indexOf(port);
     if (index > -1) {
-      this.gpuService.formData.ports.splice(index, 1);
+      this.gpuService.currentGpu.ports.splice(index, 1);
+    }
+  }
+  onFileUpload(event) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.gpuService.formData.append("imageName", file.name);
+      this.gpuService.formData.append("imageFile", file);
     }
   }
 }

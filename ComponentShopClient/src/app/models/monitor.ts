@@ -7,4 +7,6 @@ export class Monitor {
     width: number;
     height: number;
     refreshRate: number;
+    imageName: string = "";
+    imageFile: any = null;
 };

@@ -37,6 +37,10 @@
                     <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
                         *ngFor="let monitor of monitorService.monitorList">
                         <div class="d-flex flex-grow-1" (click)="fillForm(monitor.id)">
+                            <div class="mx-2">
+                                <img style="width: 120px; height: 120px;"
+                                    [src]="monitorService.getImageSrc(monitor.imageFile)" alt="">
+                            </div>
                             <div class="flex-grow-1">
                                 <div class="fw-bold fs-5">{{ monitor.name }}</div>
                                 <div>Size: {{ monitor.size }}"</div>

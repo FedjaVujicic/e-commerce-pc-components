@@ -1,5 +1,6 @@
 ﻿using ComponentShopAPI.Helpers;
 using ComponentShopAPI.Models;
+using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Monitor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +14,21 @@ namespace ComponentShopAPI.Controllers
     {
         private readonly ComponentShopDBContext _context;
         private readonly IMonitorService _monitorService;
+        private readonly IImageService _imageService;
 
-        public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService)
+        public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService, IImageService imageService)
         {
             _context = context;
             _monitorService = monitorService;
+            _imageService = imageService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Models.Monitor>> GetMonitors
+        public ActionResult GetMonitors
             ([FromQuery] MonitorQueryParameters queryParameters)
         {
             var monitors = _monitorService.Search(_context.Monitors.ToList(), queryParameters);
+
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
             Response.Headers.Append("X-Total-Count", monitors.Count.ToString());
@@ -34,7 +38,21 @@ namespace ComponentShopAPI.Controllers
                 return Ok();
             }
 
-            return Ok(_monitorService.Paginate(monitors, queryParameters));
+            monitors = _monitorService.Paginate(monitors, queryParameters);
+
+            return Ok(monitors.Select(monitor => new
+            {
+                monitor.Id,
+                monitor.Name,
+                monitor.Price,
+                monitor.Availability,
+                monitor.Size,
+                monitor.Width,
+                monitor.Height,
+                monitor.RefreshRate,
+                monitor.ImageName,
+                ImageFile = _imageService.Download(monitor.ImageName, ProductType.Monitor)
+            }));
         }
 
 
@@ -49,7 +67,19 @@ namespace ComponentShopAPI.Controllers
                 return NotFound();
             }
 
-            return monitor;
+            return Ok(new
+            {
+                monitor.Id,
+                monitor.Name,
+                monitor.Price,
+                monitor.Availability,
+                monitor.Size,
+                monitor.Width,
+                monitor.Height,
+                monitor.RefreshRate,
+                monitor.ImageName,
+                ImageFile = _imageService.Download(monitor.ImageName, ProductType.Monitor)
+            });
         }
 
         // PUT: api/Monitors/5
@@ -61,6 +91,11 @@ namespace ComponentShopAPI.Controllers
             if (id != monitor.Id)
             {
                 return BadRequest();
+            }
+
+            if (monitor.ImageFile != null)
+            {
+                monitor.ImageName = await _imageService.Upload(monitor.ImageFile, ProductType.Monitor);
             }
 
             _context.Entry(monitor).State = EntityState.Modified;
@@ -90,6 +125,11 @@ namespace ComponentShopAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Models.Monitor>> PostMonitor(Models.Monitor monitor)
         {
+            if (monitor.ImageFile != null)
+            {
+                monitor.ImageName = await _imageService.Upload(monitor.ImageFile, ProductType.Monitor);
+            }
+
             _context.Monitors.Add(monitor);
             await _context.SaveChangesAsync();
 
@@ -105,6 +145,11 @@ namespace ComponentShopAPI.Controllers
             if (monitor == null)
             {
                 return NotFound();
+            }
+
+            if (monitor.ImageName != null)
+            {
+                _imageService.Delete(monitor.ImageName, ProductType.Monitor);
             }
 
             _context.Monitors.Remove(monitor);

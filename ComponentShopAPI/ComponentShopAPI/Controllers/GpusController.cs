@@ -1,6 +1,7 @@
 ﻿using ComponentShopAPI.Helpers;
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Gpu;
+using ComponentShopAPI.Services.Image;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,21 @@ namespace ComponentShopAPI.Controllers
     {
         private readonly ComponentShopDBContext _context;
         private readonly IGpuService _gpuService;
+        private readonly IImageService _imageService;
 
-        public GpusController(ComponentShopDBContext context, IGpuService gpuService)
+        public GpusController(ComponentShopDBContext context, IGpuService gpuService, IImageService imageService)
         {
             _context = context;
             _gpuService = gpuService;
+            _imageService = imageService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Models.Gpu>> GetGpus
+        public ActionResult GetGpus
             ([FromQuery] GpuQueryParameters queryParameters)
         {
             var gpus = _gpuService.Search(_context.Gpus.ToList(), queryParameters);
+
 
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
             Response.Headers.Append("X-Total-Count", gpus.Count.ToString());
@@ -34,7 +38,20 @@ namespace ComponentShopAPI.Controllers
                 return Ok();
             }
 
-            return Ok(_gpuService.Paginate(gpus, queryParameters));
+            gpus = _gpuService.Paginate(gpus, queryParameters);
+
+            return Ok(gpus.Select(gpu => new
+            {
+                gpu.Id,
+                gpu.Name,
+                gpu.Price,
+                gpu.Availability,
+                gpu.Slot,
+                gpu.Memory,
+                gpu.Ports,
+                gpu.ImageName,
+                ImageFile = _imageService.Download(gpu.ImageName, ProductType.Gpu)
+            }));
         }
 
 
@@ -49,7 +66,18 @@ namespace ComponentShopAPI.Controllers
                 return NotFound();
             }
 
-            return gpu;
+            return Ok(new
+            {
+                gpu.Id,
+                gpu.Name,
+                gpu.Price,
+                gpu.Availability,
+                gpu.Slot,
+                gpu.Memory,
+                gpu.Ports,
+                gpu.ImageName,
+                ImageFile = _imageService.Download(gpu.ImageName, ProductType.Gpu)
+            });
         }
 
         // PUT: api/Gpus/5
@@ -61,6 +89,11 @@ namespace ComponentShopAPI.Controllers
             if (id != gpu.Id)
             {
                 return BadRequest();
+            }
+
+            if (gpu.ImageFile != null)
+            {
+                gpu.ImageName = await _imageService.Upload(gpu.ImageFile, ProductType.Gpu);
             }
 
             _context.Entry(gpu).State = EntityState.Modified;
@@ -90,6 +123,11 @@ namespace ComponentShopAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Models.Gpu>> PostGpu(Models.Gpu gpu)
         {
+            if (gpu.ImageFile != null)
+            {
+                gpu.ImageName = await _imageService.Upload(gpu.ImageFile, ProductType.Gpu);
+            }
+
             _context.Gpus.Add(gpu);
             await _context.SaveChangesAsync();
 
@@ -105,6 +143,11 @@ namespace ComponentShopAPI.Controllers
             if (gpu == null)
             {
                 return NotFound();
+            }
+
+            if (gpu.ImageName != null)
+            {
+                _imageService.Delete(gpu.ImageName, ProductType.Gpu);
             }
 
             _context.Gpus.Remove(gpu);

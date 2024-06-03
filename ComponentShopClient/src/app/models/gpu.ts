@@ -6,4 +6,6 @@ export class Gpu {
     slot: string;
     memory: number;
     ports: Array<string> = [];
+    imageName: string = "";
+    imageFile: any = null;
 };

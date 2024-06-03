@@ -28,4 +28,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\Monitors\" />
+    <Folder Include="Images\Gpus\" />
+  </ItemGroup>
+
 </Project>

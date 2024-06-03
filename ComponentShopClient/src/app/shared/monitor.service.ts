@@ -12,7 +12,10 @@ export class MonitorService {
   url: string = `${environment.apiBaseUrl}/Monitors`;
 
   monitorList: Array<Monitor> = [];
-  formData: Monitor = new Monitor();
+  currentMonitor: Monitor = new Monitor();
+  formData: FormData = new FormData();
+  imageName: string;
+  imageFile: File;
 
   currentPage: number = 1;
   pageSize: number = 5;
@@ -31,7 +34,15 @@ export class MonitorService {
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   resetForm() {
-    this.formData = new Monitor();
+    this.currentMonitor = new Monitor();
+    this.formData = new FormData();
+  }
+
+  getImageSrc(imageFile: any): string {
+    if (imageFile === null || imageFile === undefined) {
+      return "favicon.ico"
+    }
+    return 'data:' + imageFile.contentType + ';base64,' + imageFile.fileContents;
   }
 
   getMonitors() {
@@ -54,7 +65,7 @@ export class MonitorService {
     return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
       {
         next: res => {
-          this.formData = res as Monitor;
+          this.currentMonitor = res as Monitor;
         },
         error: err => {
           console.log(err);
@@ -63,6 +74,7 @@ export class MonitorService {
   }
 
   postMonitor() {
+    this.createFormData();
     return this.http.post(this.url, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getMonitors();
@@ -90,8 +102,9 @@ export class MonitorService {
     });
   }
 
-  putMonitor(id: number, monitor: Monitor) {
-    return this.http.put(this.url + `/${id}`, monitor, { withCredentials: true }).subscribe({
+  putMonitor(id: number) {
+    this.createFormData();
+    return this.http.put(this.url + `/${id}`, this.formData, { withCredentials: true }).subscribe({
       next: res => {
         this.getMonitors();
         this.resetForm();
@@ -105,6 +118,16 @@ export class MonitorService {
 
   getSupportedProperties() {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+  }
+
+  createFormData() {
+    this.formData.append("name", this.currentMonitor.name);
+    this.formData.append("price", this.currentMonitor.price.toString());
+    this.formData.append("availability", this.currentMonitor.availability);
+    this.formData.append("size", this.currentMonitor.size.toString());
+    this.formData.append("width", this.currentMonitor.width.toString());
+    this.formData.append("height", this.currentMonitor.height.toString());
+    this.formData.append("refreshRate", this.currentMonitor.refreshRate.toString());
   }
 
   buildGetUri(): string {

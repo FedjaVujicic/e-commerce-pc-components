@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComponentShopAPI.Models
 {
@@ -15,5 +16,8 @@ namespace ComponentShopAPI.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public int RefreshRate { get; set; }
+        public string ImageName { get; set; } = "";
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
     }
 }
