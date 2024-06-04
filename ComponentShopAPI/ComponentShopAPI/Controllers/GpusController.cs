@@ -95,6 +95,15 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest();
             }
 
+            var oldGpu = await _context.Gpus.FindAsync(gpu.Id);
+            if (oldGpu == null)
+            {
+                return NotFound();
+            }
+            _imageService.Delete(oldGpu.ImageName, ProductType.Gpu);
+
+            _context.Entry(oldGpu).State = EntityState.Detached;
+
             if (gpu.ImageFile != null)
             {
                 gpu.ImageName = await _imageService.Upload(gpu.ImageFile, ProductType.Gpu);

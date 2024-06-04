@@ -98,6 +98,15 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest();
             }
 
+            var oldMonitor = await _context.Monitors.FindAsync(monitor.Id);
+            if (oldMonitor == null)
+            {
+                return NotFound();
+            }
+            _imageService.Delete(oldMonitor.ImageName, ProductType.Monitor);
+
+            _context.Entry(oldMonitor).State = EntityState.Detached;
+
             if (monitor.ImageFile != null)
             {
                 monitor.ImageName = await _imageService.Upload(monitor.ImageFile, ProductType.Monitor);
