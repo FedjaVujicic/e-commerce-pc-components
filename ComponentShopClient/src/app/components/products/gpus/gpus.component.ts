@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { GpuService } from '../../../shared/gpu.service';
 import { UserService } from '../../../shared/user.service';
+import { Gpu } from '../../../models/gpu';
 
 @Component({
   selector: 'app-gpus',
@@ -22,8 +23,13 @@ export class GpusComponent {
       return;
     }
     this.showForm();
-    this.gpuService.getGpu(id);
-    this.gpuService.getQuantity(id);
+    this.gpuService.getGpu(id).subscribe(res => {
+      this.gpuService.currentGpu = res as Gpu;
+      this.gpuService.getQuantity(id).subscribe(res => {
+        this.gpuService.currentGpu.quantity = res as number;
+      });
+    }
+    );
   }
 
   showForm() {

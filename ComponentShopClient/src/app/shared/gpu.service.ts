@@ -62,15 +62,11 @@ export class GpuService {
   }
 
   getGpu(id: number) {
-    return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
-      {
-        next: res => {
-          this.currentGpu = res as Gpu;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
+    return this.http.get(this.url + `/${id}`, { withCredentials: true });
+  }
+
+  getQuantity(id: number) {
+    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true });
   }
 
   postGpu() {
@@ -118,17 +114,6 @@ export class GpuService {
 
   getSupportedProperties() {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
-  }
-
-  getQuantity(id: number) {
-    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true }).subscribe({
-      next: res => {
-        this.currentGpu.quantity = res as number;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
   }
 
   createFormData() {

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 import { UserService } from '../../../shared/user.service';
+import { Monitor } from '../../../models/monitor';
 
 @Component({
   selector: 'app-monitors',
@@ -22,8 +23,13 @@ export class MonitorsComponent {
       return;
     }
     this.showForm();
-    this.monitorService.getMonitor(id);
-    this.monitorService.getQuantity(id);
+    this.monitorService.getMonitor(id).subscribe(res => {
+      this.monitorService.currentMonitor = res as Monitor;
+      this.monitorService.getQuantity(id).subscribe(res => {
+        this.monitorService.currentMonitor.quantity = res as number;
+      });
+    }
+    );
   }
 
   showForm() {

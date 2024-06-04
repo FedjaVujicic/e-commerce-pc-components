@@ -63,15 +63,11 @@ export class MonitorService {
   }
 
   getMonitor(id: number) {
-    return this.http.get(this.url + `/${id}`, { withCredentials: true }).subscribe(
-      {
-        next: res => {
-          this.currentMonitor = res as Monitor;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
+    return this.http.get(this.url + `/${id}`, { withCredentials: true });
+  }
+
+  getQuantity(id: number) {
+    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true });
   }
 
   postMonitor() {
@@ -119,17 +115,6 @@ export class MonitorService {
 
   getSupportedProperties() {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
-  }
-
-  getQuantity(id: number) {
-    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true }).subscribe({
-      next: res => {
-        this.currentMonitor.quantity = res as number;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
   }
 
   createFormData() {
