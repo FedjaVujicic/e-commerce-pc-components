@@ -24,10 +24,13 @@
             <option *ngFor="let slot of supportedSlots">{{ slot }}</option>
         </select>
     </div>
-    <div class="mx-2" *ngFor="let port of supportedPorts">
-        <input type="checkbox" class="form-check-input me-2" [ngModel]="gpuService.selectedPorts[port]"
-            (ngModelChange)="togglePortSelection(port, $event)">
-        <label for="port" class="form-label">{{ port }}</label>
+    <div class="mb-2 mx-2">
+        <label for="ports">Ports</label>
+        <div *ngFor="let port of supportedPorts" name="ports">
+            <input type="checkbox" class="form-check-input me-2" [ngModel]="gpuService.selectedPorts[port]"
+                (ngModelChange)="togglePortSelection(port, $event)">
+            <label for="port" class="form-label">{{ port }}</label>
+        </div>
     </div>
     <div class="mb-2 mx-2">
         <label for="memory" class="form-label">VRAM</label>
