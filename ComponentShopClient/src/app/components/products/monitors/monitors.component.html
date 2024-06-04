@@ -49,7 +49,10 @@
                             </div>
                             <div class="d-flex flex-column justify-content-center align-items-end">
                                 <div class="fw-bold fs-5 my-2">{{ monitor.price }}€</div>
-                                <div>{{ monitor.availability }}</div>
+                                <div
+                                    [ngClass]="{'text-success': monitor.availability === 'In Stock', 'text-danger': monitor.availability === 'Out of Stock'}">
+                                    {{ monitor.availability }}
+                                </div>
                                 <button class=" btn btn-light-gray my-2">Add to cart</button>
                             </div>
                         </div>

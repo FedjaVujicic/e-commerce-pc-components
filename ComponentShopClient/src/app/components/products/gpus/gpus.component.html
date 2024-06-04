@@ -54,7 +54,9 @@
                             </div>
                             <div class="d-flex flex-column justify-content-center align-items-end">
                                 <div class="fw-bold fs-5 my-2">{{ gpu.price }}€</div>
-                                <div>{{ gpu.availability }}</div>
+                                <div
+                                    [ngClass]="{'text-success': gpu.availability === 'In Stock', 'text-danger': gpu.availability === 'Out of Stock'}">
+                                    {{ gpu.availability }}</div>
                                 <button class=" btn btn-light-gray my-2">Add to cart</button>
                             </div>
                         </div>
