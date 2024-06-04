@@ -103,7 +103,7 @@ namespace ComponentShopAPI.Controllers
             {
                 return NotFound();
             }
-            _imageService.Delete(oldMonitor.ImageName, ProductType.Monitor);
+            _imageService.DeleteIfExists(oldMonitor.ImageName, ProductType.Monitor);
 
             _context.Entry(oldMonitor).State = EntityState.Detached;
 
@@ -163,7 +163,7 @@ namespace ComponentShopAPI.Controllers
 
             if (monitor.ImageName != null)
             {
-                _imageService.Delete(monitor.ImageName, ProductType.Monitor);
+                _imageService.DeleteIfExists(monitor.ImageName, ProductType.Monitor);
             }
 
             _context.Monitors.Remove(monitor);

@@ -54,9 +54,13 @@ namespace ComponentShopAPI.Services.Image
             return new FileContentResult(imageBytes, contentType);
         }
 
-        public void Delete(string imageName, ProductType imageType)
+        public void DeleteIfExists(string imageName, ProductType imageType)
         {
             var imagePath = CreatePath(imageName, imageType);
+            if (!File.Exists(imagePath))
+            {
+                return;
+            }
             File.Delete(imagePath);
         }
     }

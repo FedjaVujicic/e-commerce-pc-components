@@ -100,7 +100,7 @@ namespace ComponentShopAPI.Controllers
             {
                 return NotFound();
             }
-            _imageService.Delete(oldGpu.ImageName, ProductType.Gpu);
+            _imageService.DeleteIfExists(oldGpu.ImageName, ProductType.Gpu);
 
             _context.Entry(oldGpu).State = EntityState.Detached;
 
@@ -160,7 +160,7 @@ namespace ComponentShopAPI.Controllers
 
             if (gpu.ImageName != null)
             {
-                _imageService.Delete(gpu.ImageName, ProductType.Gpu);
+                _imageService.DeleteIfExists(gpu.ImageName, ProductType.Gpu);
             }
 
             _context.Gpus.Remove(gpu);

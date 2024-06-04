@@ -7,6 +7,6 @@ namespace ComponentShopAPI.Services.Image
     {
         public Task<string> Upload(IFormFile imageFile, ProductType imageType);
         public FileContentResult Download(string imageName, ProductType imageType);
-        public void Delete(string imageName, ProductType imageType);
+        public void DeleteIfExists(string imageName, ProductType imageType);
     }
 }
