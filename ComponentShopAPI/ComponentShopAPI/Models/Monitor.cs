@@ -11,7 +11,7 @@ namespace ComponentShopAPI.Models
         public string Name { get; set; } = "";
         [Required]
         public double Price { get; set; }
-        public string? Availability { get; set; }
+        public int Quantity { get; set; }
         public double Size { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }

@@ -15,7 +15,7 @@ namespace ComponentShopAPI.Services.Gpu
                 );
             if (queryParameters.AvailableOnly)
             {
-                queryResults = queryResults.Where(gpu => gpu.Availability == "In Stock");
+                queryResults = queryResults.Where(gpu => gpu.Quantity > 0);
             }
             if (queryParameters.Memory != -1)
             {

@@ -23,6 +23,7 @@ export class MonitorsComponent {
     }
     this.showForm();
     this.monitorService.getMonitor(id);
+    this.monitorService.getQuantity(id);
   }
 
   showForm() {

@@ -120,10 +120,21 @@ export class MonitorService {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
   }
 
+  getQuantity(id: number) {
+    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true }).subscribe({
+      next: res => {
+        this.currentMonitor.quantity = res as number;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   createFormData() {
     this.formData.append("name", this.currentMonitor.name);
     this.formData.append("price", this.currentMonitor.price.toString());
-    this.formData.append("availability", this.currentMonitor.availability);
+    this.formData.append("quantity", this.currentMonitor.quantity.toString());
     this.formData.append("size", this.currentMonitor.size.toString());
     this.formData.append("width", this.currentMonitor.width.toString());
     this.formData.append("height", this.currentMonitor.height.toString());

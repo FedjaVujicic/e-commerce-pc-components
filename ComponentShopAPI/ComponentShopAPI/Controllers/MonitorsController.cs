@@ -50,7 +50,7 @@ namespace ComponentShopAPI.Controllers
                 monitor.Id,
                 monitor.Name,
                 monitor.Price,
-                monitor.Availability,
+                availability = monitor.Quantity > 0,
                 monitor.Size,
                 monitor.Width,
                 monitor.Height,
@@ -77,7 +77,7 @@ namespace ComponentShopAPI.Controllers
                 monitor.Id,
                 monitor.Name,
                 monitor.Price,
-                monitor.Availability,
+                availability = monitor.Quantity > 0,
                 monitor.Size,
                 monitor.Width,
                 monitor.Height,
@@ -182,6 +182,18 @@ namespace ComponentShopAPI.Controllers
                     refreshRates = _context.Monitors.Select(monitor => monitor.RefreshRate).Distinct()
                 }
             );
+        }
+
+        [HttpGet("{id}/quantity")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetQuantity(int id)
+        {
+            var monitor = await _context.Monitors.FindAsync(id);
+            if (monitor == null)
+            {
+                return NotFound();
+            }
+            return Ok(monitor.Quantity);
         }
 
         private bool MonitorExists(int id)

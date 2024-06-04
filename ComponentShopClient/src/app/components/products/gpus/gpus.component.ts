@@ -23,6 +23,7 @@ export class GpusComponent {
     }
     this.showForm();
     this.gpuService.getGpu(id);
+    this.gpuService.getQuantity(id);
   }
 
   showForm() {

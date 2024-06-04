@@ -17,7 +17,7 @@ namespace ComponentShopAPI.Services.Monitor
                 );
             if (queryParameters.AvailableOnly)
             {
-                queryResults = queryResults.Where(monitor => monitor.Availability == "In Stock");
+                queryResults = queryResults.Where(monitor => monitor.Quantity > 0);
             }
             if (queryParameters.Resolution != "")
             {

@@ -49,7 +49,7 @@ namespace ComponentShopAPI.Controllers
                 gpu.Id,
                 gpu.Name,
                 gpu.Price,
-                gpu.Availability,
+                availability = gpu.Quantity > 0,
                 gpu.Slot,
                 gpu.Memory,
                 gpu.Ports,
@@ -75,7 +75,7 @@ namespace ComponentShopAPI.Controllers
                 gpu.Id,
                 gpu.Name,
                 gpu.Price,
-                gpu.Availability,
+                availability = gpu.Quantity > 0,
                 gpu.Slot,
                 gpu.Memory,
                 gpu.Ports,
@@ -180,6 +180,18 @@ namespace ComponentShopAPI.Controllers
                     ports = _context.Gpus.AsEnumerable().SelectMany(gpu => gpu.Ports).Distinct()
                 }
             );
+        }
+
+        [HttpGet("{id}/quantity")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetQuantity(int id)
+        {
+            var gpu = await _context.Gpus.FindAsync(id);
+            if (gpu == null)
+            {
+                return NotFound();
+            }
+            return Ok(gpu.Quantity);
         }
 
         private bool GpuExists(int id)

@@ -119,10 +119,21 @@ export class GpuService {
     return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
   }
 
+  getQuantity(id: number) {
+    return this.http.get(this.url + `/${id}/quantity`, { withCredentials: true }).subscribe({
+      next: res => {
+        this.currentGpu.quantity = res as number;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   createFormData() {
     this.formData.append("name", this.currentGpu.name);
     this.formData.append("price", this.currentGpu.price.toString());
-    this.formData.append("availability", this.currentGpu.availability);
+    this.formData.append("quantity", this.currentGpu.quantity.toString());
     this.formData.append("slot", this.currentGpu.slot);
     this.formData.append("memory", this.currentGpu.memory.toString());
     this.currentGpu.ports.forEach(port => {
