@@ -8,6 +8,7 @@
         public double PriceLow { get; set; } = 0;
         public double PriceHigh { get; set; } = 200000;
         public bool AvailableOnly { get; set; } = false;
+        public string Sort { get; set; } = "none";
         public double SizeLow { get; set; } = 0;
         public double SizeHigh { get; set; } = 100;
         public string Resolution { get; set; } = "";

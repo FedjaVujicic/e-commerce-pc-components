@@ -32,6 +32,15 @@ namespace ComponentShopAPI.Services.Gpu
                     queryResults = queryResults.Where(gpu => gpu.Ports.Contains(port));
                 }
             }
+            if (queryParameters.Sort == "Ascending")
+            {
+                queryResults = queryResults.OrderBy(gpu => gpu.Price);
+            }
+            if (queryParameters.Sort == "Descending")
+            {
+                queryResults = queryResults.OrderByDescending(gpu => gpu.Price);
+            }
+
             return queryResults.ToList();
         }
     }

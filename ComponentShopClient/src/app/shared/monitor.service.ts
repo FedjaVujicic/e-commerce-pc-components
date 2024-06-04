@@ -26,6 +26,7 @@ export class MonitorService {
   priceLow: number = null;
   priceHigh: number = null;
   availableOnly: boolean = false;
+  sort: string = "";
   sizeLow: number = null;
   sizeHigh: number = null;
   resolution: string = null;
@@ -154,6 +155,9 @@ export class MonitorService {
     }
     if (this.availableOnly) {
       uri = uri.concat(`&availableOnly=${this.availableOnly}`);
+    }
+    if (this.sort != "") {
+      uri = uri.concat(`&sort=${this.sort}`);
     }
     if (this.sizeLow != null) {
       uri = uri.concat(`&sizeLow=${this.sizeLow}`);

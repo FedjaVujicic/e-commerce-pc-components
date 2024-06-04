@@ -29,6 +29,14 @@ namespace ComponentShopAPI.Services.Monitor
             {
                 queryResults = queryResults.Where(monitor => monitor.RefreshRate == queryParameters.RefreshRate);
             }
+            if (queryParameters.Sort == "Ascending")
+            {
+                queryResults = queryResults.OrderBy(monitor => monitor.Price);
+            }
+            if (queryParameters.Sort == "Descending")
+            {
+                queryResults = queryResults.OrderByDescending(monitor => monitor.Price);
+            }
             return queryResults.ToList();
         }
     }

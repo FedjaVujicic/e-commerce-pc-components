@@ -27,10 +27,10 @@
                     <input type="text" placeholder="Search..." class="form-control me-2 flex-grow-1"
                         [(ngModel)]="gpuService.searchName">
                     <button type="submit" class="btn btn-success" (click)="gpuService.getGpus()">Search</button>
-                    <span style="min-width: 60px" class="mx-2">Sort by:</span>
-                    <select style="max-width: 200px" class="form-select">
-                        <option (click)="sortByPriceAscending()">Price Ascending</option>
-                        <option (click)="sortByPriceDescending()">Price Descending</option>
+                    <span style="min-width: 100px" class="mx-2">Sort by price:</span>
+                    <select [(ngModel)]="gpuService.sort" style="max-width: 200px" class="form-select">
+                        <option>Ascending</option>
+                        <option>Descending</option>
                     </select>
                 </div>
                 <ul class="list-group mb-2 flex-grow-1">

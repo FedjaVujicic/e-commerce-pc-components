@@ -26,6 +26,7 @@ export class GpuService {
   priceLow: number = null;
   priceHigh: number = null;
   availableOnly: boolean = false;
+  sort: string = "";
   slot: string = "";
   memory = null;
   selectedPorts: { [key: string]: boolean } = {};
@@ -154,6 +155,9 @@ export class GpuService {
     }
     if (this.availableOnly) {
       uri = uri.concat(`&availableOnly=${this.availableOnly}`);
+    }
+    if (this.sort != "") {
+      uri = uri.concat(`&sort=${this.sort}`);
     }
     if (this.slot != "") {
       uri = uri.concat(`&slot=${this.slot}`);
