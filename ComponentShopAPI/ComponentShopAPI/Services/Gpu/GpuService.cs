@@ -34,18 +34,5 @@ namespace ComponentShopAPI.Services.Gpu
             }
             return queryResults.ToList();
         }
-
-        public List<Models.Gpu> Paginate(List<Models.Gpu> gpus, GpuQueryParameters queryParameters)
-        {
-            if (gpus.Count() >= queryParameters.CurrentPage * queryParameters.PageSize)
-            {
-                return gpus.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize, queryParameters.PageSize);
-            }
-            else
-            {
-                return gpus.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize,
-                    gpus.Count - (queryParameters.CurrentPage - 1) * queryParameters.PageSize);
-            }
-        }
     }
 }

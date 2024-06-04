@@ -2,6 +2,7 @@
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Gpu;
 using ComponentShopAPI.Services.Image;
+using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,15 @@ namespace ComponentShopAPI.Controllers
         private readonly ComponentShopDBContext _context;
         private readonly IGpuService _gpuService;
         private readonly IImageService _imageService;
+        private readonly IPaginationService<Gpu> _paginationService;
 
-        public GpusController(ComponentShopDBContext context, IGpuService gpuService, IImageService imageService)
+        public GpusController(ComponentShopDBContext context, IGpuService gpuService, IImageService imageService,
+            IPaginationService<Gpu> paginationService)
         {
             _context = context;
             _gpuService = gpuService;
             _imageService = imageService;
+            _paginationService = paginationService;
         }
 
         [HttpGet]
@@ -38,7 +42,7 @@ namespace ComponentShopAPI.Controllers
                 return Ok();
             }
 
-            gpus = _gpuService.Paginate(gpus, queryParameters);
+            gpus = _paginationService.Paginate(gpus, queryParameters.CurrentPage, queryParameters.PageSize);
 
             return Ok(gpus.Select(gpu => new
             {
@@ -57,7 +61,7 @@ namespace ComponentShopAPI.Controllers
 
         // GET: api/Gpus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Gpu>> GetGpu(int id)
+        public async Task<ActionResult<Gpu>> GetGpu(int id)
         {
             var gpu = await _context.Gpus.FindAsync(id);
 
@@ -84,7 +88,7 @@ namespace ComponentShopAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutGpu(int id, Models.Gpu gpu)
+        public async Task<IActionResult> PutGpu(int id, Gpu gpu)
         {
             if (id != gpu.Id)
             {
@@ -121,7 +125,7 @@ namespace ComponentShopAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Models.Gpu>> PostGpu(Models.Gpu gpu)
+        public async Task<ActionResult<Gpu>> PostGpu(Gpu gpu)
         {
             if (gpu.ImageFile != null)
             {

@@ -31,18 +31,5 @@ namespace ComponentShopAPI.Services.Monitor
             }
             return queryResults.ToList();
         }
-
-        public List<Models.Monitor> Paginate(List<Models.Monitor> monitors, MonitorQueryParameters queryParameters)
-        {
-            if (monitors.Count() >= queryParameters.CurrentPage * queryParameters.PageSize)
-            {
-                return monitors.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize, queryParameters.PageSize);
-            }
-            else
-            {
-                return monitors.GetRange((queryParameters.CurrentPage - 1) * queryParameters.PageSize,
-                    monitors.Count - (queryParameters.CurrentPage - 1) * queryParameters.PageSize);
-            }
-        }
     }
 }

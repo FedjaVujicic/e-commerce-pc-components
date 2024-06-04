@@ -2,9 +2,11 @@
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Monitor;
+using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Monitor = ComponentShopAPI.Models.Monitor;
 
 namespace ComponentShopAPI.Controllers
 {
@@ -15,12 +17,15 @@ namespace ComponentShopAPI.Controllers
         private readonly ComponentShopDBContext _context;
         private readonly IMonitorService _monitorService;
         private readonly IImageService _imageService;
+        private readonly IPaginationService<Monitor> _paginationService;
 
-        public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService, IImageService imageService)
+        public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService, IImageService imageService,
+            IPaginationService<Monitor> paginationService)
         {
             _context = context;
             _monitorService = monitorService;
             _imageService = imageService;
+            _paginationService = paginationService;
         }
 
         [HttpGet]
@@ -38,7 +43,7 @@ namespace ComponentShopAPI.Controllers
                 return Ok();
             }
 
-            monitors = _monitorService.Paginate(monitors, queryParameters);
+            monitors = _paginationService.Paginate(monitors, queryParameters.CurrentPage, queryParameters.PageSize);
 
             return Ok(monitors.Select(monitor => new
             {
@@ -58,7 +63,7 @@ namespace ComponentShopAPI.Controllers
 
         // GET: api/Monitors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Monitor>> GetMonitor(int id)
+        public async Task<ActionResult<Monitor>> GetMonitor(int id)
         {
             var monitor = await _context.Monitors.FindAsync(id);
 
@@ -86,7 +91,7 @@ namespace ComponentShopAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutMonitor(int id, Models.Monitor monitor)
+        public async Task<IActionResult> PutMonitor(int id, Monitor monitor)
         {
             if (id != monitor.Id)
             {
@@ -123,7 +128,7 @@ namespace ComponentShopAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Models.Monitor>> PostMonitor(Models.Monitor monitor)
+        public async Task<ActionResult<Monitor>> PostMonitor(Monitor monitor)
         {
             if (monitor.ImageFile != null)
             {

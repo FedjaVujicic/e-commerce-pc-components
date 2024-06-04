@@ -2,10 +2,12 @@ using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Gpu;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Monitor;
+using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Monitor = ComponentShopAPI.Models.Monitor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,8 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 builder.Services.AddScoped<IMonitorService, MonitorService>();
 builder.Services.AddScoped<IGpuService, GpuService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IPaginationService<Monitor>, PaginationService<Monitor>>();
+builder.Services.AddScoped<IPaginationService<Gpu>, PaginationService<Gpu>>();
 
 var app = builder.Build();
 
