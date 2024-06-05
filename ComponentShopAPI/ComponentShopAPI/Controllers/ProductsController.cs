@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,16 +19,10 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public ActionResult<IEnumerable<ProductDto>> GetProducts()
         {
-            return Ok(_context.Products.Select(product => new
-            {
-                product.Id,
-                product.Name,
-                product.Price,
-                availability = product.Quantity > 0,
-                ImageFile = _imageService.Download(product.ImageName)
-            }));
+            var productDtos = _context.Products.Select(product => new ProductDto(product, _imageService)).ToList();
+            return Ok(productDtos);
         }
 
     }
