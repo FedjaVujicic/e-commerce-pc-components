@@ -17,10 +17,10 @@ namespace ComponentShopAPI.Controllers
         private readonly ComponentShopDBContext _context;
         private readonly IMonitorService _monitorService;
         private readonly IImageService _imageService;
-        private readonly IPaginationService<Monitor> _paginationService;
+        private readonly IPaginationService _paginationService;
 
         public MonitorsController(ComponentShopDBContext context, IMonitorService monitorService, IImageService imageService,
-            IPaginationService<Monitor> paginationService)
+            IPaginationService paginationService)
         {
             _context = context;
             _monitorService = monitorService;

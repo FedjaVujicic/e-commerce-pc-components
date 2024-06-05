@@ -16,10 +16,10 @@ namespace ComponentShopAPI.Controllers
         private readonly ComponentShopDBContext _context;
         private readonly IGpuService _gpuService;
         private readonly IImageService _imageService;
-        private readonly IPaginationService<Gpu> _paginationService;
+        private readonly IPaginationService _paginationService;
 
         public GpusController(ComponentShopDBContext context, IGpuService gpuService, IImageService imageService,
-            IPaginationService<Gpu> paginationService)
+            IPaginationService paginationService)
         {
             _context = context;
             _gpuService = gpuService;
