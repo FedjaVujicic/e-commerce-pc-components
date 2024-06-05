@@ -9,6 +9,7 @@ namespace ComponentShopAPI.Models
         {
         }
 
+        public DbSet<Product> Products { get; set; }
         public DbSet<Monitor> Monitors { get; set; }
         public DbSet<Gpu> Gpus { get; set; }
     }
