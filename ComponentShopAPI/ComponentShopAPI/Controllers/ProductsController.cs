@@ -1,5 +1,4 @@
-﻿using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +18,7 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public ActionResult<IEnumerable<Product>> GetProducts()
         {
             return Ok(_context.Products.Select(product => new
             {
@@ -27,7 +26,7 @@ namespace ComponentShopAPI.Controllers
                 product.Name,
                 product.Price,
                 availability = product.Quantity > 0,
-                ImageFile = _imageService.Download(product.ImageName, ProductType.Gpu)
+                ImageFile = _imageService.Download(product.ImageName)
             }));
         }
 

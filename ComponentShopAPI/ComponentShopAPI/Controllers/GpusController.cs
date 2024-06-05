@@ -54,7 +54,7 @@ namespace ComponentShopAPI.Controllers
                 gpu.Memory,
                 gpu.Ports,
                 gpu.ImageName,
-                ImageFile = _imageService.Download(gpu.ImageName, ProductType.Gpu)
+                ImageFile = _imageService.Download(gpu.ImageName)
             }));
         }
 
@@ -80,7 +80,7 @@ namespace ComponentShopAPI.Controllers
                 gpu.Memory,
                 gpu.Ports,
                 gpu.ImageName,
-                ImageFile = _imageService.Download(gpu.ImageName, ProductType.Gpu)
+                ImageFile = _imageService.Download(gpu.ImageName)
             });
         }
 
@@ -100,13 +100,13 @@ namespace ComponentShopAPI.Controllers
             {
                 return NotFound();
             }
-            _imageService.DeleteIfExists(oldGpu.ImageName, ProductType.Gpu);
+            _imageService.DeleteIfExists(oldGpu.ImageName);
 
             _context.Entry(oldGpu).State = EntityState.Detached;
 
             if (gpu.ImageFile != null)
             {
-                gpu.ImageName = await _imageService.Upload(gpu.ImageFile, ProductType.Gpu);
+                gpu.ImageName = await _imageService.Upload(gpu.ImageFile);
             }
 
             _context.Entry(gpu).State = EntityState.Modified;
@@ -138,7 +138,7 @@ namespace ComponentShopAPI.Controllers
         {
             if (gpu.ImageFile != null)
             {
-                gpu.ImageName = await _imageService.Upload(gpu.ImageFile, ProductType.Gpu);
+                gpu.ImageName = await _imageService.Upload(gpu.ImageFile);
             }
 
             _context.Gpus.Add(gpu);
@@ -160,7 +160,7 @@ namespace ComponentShopAPI.Controllers
 
             if (gpu.ImageName != null)
             {
-                _imageService.DeleteIfExists(gpu.ImageName, ProductType.Gpu);
+                _imageService.DeleteIfExists(gpu.ImageName);
             }
 
             _context.Gpus.Remove(gpu);

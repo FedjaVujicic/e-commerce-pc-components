@@ -1,5 +1,4 @@
-﻿using ComponentShopAPI.Helpers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ComponentShopAPI.Services.Image
 {
@@ -11,26 +10,17 @@ namespace ComponentShopAPI.Services.Image
             _hostEnvironment = hostEnvironment;
         }
 
-        private string CreatePath(string imageName, ProductType imageType)
+        private string CreatePath(string imageName)
         {
             var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images");
-            switch (imageType)
-            {
-                case ProductType.Monitor:
-                    imagePath = Path.Combine(imagePath, "Monitors");
-                    break;
-                case ProductType.Gpu:
-                    imagePath = Path.Combine(imagePath, "Gpus");
-                    break;
-            }
             return Path.Combine(imagePath, imageName);
         }
 
-        public async Task<string> Upload(IFormFile imageFile, ProductType imageType)
+        public async Task<string> Upload(IFormFile imageFile)
         {
             string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = CreatePath(imageName, imageType);
+            var imagePath = CreatePath(imageName);
 
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
@@ -40,23 +30,23 @@ namespace ComponentShopAPI.Services.Image
             return imageName;
         }
 
-        public FileContentResult Download(string imageName, ProductType imageType)
+        public FileContentResult Download(string imageName)
         {
             if (imageName == "")
             {
                 return null;
             }
 
-            var imagePath = CreatePath(imageName, imageType);
+            var imagePath = CreatePath(imageName);
             byte[] imageBytes = File.ReadAllBytes(imagePath);
             string contentType = "image/" + Path.GetExtension(imageName).Replace(".", "");
 
             return new FileContentResult(imageBytes, contentType);
         }
 
-        public void DeleteIfExists(string imageName, ProductType imageType)
+        public void DeleteIfExists(string imageName)
         {
-            var imagePath = CreatePath(imageName, imageType);
+            var imagePath = CreatePath(imageName);
             if (!File.Exists(imagePath))
             {
                 return;

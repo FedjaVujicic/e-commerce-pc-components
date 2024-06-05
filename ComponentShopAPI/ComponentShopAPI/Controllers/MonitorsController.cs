@@ -56,7 +56,7 @@ namespace ComponentShopAPI.Controllers
                 monitor.Height,
                 monitor.RefreshRate,
                 monitor.ImageName,
-                ImageFile = _imageService.Download(monitor.ImageName, ProductType.Monitor)
+                ImageFile = _imageService.Download(monitor.ImageName)
             }));
         }
 
@@ -83,7 +83,7 @@ namespace ComponentShopAPI.Controllers
                 monitor.Height,
                 monitor.RefreshRate,
                 monitor.ImageName,
-                ImageFile = _imageService.Download(monitor.ImageName, ProductType.Monitor)
+                ImageFile = _imageService.Download(monitor.ImageName)
             });
         }
 
@@ -103,13 +103,13 @@ namespace ComponentShopAPI.Controllers
             {
                 return NotFound();
             }
-            _imageService.DeleteIfExists(oldMonitor.ImageName, ProductType.Monitor);
+            _imageService.DeleteIfExists(oldMonitor.ImageName);
 
             _context.Entry(oldMonitor).State = EntityState.Detached;
 
             if (monitor.ImageFile != null)
             {
-                monitor.ImageName = await _imageService.Upload(monitor.ImageFile, ProductType.Monitor);
+                monitor.ImageName = await _imageService.Upload(monitor.ImageFile);
             }
 
             _context.Entry(monitor).State = EntityState.Modified;
@@ -141,7 +141,7 @@ namespace ComponentShopAPI.Controllers
         {
             if (monitor.ImageFile != null)
             {
-                monitor.ImageName = await _imageService.Upload(monitor.ImageFile, ProductType.Monitor);
+                monitor.ImageName = await _imageService.Upload(monitor.ImageFile);
             }
 
             _context.Monitors.Add(monitor);
@@ -163,7 +163,7 @@ namespace ComponentShopAPI.Controllers
 
             if (monitor.ImageName != null)
             {
-                _imageService.DeleteIfExists(monitor.ImageName, ProductType.Monitor);
+                _imageService.DeleteIfExists(monitor.ImageName);
             }
 
             _context.Monitors.Remove(monitor);

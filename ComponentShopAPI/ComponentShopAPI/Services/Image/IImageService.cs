@@ -1,12 +1,11 @@
-﻿using ComponentShopAPI.Helpers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ComponentShopAPI.Services.Image
 {
     public interface IImageService
     {
-        public Task<string> Upload(IFormFile imageFile, ProductType imageType);
-        public FileContentResult Download(string imageName, ProductType imageType);
-        public void DeleteIfExists(string imageName, ProductType imageType);
+        public Task<string> Upload(IFormFile imageFile);
+        public FileContentResult Download(string imageName);
+        public void DeleteIfExists(string imageName);
     }
 }
