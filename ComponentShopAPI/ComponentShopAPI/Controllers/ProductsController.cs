@@ -19,11 +19,24 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDto>> GetProducts()
+        public ActionResult<IEnumerable<ProductDto>> GetProducts([FromQuery] string category = "")
         {
-            var productDtos = _context.Products.Select(product => new ProductDto(product, _imageService)).ToList();
-            return Ok(productDtos);
+            if (category == "Monitor")
+            {
+                var monitorDtos = _context.Monitors.Select(monitor => new MonitorDto(monitor, _imageService)).ToList();
+                return Ok(monitorDtos);
+            }
+            if (category == "Gpu")
+            {
+                var gpuDtos = _context.Gpus.Select(gpu => new GpuDto(gpu, _imageService)).ToList();
+                return Ok(gpuDtos);
+            }
+            if (category == "")
+            {
+                var productDtos = _context.Products.Select(product => new ProductDto(product, _imageService)).ToList();
+                return Ok(productDtos);
+            }
+            return BadRequest();
         }
-
     }
 }
