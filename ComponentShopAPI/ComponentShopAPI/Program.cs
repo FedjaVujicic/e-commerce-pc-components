@@ -4,6 +4,7 @@ using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.MonitorSearch;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;
+using ComponentShopAPI.Services.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -41,6 +42,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 
 builder.Services.AddScoped<IMonitorService, MonitorService>();
 builder.Services.AddScoped<IGpuService, GpuService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPaginationService, PaginationService>();
 builder.Services.AddScoped<IProductDtoFactory, ProductDtoFactory>();
