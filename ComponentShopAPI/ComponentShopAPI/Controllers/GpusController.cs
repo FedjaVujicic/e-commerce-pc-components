@@ -1,6 +1,6 @@
 ﻿using ComponentShopAPI.Helpers;
 using ComponentShopAPI.Models;
-using ComponentShopAPI.Services.Gpu;
+using ComponentShopAPI.Services.GpuSearch;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;

@@ -1,8 +1,8 @@
 ﻿using ComponentShopAPI.Dtos;
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
+using ComponentShopAPI.Services.ProductDtoFactory;
 using Microsoft.AspNetCore.Mvc;
-using Monitor = ComponentShopAPI.Models.Monitor;
 
 namespace ComponentShopAPI.Controllers
 {
@@ -12,46 +12,29 @@ namespace ComponentShopAPI.Controllers
     {
         private readonly ComponentShopDBContext _context;
         private readonly IImageService _imageService;
+        private readonly IProductDtoFactory _productDtoFactory;
 
-        public ProductsController(ComponentShopDBContext context, IImageService imageService)
+        public ProductsController(ComponentShopDBContext context, IImageService imageService,
+            IProductDtoFactory productDtoFactory)
         {
             _context = context;
             _imageService = imageService;
+            _productDtoFactory = productDtoFactory;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ProductDto>> GetProducts([FromQuery] string category = "")
         {
-            if (category == "Monitor")
+            IEnumerable<Product> products = category switch
             {
-                var monitorDtos = _context.Monitors.Select(monitor => new MonitorDto(monitor, _imageService)).ToList();
-                return Ok(monitorDtos);
-            }
-            if (category == "Gpu")
-            {
-                var gpuDtos = _context.Gpus.Select(gpu => new GpuDto(gpu, _imageService)).ToList();
-                return Ok(gpuDtos);
-            }
-            if (category == "")
-            {
-                var productDtos = _context.Products.ToList().Select(product =>
-                {
-                    if (product is Monitor monitor)
-                    {
-                        return new MonitorDto(monitor, _imageService);
-                    }
-                    else if (product is Gpu gpu)
-                    {
-                        return new GpuDto(gpu, _imageService);
-                    }
-                    else
-                    {
-                        return new ProductDto(product, _imageService);
-                    }
-                }).ToList();
-                return Ok(productDtos);
-            }
-            return BadRequest();
+                "Monitor" => _context.Monitors,
+                "Gpu" => _context.Gpus,
+                "" => _context.Products,
+                _ => throw new BadHttpRequestException($"Invalid category {category}")
+            };
+
+            var productDtos = products.ToList().Select(_productDtoFactory.Create).ToList();
+            return Ok(productDtos);
         }
     }
 }

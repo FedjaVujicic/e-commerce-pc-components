@@ -1,6 +1,6 @@
 ﻿using ComponentShopAPI.Helpers;
 
-namespace ComponentShopAPI.Services.Gpu
+namespace ComponentShopAPI.Services.GpuSearch
 {
     public class GpuService : IGpuService
     {

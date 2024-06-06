@@ -9,8 +9,13 @@ namespace ComponentShopAPI.Dtos
         public int Width { get; set; }
         public int Height { get; set; }
         public int RefreshRate { get; set; }
-        public MonitorDto(Monitor monitor, IImageService imageService) : base(monitor, imageService)
+        public MonitorDto(Monitor monitor, IImageService imageService)
         {
+            Id = monitor.Id;
+            Name = monitor.Name;
+            Price = monitor.Price;
+            Availability = monitor.Quantity > 0;
+            ImageFile = imageService.Download(monitor.ImageName);
             Size = monitor.Size;
             Width = monitor.Width;
             Height = monitor.Height;

@@ -1,7 +1,7 @@
 ﻿using ComponentShopAPI.Helpers;
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
-using ComponentShopAPI.Services.Monitor;
+using ComponentShopAPI.Services.MonitorSearch;
 using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

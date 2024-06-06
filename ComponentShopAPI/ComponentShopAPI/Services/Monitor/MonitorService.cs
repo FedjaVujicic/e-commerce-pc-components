@@ -1,6 +1,6 @@
 ﻿using ComponentShopAPI.Helpers;
 
-namespace ComponentShopAPI.Services.Monitor
+namespace ComponentShopAPI.Services.MonitorSearch
 {
     public class MonitorService : IMonitorService
     {
