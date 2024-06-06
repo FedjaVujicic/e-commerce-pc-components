@@ -54,5 +54,18 @@ namespace ComponentShopAPI.Controllers
             var productDtos = products.ToList().Select(_productDtoFactory.Create).ToList();
             return Ok(productDtos);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_productDtoFactory.Create(product));
+        }
     }
 }

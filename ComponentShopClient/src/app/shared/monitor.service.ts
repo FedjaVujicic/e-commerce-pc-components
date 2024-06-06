@@ -64,7 +64,7 @@ export class MonitorService {
   }
 
   getMonitor(id: number) {
-    return this.http.get(this.url + `/${id}`, { withCredentials: true });
+    return this.http.get(this.productUrl + `/${id}`, { withCredentials: true });
   }
 
   getQuantity(id: number) {
