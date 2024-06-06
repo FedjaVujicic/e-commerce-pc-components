@@ -2,6 +2,7 @@
 using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
 using Microsoft.AspNetCore.Mvc;
+using Monitor = ComponentShopAPI.Models.Monitor;
 
 namespace ComponentShopAPI.Controllers
 {
@@ -33,7 +34,21 @@ namespace ComponentShopAPI.Controllers
             }
             if (category == "")
             {
-                var productDtos = _context.Products.Select(product => new ProductDto(product, _imageService)).ToList();
+                var productDtos = _context.Products.ToList().Select(product =>
+                {
+                    if (product is Monitor monitor)
+                    {
+                        return new MonitorDto(monitor, _imageService);
+                    }
+                    else if (product is Gpu gpu)
+                    {
+                        return new GpuDto(gpu, _imageService);
+                    }
+                    else
+                    {
+                        return new ProductDto(product, _imageService);
+                    }
+                }).ToList();
                 return Ok(productDtos);
             }
             return BadRequest();

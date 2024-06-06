@@ -1,9 +1,12 @@
 ﻿using ComponentShopAPI.Models;
 using ComponentShopAPI.Services.Image;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace ComponentShopAPI.Dtos
 {
+    [JsonDerivedType(typeof(MonitorDto))]
+    [JsonDerivedType(typeof(GpuDto))]
     public class ProductDto
     {
         public int Id { get; set; }
