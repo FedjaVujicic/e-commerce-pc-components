@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class GpuService {
 
   url: string = `${environment.apiBaseUrl}/Gpus`;
+  productUrl: string = `${environment.apiBaseUrl}/Products`;
 
   gpuList: Array<Gpu> = [];
   currentGpu: Gpu = new Gpu();
@@ -128,7 +129,7 @@ export class GpuService {
   }
 
   buildGetUri(): string {
-    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
+    let uri: string = this.productUrl + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=gpu`;
     if (this.searchName != "") {
       uri = uri.concat(`&name=${this.searchName}`);
     }

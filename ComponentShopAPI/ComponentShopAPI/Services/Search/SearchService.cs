@@ -8,11 +8,11 @@ namespace ComponentShopAPI.Services.Search
     {
         public List<Product> Search(List<Product> products, ProductQueryParameters productQueryParameters)
         {
-            if (productQueryParameters.Category == "Gpu")
+            if (productQueryParameters.Category == "gpu")
             {
                 return SearchGpus(products, productQueryParameters);
             }
-            else if (productQueryParameters.Category == "Monitor")
+            else if (productQueryParameters.Category == "monitor")
             {
                 return SearchMonitors(products, productQueryParameters);
             }

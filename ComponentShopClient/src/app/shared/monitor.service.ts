@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MonitorService {
 
   url: string = `${environment.apiBaseUrl}/Monitors`;
+  productUrl: string = `${environment.apiBaseUrl}/Products`;
 
   monitorList: Array<Monitor> = [];
   currentMonitor: Monitor = new Monitor();
@@ -128,7 +129,7 @@ export class MonitorService {
   }
 
   buildGetUri(): string {
-    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}`;
+    let uri: string = this.productUrl + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=monitor`;
     if (this.searchName != "") {
       uri = uri.concat(`&name=${this.searchName}`);
     }

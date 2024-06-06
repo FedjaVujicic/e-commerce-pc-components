@@ -34,8 +34,8 @@ namespace ComponentShopAPI.Controllers
         {
             IEnumerable<Product> products = productQueryParameters.Category switch
             {
-                "Monitor" => _context.Monitors,
-                "Gpu" => _context.Gpus,
+                "monitor" => _context.Monitors,
+                "gpu" => _context.Gpus,
                 "" => _context.Products,
                 _ => throw new BadHttpRequestException($"Invalid category {productQueryParameters.Category}")
             };
