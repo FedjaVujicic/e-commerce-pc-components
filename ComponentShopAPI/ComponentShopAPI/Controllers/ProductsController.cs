@@ -5,6 +5,7 @@ using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;
 using ComponentShopAPI.Services.Search;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComponentShopAPI.Controllers
@@ -61,6 +62,27 @@ namespace ComponentShopAPI.Controllers
             }
 
             return Ok(_productDtoFactory.Create(product));
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (product.ImageName != null)
+            {
+                _imageService.DeleteIfExists(product.ImageName);
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
