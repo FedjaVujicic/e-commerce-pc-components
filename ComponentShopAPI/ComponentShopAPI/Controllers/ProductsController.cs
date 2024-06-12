@@ -44,11 +44,6 @@ namespace ComponentShopAPI.Controllers
             Response.Headers.Append("Access-Control-Expose-Headers", "X-Total-Count");
             Response.Headers.Append("X-Total-Count", products.Count().ToString());
 
-            if (products.Count() == 0)
-            {
-                return Ok();
-            }
-
             products = _paginationService.Paginate(products.ToList(), productQueryParameters.CurrentPage, productQueryParameters.PageSize);
 
             var productDtos = products.ToList().Select(_productDtoFactory.Create).ToList();
