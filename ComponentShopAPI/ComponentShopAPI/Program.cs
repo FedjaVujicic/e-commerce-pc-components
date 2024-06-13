@@ -1,7 +1,5 @@
 using ComponentShopAPI.Repositories;
-using ComponentShopAPI.Services.GpuSearch;
 using ComponentShopAPI.Services.Image;
-using ComponentShopAPI.Services.MonitorSearch;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;
 using ComponentShopAPI.Services.ProductFactory;
@@ -41,8 +39,6 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ComponentShopDBContext>();
 
-builder.Services.AddScoped<IMonitorService, MonitorService>();
-builder.Services.AddScoped<IGpuService, GpuService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPaginationService, PaginationService>();
