@@ -31,7 +31,7 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDto>> GetProducts([FromQuery] ProductQueryParameters productQueryParameters)
+        public ActionResult<IEnumerable<ProductDto>> GetProducts([FromQuery] ProductGetParameters productQueryParameters)
         {
             IEnumerable<Product> products = productQueryParameters.Category switch
             {

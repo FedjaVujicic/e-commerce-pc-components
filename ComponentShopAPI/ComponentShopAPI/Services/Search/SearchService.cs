@@ -6,7 +6,7 @@ namespace ComponentShopAPI.Services.Search
 {
     public class SearchService : ISearchService
     {
-        public List<Product> Search(List<Product> products, ProductQueryParameters productQueryParameters)
+        public List<Product> Search(List<Product> products, ProductGetParameters productQueryParameters)
         {
             if (productQueryParameters.Category == "gpu")
             {
@@ -23,7 +23,7 @@ namespace ComponentShopAPI.Services.Search
             throw new BadHttpRequestException($"Invalid category {productQueryParameters.Category}");
         }
 
-        private List<Product> SearchMonitors(List<Product> products, ProductQueryParameters productQueryParameters)
+        private List<Product> SearchMonitors(List<Product> products, ProductGetParameters productQueryParameters)
         {
             var queryResults = products.Select(product => (Monitor)product);
             queryResults = queryResults.Where(monitor =>
@@ -58,7 +58,7 @@ namespace ComponentShopAPI.Services.Search
             return queryResults.Select(monitor => (Product)monitor).ToList();
         }
 
-        private List<Product> SearchGpus(List<Product> products, ProductQueryParameters productQueryParameters)
+        private List<Product> SearchGpus(List<Product> products, ProductGetParameters productQueryParameters)
         {
             var queryResults = products.Select(product => (Gpu)product);
             queryResults = queryResults.Where(gpu =>

@@ -1,6 +1,6 @@
 ﻿namespace ComponentShopAPI.Helpers
 {
-    public class ProductQueryParameters
+    public class ProductGetParameters
     {
         public string Category { get; set; } = "";
         public int CurrentPage { get; set; }
