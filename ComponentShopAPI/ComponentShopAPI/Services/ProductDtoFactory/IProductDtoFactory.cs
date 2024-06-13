@@ -1,5 +1,5 @@
 ﻿using ComponentShopAPI.Dtos;
-using ComponentShopAPI.Models;
+using ComponentShopAPI.Entities;
 
 namespace ComponentShopAPI.Services.ProductDtoFactory
 {

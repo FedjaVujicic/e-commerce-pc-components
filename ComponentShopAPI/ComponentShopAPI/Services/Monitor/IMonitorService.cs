@@ -4,6 +4,6 @@ namespace ComponentShopAPI.Services.MonitorSearch
 {
     public interface IMonitorService
     {
-        public List<Models.Monitor> Search(List<Models.Monitor> monitors, MonitorQueryParameters queryParameters);
+        public List<Entities.Monitor> Search(List<Entities.Monitor> monitors, MonitorQueryParameters queryParameters);
     }
 }

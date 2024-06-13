@@ -1,4 +1,4 @@
-﻿using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Entities;
 using ComponentShopAPI.Services.Image;
 
 namespace ComponentShopAPI.Dtos

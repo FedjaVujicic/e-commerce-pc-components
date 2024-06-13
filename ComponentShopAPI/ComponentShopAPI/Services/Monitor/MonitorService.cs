@@ -6,7 +6,7 @@ namespace ComponentShopAPI.Services.MonitorSearch
     {
         public MonitorService() { }
 
-        public List<Models.Monitor> Search(List<Models.Monitor> monitors, MonitorQueryParameters queryParameters)
+        public List<Entities.Monitor> Search(List<Entities.Monitor> monitors, MonitorQueryParameters queryParameters)
         {
             var queryResults = monitors.Where(monitor =>
                 monitor.Name.IndexOf(queryParameters.Name, StringComparison.OrdinalIgnoreCase) >= 0 &&

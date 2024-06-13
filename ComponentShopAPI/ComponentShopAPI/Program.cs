@@ -1,4 +1,4 @@
-using ComponentShopAPI.Models;
+using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.GpuSearch;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.MonitorSearch;

@@ -1,5 +1,6 @@
-﻿using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
+using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.GpuSearch;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;

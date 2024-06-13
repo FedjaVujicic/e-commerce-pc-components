@@ -1,7 +1,7 @@
 ﻿using ComponentShopAPI.Dtos;
-using ComponentShopAPI.Models;
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Services.Image;
-using Monitor = ComponentShopAPI.Models.Monitor;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
 namespace ComponentShopAPI.Services.ProductDtoFactory
 {

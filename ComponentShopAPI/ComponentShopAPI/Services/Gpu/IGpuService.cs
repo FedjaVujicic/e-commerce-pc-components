@@ -1,9 +1,10 @@
-﻿using ComponentShopAPI.Helpers;
+﻿using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
 
 namespace ComponentShopAPI.Services.GpuSearch
 {
     public interface IGpuService
     {
-        public List<Models.Gpu> Search(List<Models.Gpu> gpus, GpuQueryParameters queryParameters);
+        public List<Gpu> Search(List<Gpu> gpus, GpuQueryParameters queryParameters);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
+using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;

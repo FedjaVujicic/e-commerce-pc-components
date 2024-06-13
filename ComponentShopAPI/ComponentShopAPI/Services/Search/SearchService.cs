@@ -1,6 +1,6 @@
-﻿using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
-using Monitor = ComponentShopAPI.Models.Monitor;
+﻿using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
 namespace ComponentShopAPI.Services.Search
 {

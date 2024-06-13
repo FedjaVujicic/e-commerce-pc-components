@@ -1,5 +1,5 @@
 ﻿using ComponentShopAPI.Services.Image;
-using Monitor = ComponentShopAPI.Models.Monitor;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
 namespace ComponentShopAPI.Dtos
 {

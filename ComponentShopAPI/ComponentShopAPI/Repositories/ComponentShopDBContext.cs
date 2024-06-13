@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ComponentShopAPI.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
-namespace ComponentShopAPI.Models
+namespace ComponentShopAPI.Repositories
 {
     public class ComponentShopDBContext : IdentityDbContext
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace ComponentShopAPI.Models
+namespace ComponentShopAPI.Entities
 {
     [JsonDerivedType(typeof(Monitor))]
     [JsonDerivedType(typeof(Gpu))]

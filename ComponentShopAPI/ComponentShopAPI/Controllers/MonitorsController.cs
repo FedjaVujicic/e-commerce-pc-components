@@ -1,12 +1,12 @@
 ﻿using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
+using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.MonitorSearch;
 using ComponentShopAPI.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Monitor = ComponentShopAPI.Models.Monitor;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
 namespace ComponentShopAPI.Controllers
 {

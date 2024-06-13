@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Helpers;
+﻿using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
 
 namespace ComponentShopAPI.Services.GpuSearch
 {
@@ -6,7 +7,7 @@ namespace ComponentShopAPI.Services.GpuSearch
     {
         public GpuService() { }
 
-        public List<Models.Gpu> Search(List<Models.Gpu> gpus, GpuQueryParameters queryParameters)
+        public List<Gpu> Search(List<Gpu> gpus, GpuQueryParameters queryParameters)
         {
             var queryResults = gpus.Where(gpu =>
                 gpu.Name.IndexOf(queryParameters.Name, StringComparison.OrdinalIgnoreCase) >= 0 &&

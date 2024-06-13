@@ -1,4 +1,4 @@
-﻿namespace ComponentShopAPI.Models
+﻿namespace ComponentShopAPI.Entities
 {
     public class Monitor : Product
     {

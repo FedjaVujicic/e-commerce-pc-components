@@ -1,5 +1,5 @@
-﻿using ComponentShopAPI.Helpers;
-using ComponentShopAPI.Models;
+﻿using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
 
 namespace ComponentShopAPI.Services.Search
 {
