@@ -110,7 +110,7 @@ namespace ComponentShopAPI.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutProduct([FromRoute] int id, [FromQuery] ProductPostParameters queryParameters)
+        public async Task<IActionResult> PutProduct(int id, ProductPostParameters queryParameters)
         {
             var product = _productFactory.Create(queryParameters);
 
@@ -153,6 +153,52 @@ namespace ComponentShopAPI.Controllers
 
             return NoContent();
         }
+
+
+        [HttpGet("supportedProperties")]
+        public ActionResult<IEnumerable<string>> GetSupportedProperties([FromQuery] string category)
+        {
+            if (category == null)
+            {
+                return BadRequest();
+            }
+            if (category == "gpu")
+            {
+                return Ok(
+                    new
+                    {
+                        slots = _context.Gpus.Select(gpu => gpu.Slot).Distinct(),
+                        memories = _context.Gpus.Select(gpu => gpu.Memory).Distinct(),
+                        ports = _context.Gpus.AsEnumerable().SelectMany(gpu => gpu.Ports).Distinct()
+                    }
+                );
+            }
+            if (category == "monitor")
+            {
+                return Ok(
+                new
+                {
+                    resolutions = _context.Monitors.Select(monitor => $"{monitor.Width}x{monitor.Height}").Distinct(),
+                    refreshRates = _context.Monitors.Select(monitor => monitor.RefreshRate).Distinct()
+                }
+                );
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("{id}/quantity")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetQuantity(int id)
+        {
+            var gpu = await _context.Products.FindAsync(id);
+            if (gpu == null)
+            {
+                return NotFound();
+            }
+            return Ok(gpu.Quantity);
+        }
+
+
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);

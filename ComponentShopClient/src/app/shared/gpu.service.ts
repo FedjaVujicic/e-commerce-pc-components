@@ -9,8 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GpuService {
 
-  url: string = `${environment.apiBaseUrl}/Gpus`;
-  productUrl: string = `${environment.apiBaseUrl}/Products`;
+  url: string = `${environment.apiBaseUrl}/Products`;
 
   gpuList: Array<Gpu> = [];
   currentGpu: Gpu = new Gpu();
@@ -63,7 +62,7 @@ export class GpuService {
   }
 
   getGpu(id: number) {
-    return this.http.get(this.productUrl + `/${id}`, { withCredentials: true });
+    return this.http.get(this.url + `/${id}`, { withCredentials: true });
   }
 
   getQuantity(id: number) {
@@ -114,7 +113,7 @@ export class GpuService {
   }
 
   getSupportedProperties() {
-    return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+    return this.http.get<any>(this.url + `/supportedProperties/?category=gpu`, { withCredentials: true });
   }
 
   createFormData() {
@@ -126,10 +125,15 @@ export class GpuService {
     this.currentGpu.ports.forEach(port => {
       this.formData.append("ports", port.toString());
     });
+    this.formData.append("category", "gpu");
+    this.formData.append("size", "0");
+    this.formData.append("width", "0");
+    this.formData.append("height", "0");
+    this.formData.append("refreshRate", "0");
   }
 
   buildGetUri(): string {
-    let uri: string = this.productUrl + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=gpu`;
+    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=gpu`;
     if (this.searchName != "") {
       uri = uri.concat(`&name=${this.searchName}`);
     }

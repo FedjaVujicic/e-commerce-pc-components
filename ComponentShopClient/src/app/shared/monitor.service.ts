@@ -9,8 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MonitorService {
 
-  url: string = `${environment.apiBaseUrl}/Monitors`;
-  productUrl: string = `${environment.apiBaseUrl}/Products`;
+  url: string = `${environment.apiBaseUrl}/Products`;
 
   monitorList: Array<Monitor> = [];
   currentMonitor: Monitor = new Monitor();
@@ -64,7 +63,7 @@ export class MonitorService {
   }
 
   getMonitor(id: number) {
-    return this.http.get(this.productUrl + `/${id}`, { withCredentials: true });
+    return this.http.get(this.url + `/${id}`, { withCredentials: true });
   }
 
   getQuantity(id: number) {
@@ -115,7 +114,7 @@ export class MonitorService {
   }
 
   getSupportedProperties() {
-    return this.http.get<any>(this.url + `/supportedProperties`, { withCredentials: true });
+    return this.http.get<any>(this.url + `/supportedProperties/?category=monitor`, { withCredentials: true });
   }
 
   createFormData() {
@@ -126,10 +125,14 @@ export class MonitorService {
     this.formData.append("width", this.currentMonitor.width.toString());
     this.formData.append("height", this.currentMonitor.height.toString());
     this.formData.append("refreshRate", this.currentMonitor.refreshRate.toString());
+    this.formData.append("category", "monitor");
+    this.formData.append("slot", "dummy");
+    this.formData.append("memory", String(0));
+    this.formData.append("ports", "dummy");
   }
 
   buildGetUri(): string {
-    let uri: string = this.productUrl + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=monitor`;
+    let uri: string = this.url + `/?currentPage=${this.currentPage}&pageSize=${this.pageSize}&category=monitor`;
     if (this.searchName != "") {
       uri = uri.concat(`&name=${this.searchName}`);
     }
