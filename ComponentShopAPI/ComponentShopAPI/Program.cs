@@ -1,13 +1,13 @@
-using ComponentShopAPI.Models;
-using ComponentShopAPI.Services.Gpu;
+using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.Image;
-using ComponentShopAPI.Services.Monitor;
 using ComponentShopAPI.Services.Pagination;
+using ComponentShopAPI.Services.ProductDtoFactory;
+using ComponentShopAPI.Services.ProductFactory;
+using ComponentShopAPI.Services.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Monitor = ComponentShopAPI.Models.Monitor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,11 +39,11 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ComponentShopDBContext>();
 
-builder.Services.AddScoped<IMonitorService, MonitorService>();
-builder.Services.AddScoped<IGpuService, GpuService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IPaginationService<Monitor>, PaginationService<Monitor>>();
-builder.Services.AddScoped<IPaginationService<Gpu>, PaginationService<Gpu>>();
+builder.Services.AddScoped<IPaginationService, PaginationService>();
+builder.Services.AddScoped<IProductDtoFactory, ProductDtoFactory>();
+builder.Services.AddScoped<IProductFactory, ProductFactory>();
 
 var app = builder.Build();
 

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ComponentShopAPI.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Monitor = ComponentShopAPI.Entities.Monitor;
 
-namespace ComponentShopAPI.Models
+namespace ComponentShopAPI.Repositories
 {
     public class ComponentShopDBContext : IdentityDbContext
     {
@@ -9,6 +11,7 @@ namespace ComponentShopAPI.Models
         {
         }
 
+        public DbSet<Product> Products { get; set; }
         public DbSet<Monitor> Monitors { get; set; }
         public DbSet<Gpu> Gpus { get; set; }
     }

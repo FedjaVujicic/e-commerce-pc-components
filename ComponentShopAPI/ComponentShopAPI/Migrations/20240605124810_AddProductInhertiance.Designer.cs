@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComponentShopAPI.Migrations
 {
     [DbContext(typeof(ComponentShopDBContext))]
-    [Migration("20240604131715_ReplaceAvailabilityWithQuantity")]
-    partial class ReplaceAvailabilityWithQuantity
+    [Migration("20240605124810_AddProductInhertiance")]
+    partial class AddProductInhertiance
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ComponentShopAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ComponentShopAPI.Models.Gpu", b =>
+            modelBuilder.Entity("ComponentShopAPI.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,44 +33,10 @@ namespace ComponentShopAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Memory")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ports")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Slot")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Gpus");
-                });
-
-            modelBuilder.Entity("ComponentShopAPI.Models.Monitor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
@@ -86,18 +52,13 @@ namespace ComponentShopAPI.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("RefreshRate")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Size")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Monitors");
+                    b.ToTable("Products");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Product");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -296,6 +257,41 @@ namespace ComponentShopAPI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ComponentShopAPI.Models.Gpu", b =>
+                {
+                    b.HasBaseType("ComponentShopAPI.Models.Product");
+
+                    b.Property<int>("Memory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ports")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Slot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Gpu");
+                });
+
+            modelBuilder.Entity("ComponentShopAPI.Models.Monitor", b =>
+                {
+                    b.HasBaseType("ComponentShopAPI.Models.Product");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RefreshRate")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Monitor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

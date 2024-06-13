@@ -38,8 +38,8 @@
                         *ngFor="let gpu of gpuService.gpuList">
                         <div class="d-flex flex-grow-1">
                             <div class="mx-2">
-                                <img style="width: 120px; height: 120px;" [src]="gpuService.getImageSrc(gpu.imageFile)"
-                                    alt="">
+                                <img style="width: 120px; height: 120px; object-fit: cover;"
+                                    [src]="gpuService.getImageSrc(gpu.imageFile)" alt="">
                             </div>
                             <div class="flex-grow-1">
                                 <div class="fw-bold fs-5">{{ gpu.name }}</div>
