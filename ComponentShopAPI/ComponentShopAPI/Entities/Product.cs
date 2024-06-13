@@ -8,6 +8,17 @@ namespace ComponentShopAPI.Entities
     [JsonDerivedType(typeof(Gpu))]
     public abstract class Product
     {
+        protected Product() { }
+        protected Product(int id, string name, double price, int quantity, string imageName, IFormFile? imageFile)
+        {
+            Id = id;
+            Name = name;
+            Price = price;
+            Quantity = quantity;
+            ImageName = imageName;
+            ImageFile = imageFile;
+        }
+
         [Key]
         public int Id { get; set; }
         [Required]

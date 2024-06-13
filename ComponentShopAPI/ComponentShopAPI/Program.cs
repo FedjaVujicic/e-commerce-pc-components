@@ -4,6 +4,7 @@ using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.MonitorSearch;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;
+using ComponentShopAPI.Services.ProductFactory;
 using ComponentShopAPI.Services.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPaginationService, PaginationService>();
 builder.Services.AddScoped<IProductDtoFactory, ProductDtoFactory>();
+builder.Services.AddScoped<IProductFactory, ProductFactory>();
 
 var app = builder.Build();
 
