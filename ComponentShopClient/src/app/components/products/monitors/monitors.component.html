@@ -38,7 +38,7 @@
                         *ngFor="let monitor of monitorService.monitorList">
                         <div class="d-flex flex-grow-1">
                             <div class="mx-2">
-                                <img style="width: 120px; height: 120px;"
+                                <img style="width: 120px; height: 120px; object-fit: cover;"
                                     [src]="monitorService.getImageSrc(monitor.imageFile)" alt="">
                             </div>
                             <div class="flex-grow-1">
