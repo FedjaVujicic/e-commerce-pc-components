@@ -2,8 +2,16 @@
     <div class="col-3 py-5 bg-dark-subtle rounded-3">
         <form (submit)="onSubmit()">
             <div class="mb-3">
-                <input type="text" placeholder="Username" class="form-control" autocomplete="off" required
-                    [(ngModel)]="formUsername" name="username">
+                <input type="text" placeholder="Email" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formEmail" name="email">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="First Name" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formFirstName" name="firstName">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="Last Name" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formLastName" name="lastName">
             </div>
             <div class="mb-3">
                 <input type="password" placeholder="Password" class="form-control" autocomplete="off" required
@@ -12,6 +20,10 @@
             <div class="mb-3">
                 <input type="password" placeholder="Confirm Password" class="form-control" autocomplete="off" required
                     [(ngModel)]="formConfirmPassword" name="confirm-password">
+            </div>
+            <div class="mb-3">
+                <input type="date" placeholder="Birthday" class="form-control" autocomplete="off" required
+                    [(ngModel)]="formBirthday" name="date">
             </div>
             <button class="btn btn-success w-100 mb-3" type="submit">Register</button>
             <div class="text-danger mb-2" *ngIf="registerFailed">{{ errorMsg }}</div>
