@@ -43,20 +43,34 @@ namespace ComponentShopAPI.Controllers
             return BadRequest(new { result.Errors });
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutUser(string id, string email, string firstName, string lastName, DateTime birthday)
+        public async Task<IActionResult> PutUser(string email, string firstName, string lastName, DateTime birthday)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            if (User.Identity == null)
+            {
+                return NoContent();
+            }
+            if (User.Identity.Name == null)
+            {
+                return NoContent();
+            }
+
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
             if (user == null)
             {
                 return NoContent();
             }
+
             user.Email = email;
             user.FirstName = firstName;
             user.LastName = lastName;
             user.Birthday = birthday;
+
             await _userManager.UpdateAsync(user);
+
             return Ok();
         }
 
