@@ -208,5 +208,36 @@ namespace ComponentShopAPI.Controllers
 
             return Ok();
         }
+
+        [HttpPut("changePassword")]
+        public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword)
+        {
+            if (User.Identity == null)
+            {
+                return NoContent();
+            }
+            if (User.Identity.Name == null)
+            {
+                return NoContent();
+            }
+
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NoContent();
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, currentPassword);
+            if (!result)
+            {
+                return Unauthorized();
+            }
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, newPassword);
+
+            return Ok();
+        }
     }
 }
