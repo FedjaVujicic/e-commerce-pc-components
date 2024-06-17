@@ -14,7 +14,7 @@ namespace ComponentShopAPI.Entities
         [Column(TypeName = "date")]
         public DateTime Birthday { get; set; }
 
-        [Column(TypeName = "decimal(5, 2)")]
+        [Column(TypeName = "decimal(10, 2)")]
         public double Credits { get; set; }
     }
 }

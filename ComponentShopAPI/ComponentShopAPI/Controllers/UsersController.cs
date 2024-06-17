@@ -157,7 +157,11 @@ namespace ComponentShopAPI.Controllers
             return Ok(new
             {
                 username = user.UserName,
-                role = roles.FirstOrDefault()
+                role = roles.FirstOrDefault(),
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                birthday = user.Birthday,
+                credits = user.Credits
             });
         }
 
@@ -184,6 +188,23 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { error = "User does not exist." });
             }
             await _userManager.RemoveFromRoleAsync(user, roleName);
+
+            return Ok();
+        }
+
+        [HttpPut("credits")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SetCredits(string userId, double credits)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User does not exist." });
+            }
+
+            user.Credits = credits;
+
+            await _userManager.UpdateAsync(user);
 
             return Ok();
         }
