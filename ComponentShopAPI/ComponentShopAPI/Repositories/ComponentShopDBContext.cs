@@ -5,7 +5,7 @@ using Monitor = ComponentShopAPI.Entities.Monitor;
 
 namespace ComponentShopAPI.Repositories
 {
-    public class ComponentShopDBContext : IdentityDbContext<User>
+    public class ComponentShopDBContext : IdentityDbContext<ApplicationUser>
     {
         public ComponentShopDBContext(DbContextOptions options) : base(options)
         {
