@@ -29,6 +29,7 @@ namespace ComponentShopAPI.Controllers
             {
                 UserName = model.Email,
                 Email = model.Email,
+                Birthday = model.Birthday,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             };
