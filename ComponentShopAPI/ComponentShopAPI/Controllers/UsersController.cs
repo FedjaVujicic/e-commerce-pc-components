@@ -21,6 +21,7 @@ namespace ComponentShopAPI.Controllers
         }
 
 
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string id)
