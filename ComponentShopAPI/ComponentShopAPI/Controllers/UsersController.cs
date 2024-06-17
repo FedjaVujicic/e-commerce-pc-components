@@ -210,6 +210,7 @@ namespace ComponentShopAPI.Controllers
             return Ok();
         }
 
+        [NonAction]
         public async Task<ApplicationUser?> GetCurrentUserAsync()
         {
             if (User.Identity == null)
