@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
+import { RegistrationDto } from '../models/registration-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,8 @@ export class UserService {
       }, { withCredentials: true });
   }
 
-  registerUser(formEmail: string, formPassword: string) {
-    return this.http.post(this.url + `/register`,
-      {
-        email: formEmail,
-        password: formPassword,
-      }, { withCredentials: true });
+  registerUser(userDto: RegistrationDto) {
+    return this.http.post(this.url + `/api/Users/register`, userDto, { withCredentials: true });
   }
 
   signOutUser() {

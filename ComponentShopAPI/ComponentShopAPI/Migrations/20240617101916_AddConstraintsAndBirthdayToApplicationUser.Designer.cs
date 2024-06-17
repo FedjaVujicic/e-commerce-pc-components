@@ -4,6 +4,7 @@ using ComponentShopAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComponentShopAPI.Migrations
 {
     [DbContext(typeof(ComponentShopDBContext))]
-    partial class ComponentShopDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240617101916_AddConstraintsAndBirthdayToApplicationUser")]
+    partial class AddConstraintsAndBirthdayToApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace ComponentShopAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Credits")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(5, 2)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

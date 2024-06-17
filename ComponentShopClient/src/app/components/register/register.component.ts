@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../shared/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { RegistrationDto } from '../../models/registration-dto';
 
 @Component({
   selector: 'app-register',
@@ -9,9 +10,13 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  formUsername: string;
+  formEmail: string;
+  formFirstName: string;
+  formLastName: string;
   formPassword: string;
   formConfirmPassword: string;
+  formBirthday: Date;
+  formUser: RegistrationDto = new RegistrationDto();
   registerFailed: boolean = false;
 
   errorMsg: string = "";
@@ -32,16 +37,27 @@ export class RegisterComponent {
       this.registerFailed = true;
       return;
     }
-    this.userService.registerUser(this.formUsername, this.formPassword).subscribe({
+    this.createRegistrationDto();
+    this.userService.registerUser(this.formUser).subscribe({
       next: () => {
         this.router.navigate(["../login"]);
         this.toastr.success("Success");
       },
       error: err => {
         this.registerFailed = true;
-        this.errorMsg = "Username already in use";
+        this.errorMsg = "Registration failed";
         console.log(err);
       }
     });
+  }
+
+  createRegistrationDto() {
+    this.formUser = {
+      email: this.formEmail,
+      password: this.formPassword,
+      firstName: this.formFirstName,
+      lastName: this.formLastName,
+      birthday: this.formBirthday
+    };
   }
 }
