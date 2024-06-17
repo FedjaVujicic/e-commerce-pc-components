@@ -1,3 +1,4 @@
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;
@@ -35,7 +36,7 @@ builder.Services.AddDbContext<ComponentShopDBContext>(
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ComponentShopDBContext>();
 
@@ -54,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
 
