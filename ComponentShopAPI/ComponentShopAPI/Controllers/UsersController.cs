@@ -47,17 +47,7 @@ namespace ComponentShopAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser(string email, string firstName, string lastName, DateTime birthday)
         {
-            if (User.Identity == null)
-            {
-                return NoContent();
-            }
-            if (User.Identity.Name == null)
-            {
-                return NoContent();
-            }
-
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUserAsync();
 
             if (user == null)
             {
@@ -136,17 +126,7 @@ namespace ComponentShopAPI.Controllers
         [HttpGet("userInfo")]
         public async Task<IActionResult> GetUserInfo()
         {
-            if (User.Identity == null)
-            {
-                return NoContent();
-            }
-            if (User.Identity.Name == null)
-            {
-                return NoContent();
-            }
-
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUserAsync();
 
             if (user == null)
             {
@@ -212,17 +192,7 @@ namespace ComponentShopAPI.Controllers
         [HttpPut("changePassword")]
         public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword)
         {
-            if (User.Identity == null)
-            {
-                return NoContent();
-            }
-            if (User.Identity.Name == null)
-            {
-                return NoContent();
-            }
-
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUserAsync();
 
             if (user == null)
             {
@@ -238,6 +208,21 @@ namespace ComponentShopAPI.Controllers
             await _userManager.AddPasswordAsync(user, newPassword);
 
             return Ok();
+        }
+
+        public async Task<ApplicationUser?> GetCurrentUserAsync()
+        {
+            if (User.Identity == null)
+            {
+                return null;
+            }
+            if (User.Identity.Name == null)
+            {
+                return null;
+            }
+
+            var username = User.Identity.Name;
+            return await _userManager.FindByNameAsync(username);
         }
     }
 }
