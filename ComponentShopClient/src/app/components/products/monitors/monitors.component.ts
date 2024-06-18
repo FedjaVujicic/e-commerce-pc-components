@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 import { UserService } from '../../../shared/user.service';
 import { Monitor } from '../../../models/monitor';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-monitors',
@@ -12,7 +13,7 @@ export class MonitorsComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public monitorService: MonitorService, public userService: UserService) { }
+  constructor(public monitorService: MonitorService, public userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.monitorService.getMonitors();
@@ -81,4 +82,11 @@ export class MonitorsComponent {
     })
   }
 
+  goToMonitor(id: number): void {
+    this.monitorService.getMonitor(id).subscribe((res: Monitor) => {
+      this.monitorService.currentMonitor = res;
+      this.router.navigate(["../monitor-info"]);
+    });
+  }
 }
+

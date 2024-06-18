@@ -16,6 +16,8 @@ import { GpusComponent } from './components/products/gpus/gpus.component';
 import { GpusFormComponent } from './components/products/gpus/gpus-form/gpus-form.component';
 import { MonitorsSearchComponent } from './components/products/monitors/monitors-search/monitors-search.component';
 import { GpusSearchComponent } from './components/products/gpus/gpus-search/gpus-search.component';
+import { GpuInfoComponent } from './components/products/gpu-info/gpu-info.component';
+import { MonitorInfoComponent } from './components/products/monitor-info/monitor-info.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { GpusSearchComponent } from './components/products/gpus/gpus-search/gpus
     GpusFormComponent,
     MonitorsSearchComponent,
     GpusSearchComponent,
+    GpuInfoComponent,
+    MonitorInfoComponent,
   ],
   imports: [
     BrowserModule,

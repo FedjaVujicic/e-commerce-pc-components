@@ -5,6 +5,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { GpusComponent } from './components/products/gpus/gpus.component';
+import { GpuInfoComponent } from './components/products/gpu-info/gpu-info.component';
+import { MonitorInfoComponent } from './components/products/monitor-info/monitor-info.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: "gpus",
     component: GpusComponent,
+  },
+  {
+    path: "gpu-info",
+    component: GpuInfoComponent,
+  },
+  {
+    path: "monitor-info",
+    component: MonitorInfoComponent,
   }
 ];
 

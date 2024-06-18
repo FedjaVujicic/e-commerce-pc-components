@@ -35,7 +35,7 @@
                 </div>
                 <ul class="list-group mb-2 flex-grow-1">
                     <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
-                        *ngFor="let gpu of gpuService.gpuList">
+                        *ngFor="let gpu of gpuService.gpuList" (click)="goToGpu(gpu.id)">
                         <div class="d-flex flex-grow-1">
                             <div class="mx-2">
                                 <img style="width: 120px; height: 120px; object-fit: cover;"

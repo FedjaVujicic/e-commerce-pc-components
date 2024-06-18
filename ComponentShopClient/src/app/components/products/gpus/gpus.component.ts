@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { GpuService } from '../../../shared/gpu.service';
 import { UserService } from '../../../shared/user.service';
 import { Gpu } from '../../../models/gpu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gpus',
@@ -12,7 +13,7 @@ export class GpusComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public gpuService: GpuService, public userService: UserService) { }
+  constructor(public gpuService: GpuService, public userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.gpuService.getGpus();
@@ -79,5 +80,12 @@ export class GpusComponent {
       }
       return 0;
     })
+  }
+
+  goToGpu(id: number): void {
+    this.gpuService.getGpu(id).subscribe((res: Gpu) => {
+      this.gpuService.currentGpu = res;
+      this.router.navigate(["../gpu-info"]);
+    });
   }
 }
