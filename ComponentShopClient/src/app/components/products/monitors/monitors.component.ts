@@ -85,7 +85,7 @@ export class MonitorsComponent {
   goToMonitor(id: number): void {
     this.monitorService.getMonitor(id).subscribe((res: Monitor) => {
       this.monitorService.currentMonitor = res;
-      this.router.navigate(["../monitor-info"]);
+      this.router.navigate(["../monitor-info", id]);
     });
   }
 }

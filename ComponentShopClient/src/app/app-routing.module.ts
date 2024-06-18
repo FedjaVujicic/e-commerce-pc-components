@@ -30,11 +30,11 @@ const routes: Routes = [
     component: GpusComponent,
   },
   {
-    path: "gpu-info",
+    path: "gpu-info/:id",
     component: GpuInfoComponent,
   },
   {
-    path: "monitor-info",
+    path: "monitor-info/:id",
     component: MonitorInfoComponent,
   }
 ];

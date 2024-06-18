@@ -85,7 +85,7 @@ export class GpusComponent {
   goToGpu(id: number): void {
     this.gpuService.getGpu(id).subscribe((res: Gpu) => {
       this.gpuService.currentGpu = res;
-      this.router.navigate(["../gpu-info"]);
+      this.router.navigate(["../gpu-info", id]);
     });
   }
 }
