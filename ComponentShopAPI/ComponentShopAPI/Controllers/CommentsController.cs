@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Entities;
+﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,13 +19,6 @@ namespace ComponentShopAPI.Controllers
         {
             _context = context;
             _userManager = userManager;
-        }
-
-        class CommentDto(string userName, string productName, string text)
-        {
-            public string UserName { get; set; } = userName;
-            public string ProductName { get; set; } = productName;
-            public string Text { get; set; } = text;
         }
 
         [HttpGet]
@@ -47,7 +41,7 @@ namespace ComponentShopAPI.Controllers
                     throw new BadHttpRequestException("Product not found");
                 }
 
-                var commentDto = new CommentDto(user.UserName, product.Name, comment.Text);
+                var commentDto = new CommentDto(user.FirstName, user.LastName, product.Name, comment.Text);
                 commentDtos.Add(commentDto);
             }
 
