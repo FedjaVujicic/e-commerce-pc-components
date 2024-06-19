@@ -1,0 +1,18 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommentService {
+
+  url: string = `${environment.apiBaseUrl}/Comments`;
+
+  constructor(private http: HttpClient) { }
+
+  getComments(productId: number): Observable<Object> {
+    return this.http.get(this.url + `?productId=${productId}`);
+  }
+}
