@@ -49,7 +49,7 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(int productId, string text)
+        public async Task<ActionResult<Comment>> PostComment(int productId, [FromBody] string text)
         {
             var user = await GetCurrentUserAsync();
 
