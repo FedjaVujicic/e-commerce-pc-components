@@ -42,7 +42,9 @@ export class GpuInfoComponent {
   postComment(): void {
     this.commentService.postComment(this.productId, this.commentText).subscribe(() => {
       this.toastr.success("Success");
-      this.commentService.getComments(this.productId);
+      this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
+        this.userComments = res;
+      });
     });
   }
 }
