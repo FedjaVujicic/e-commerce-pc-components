@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { MonitorService } from '../../../shared/monitor.service';
 import { ActivatedRoute } from '@angular/router';
 import { Monitor } from '../../../models/monitor';
+import { CommentService } from '../../../shared/comment.service';
+import { UserComment } from '../../../models/user-comment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-monitor-info',
@@ -10,7 +13,15 @@ import { Monitor } from '../../../models/monitor';
 })
 export class MonitorInfoComponent {
 
-  constructor(public monitorService: MonitorService, private route: ActivatedRoute) { }
+  userComments: Array<UserComment> = new Array<UserComment>();
+  productId: number;
+
+  // Comment that the user is submitting
+  commentText: string = "";
+
+  errorMessage: string = "";
+
+  constructor(public monitorService: MonitorService, public commentService: CommentService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.retrieveMonitorFromRoute();
@@ -18,11 +29,28 @@ export class MonitorInfoComponent {
 
   retrieveMonitorFromRoute(): void {
     this.route.paramMap.subscribe(params => {
-      const id = +params.get('id');
-      if (id) {
-        this.monitorService.getMonitor(id).subscribe((res: Monitor) => {
+      this.productId = +params.get('id');
+      if (this.productId) {
+        this.monitorService.getMonitor(this.productId).subscribe((res: Monitor) => {
           this.monitorService.currentMonitor = res;
         });
+        this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
+          this.userComments = res;
+        });
+      }
+    });
+  }
+
+  postComment(): void {
+    this.commentService.postComment(this.productId, this.commentText).subscribe({
+      next: () => {
+        this.toastr.success("Success");
+        this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
+          this.userComments = res;
+        });
+      },
+      error: err => {
+        this.errorMessage = err.error.message;
       }
     });
   }

@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-8 mt-5">
         <div class="d-flex">
             <div class="me-3">
                 <img style="max-height: 200px; object-fit: cover;"
@@ -19,24 +19,20 @@
                 <button class=" btn btn-success my-2 fs-5 px-3">Add to cart</button>
             </div>
         </div>
-        <div class="fw-bold fs-4 bg-dark text-white text-center my-4">Reviews</div>
-        <ul>
-            <li class="mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, veritatis dolorem
-                ipsa beatae nemo
-                ipsam reprehenderit, expedita saepe fuga deleniti aut quis, error laborum repellendus deserunt labore
-                iusto consequuntur laudantium.</li>
-            <li class="mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, veritatis dolorem
-                ipsa beatae nemo
-                ipsam reprehenderit, expedita saepe fuga deleniti aut quis, error laborum repellendus deserunt labore
-                iusto consequuntur laudantium.</li>
-            <li class="mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, veritatis dolorem
-                ipsa beatae nemo
-                ipsam reprehenderit, expedita saepe fuga deleniti aut quis, error laborum repellendus deserunt labore
-                iusto consequuntur laudantium.</li>
-            <li class="mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, veritatis dolorem
-                ipsa beatae nemo
-                ipsam reprehenderit, expedita saepe fuga deleniti aut quis, error laborum repellendus deserunt labore
-                iusto consequuntur laudantium.</li>
-        </ul>
+        <div class="fw-bold fs-4 bg-dark text-white text-center my-4">User reviews</div>
+        <div class="fs-5" *ngIf="userComments.length == 0">No comments yet</div>
+        <div class="my-2 text-danger" *ngIf="errorMessage !== ''"> {{ errorMessage }} </div>
+        <form class="form-floating" (submit)="postComment()" ngNativeValidate>
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                style="height: 100px" [(ngModel)]="commentText" name="commentText"></textarea>
+            <label for="floatingTextarea2">Write something about this product...</label>
+            <button type="submit" class="btn btn-success w-100 mt-1">Submit</button>
+        </form>
+        <div class="mb-5" *ngFor="let comment of userComments">
+            <div class="mt-3">
+                <p class="fw-bold fs-4">{{ comment.firstName }} {{ comment.lastName }}</p>
+                <p class="fs-5">{{ comment.text }}</p>
+            </div>
+        </div>
     </div>
 </div>
