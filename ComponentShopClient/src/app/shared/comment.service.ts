@@ -13,10 +13,10 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getComments(productId: number): Observable<Object> {
-    return this.http.get(this.url + `?productId=${productId}`);
+    return this.http.get(this.url + `?productId=${productId}`, { withCredentials: true });
   }
 
   postComment(productId: number, text: string): Observable<Object> {
-    return this.http.post(this.url + `?productId=${productId}`, { productId: productId, text: text });
+    return this.http.post(this.url + `?productId=${productId}`, { productId: productId, text: text }, { withCredentials: true });
   }
 }
