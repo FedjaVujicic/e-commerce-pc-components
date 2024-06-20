@@ -43,7 +43,11 @@ export class UserService {
         }
         localStorage.setItem("currentUser", JSON.stringify({
           username: res.body.username,
-          role: res.body.role
+          role: res.body.role,
+          firstName: res.body.firstName,
+          lastName: res.body.lastName,
+          birthday: res.body.birthday,
+          credits: res.body.credits
         }
         ));
         this.isLoggedIn = true;

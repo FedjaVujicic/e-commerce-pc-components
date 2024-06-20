@@ -8,11 +8,15 @@ import { UserService } from './shared/user.service';
 })
 export class AppComponent {
   title = 'ComponentShopClient';
+  currentUserFirstName: string = "";
 
   constructor(public userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe();
+    this.userService.getUserInfo().subscribe(() => {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      this.currentUserFirstName = currentUser.firstName;
+    });
   }
 
   signOut() {

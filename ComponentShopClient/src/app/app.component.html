@@ -4,10 +4,21 @@
             <a href="" class="navbar-brand text-white fw-bold">PC Component Shop</a>
             <ul class="navbar-nav d-flex flex-grow-1 justify-content-end gap-5">
                 <li class="nav-item" *ngIf="!userService.isLoggedIn">
-                    <a routerLink="../login" class="nav-link text-white">Login</a>
+                    <a routerLink="../login" class="nav-link text-white">Sign In</a>
                 </li>
                 <li class="nav-item" *ngIf="userService.isLoggedIn">
-                    <a (click)="signOut()" class="nav-link text-white mouse-hover">Logout</a>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle bg-dark border-0" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="ms-2">{{ currentUserFirstName }}</span>
+                        </button>
+                        <ul class="dropdown-menu bg-dark">
+                            <li><a class="dropdown-item bg-dark text-white" href="#">Profile</a></li>
+                            <li><a (click)="signOut()" class="dropdown-item bg-dark text-white" href="#">Sign Out</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link text-white">
