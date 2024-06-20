@@ -19,6 +19,8 @@ export class MonitorInfoComponent {
   // Comment that the user is submitting
   commentText: string = "";
 
+  errorMessage: string = "";
+
   constructor(public monitorService: MonitorService, public commentService: CommentService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -40,11 +42,16 @@ export class MonitorInfoComponent {
   }
 
   postComment(): void {
-    this.commentService.postComment(this.productId, this.commentText).subscribe(() => {
-      this.toastr.success("Success");
-      this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
-        this.userComments = res;
-      });
+    this.commentService.postComment(this.productId, this.commentText).subscribe({
+      next: () => {
+        this.toastr.success("Success");
+        this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
+          this.userComments = res;
+        });
+      },
+      error: err => {
+        this.errorMessage = err.error.message;
+      }
     });
   }
 }

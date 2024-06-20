@@ -19,6 +19,8 @@ export class GpuInfoComponent {
   // Comment that the user is submitting
   commentText: string = "";
 
+  errorMessage: string = "";
+
   constructor(public gpuService: GpuService, public commentService: CommentService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -40,11 +42,16 @@ export class GpuInfoComponent {
   }
 
   postComment(): void {
-    this.commentService.postComment(this.productId, this.commentText).subscribe(() => {
-      this.toastr.success("Success");
-      this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
-        this.userComments = res;
-      });
+    this.commentService.postComment(this.productId, this.commentText).subscribe({
+      next: () => {
+        this.toastr.success("Success");
+        this.commentService.getComments(this.productId).subscribe((res: Array<UserComment>) => {
+          this.userComments = res;
+        });
+      },
+      error: err => {
+        this.errorMessage = err.error.message;
+      }
     });
   }
 }

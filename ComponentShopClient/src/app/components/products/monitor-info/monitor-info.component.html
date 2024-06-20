@@ -21,6 +21,7 @@
         </div>
         <div class="fw-bold fs-4 bg-dark text-white text-center my-4">User reviews</div>
         <div class="fs-5" *ngIf="userComments.length == 0">No comments yet</div>
+        <div class="my-2 text-danger" *ngIf="errorMessage !== ''"> {{ errorMessage }} </div>
         <form class="form-floating" (submit)="postComment()" ngNativeValidate>
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
                 style="height: 100px" [(ngModel)]="commentText" name="commentText"></textarea>

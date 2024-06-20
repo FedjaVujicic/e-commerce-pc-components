@@ -56,7 +56,7 @@ namespace ComponentShopAPI.Controllers
 
             if (user == null)
             {
-                return BadRequest("Must be logged in to comment");
+                return BadRequest(new { message = "Must be logged in to comment" });
             }
 
             var userId = user.Id;
