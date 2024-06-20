@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <h1 class="text-center mb-5 fw-bold">User details</h1>
+    <div class="d-flex justify-content-center align-items-center">
+        <div>
+            <img src="assets/stock-profile.jpg" style="max-height: 200px;">
+        </div>
+        <ng-container *ngIf="!isChangingDetails">
+            <div class="ms-5">
+                <div class="mb-2">
+                    <span class="fs-5 fw-bold">First name: </span>
+                    <span class="fs-5">{{ user.firstName }}</span>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-5 fw-bold">Last name: </span>
+                    <span class="fs-5">{{ user.lastName }}</span>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-5 fw-bold">E-mail: </span>
+                    <span class="fs-5">{{ user.username }}</span>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-5 fw-bold">Date of birth: </span>
+                    <span class="fs-5">{{ user.birthday.toDateString() }}</span>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-5 fw-bold">Credits: </span>
+                    <span class="fs-5">{{ user.credits }} €</span>
+                </div>
+
+                <div *ngIf="isChangingPassword">
+                    <input class="form-control mb-2" type="password" placeholder="Enter current password"
+                        name="currentPassword" [(ngModel)]="currentPassword">
+                    <input class="form-control mb-2" type="password" placeholder="Enter new password" name="newPassword"
+                        [(ngModel)]="newPassword">
+                    <input class="form-control mb-2" type="password" placeholder="Confim new password"
+                        name="confirmPassword" [(ngModel)]="confirmPassword">
+
+                    <div class="text-danger mb-2" *ngIf="newPassword !== confirmPassword">Passwords must match</div>
+
+                    <button class="btn btn-success fs-5" (click)="changePassword()">Confirm</button>
+                    <button class="btn btn-light-gray fs-5 ms-2" (click)="hidePasswordForm()">Cancel</button>
+                </div>
+
+                <button class="btn btn-success fs-5" (click)="showDetailsForm()" *ngIf="!isChangingPassword">Edit
+                    details</button>
+                <button class="btn btn-success fs-5 ms-2" (click)="showPasswordForm()"
+                    *ngIf="!isChangingPassword">Change password</button>
+            </div>
+
+        </ng-container>
+
+        <div class="ms-5" *ngIf="isChangingDetails">
+            <div class="mb-2">
+                <label class="fs-5 fw-bold">E-mail:</label>
+                <input type="email" class="form-control" [(ngModel)]="user.username" name="username" disabled>
+            </div>
+            <div class="d-flex mb-2">
+                <div>
+                    <label class="fs-5 fw-bold">First name:</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.firstName" name="firstName">
+                </div>
+                <div class="ms-2">
+                    <label class="fs-5 fw-bold">Last name:</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastName">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="fs-5 fw-bold">Date of birth:</label>
+                <input type="date" class="form-control" [(ngModel)]="user.birthday" name="birthday">
+            </div>
+            <button class="btn btn-success fs-5 me-2 mt-2" (click)="onSubmit()">Submit</button>
+            <button class="btn btn-light-gray fs-5" (click)="hideDetailsForm()">Cancel</button>
+        </div>
+
+    </div>
+</div>

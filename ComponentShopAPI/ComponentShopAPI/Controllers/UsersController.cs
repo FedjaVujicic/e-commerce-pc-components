@@ -44,14 +44,13 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser(string email, string firstName, string lastName, DateTime birthday)
         {
             var user = await GetCurrentUserAsync();
 
             if (user == null)
             {
-                return NoContent();
+                return NotFound(new { message = "User not found" });
             }
 
             user.Email = email;
@@ -152,7 +151,7 @@ namespace ComponentShopAPI.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest(new { error = "User does not exist." });
+                return NotFound(new { message = "User not found" });
             }
             await _userManager.AddToRoleAsync(user, roleName);
             return Ok();
@@ -165,7 +164,7 @@ namespace ComponentShopAPI.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest(new { error = "User does not exist." });
+                return NotFound(new { message = "User not found" });
             }
             await _userManager.RemoveFromRoleAsync(user, roleName);
 
@@ -179,7 +178,7 @@ namespace ComponentShopAPI.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest(new { message = "User does not exist." });
+                return NotFound(new { message = "User not found" });
             }
 
             user.Credits = credits;
@@ -196,7 +195,7 @@ namespace ComponentShopAPI.Controllers
 
             if (user == null)
             {
-                return NoContent();
+                return NotFound(new { message = "User not found" });
             }
 
             var result = await _userManager.CheckPasswordAsync(user, currentPassword);

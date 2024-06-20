@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { RegistrationDto } from '../models/registration-dto';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,14 @@ export class UserService {
         this.isLoggedIn = true;
       })
     );
+  }
+
+  putUser(user: User) {
+    return this.http.put(this.url + `/api/Users?email=${user.username}&firstName=${user.firstName}&lastName=${user.lastName}&birthday=${user.birthday}`, {}, { withCredentials: true });
+  }
+
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.http.put(this.url + `/api/Users/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`, {}, { withCredentials: true });
   }
 
   isAdminLoggedIn() {

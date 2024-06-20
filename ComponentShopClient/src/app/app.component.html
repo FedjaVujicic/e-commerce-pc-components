@@ -14,8 +14,9 @@
                             <span class="ms-2">{{ currentUserFirstName }}</span>
                         </button>
                         <ul class="dropdown-menu bg-dark">
-                            <li><a class="dropdown-item bg-dark text-white" href="#">Profile</a></li>
-                            <li><a (click)="signOut()" class="dropdown-item bg-dark text-white" href="#">Sign Out</a>
+                            <li><a class="dropdown-item bg-dark text-white mouse-hover" routerLink="profile">Profile</a>
+                            </li>
+                            <li><a (click)="signOut()" class="dropdown-item bg-dark text-white mouse-hover">Sign Out</a>
                             </li>
                         </ul>
                     </div>

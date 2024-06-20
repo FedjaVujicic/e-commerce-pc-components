@@ -18,6 +18,7 @@ import { MonitorsSearchComponent } from './components/products/monitors/monitors
 import { GpusSearchComponent } from './components/products/gpus/gpus-search/gpus-search.component';
 import { GpuInfoComponent } from './components/products/gpu-info/gpu-info.component';
 import { MonitorInfoComponent } from './components/products/monitor-info/monitor-info.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MonitorInfoComponent } from './components/products/monitor-info/monitor
     GpusSearchComponent,
     GpuInfoComponent,
     MonitorInfoComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
