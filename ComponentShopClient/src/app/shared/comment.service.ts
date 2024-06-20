@@ -15,4 +15,8 @@ export class CommentService {
   getComments(productId: number): Observable<Object> {
     return this.http.get(this.url + `?productId=${productId}`);
   }
+
+  postComment(productId: number, text: string): Observable<Object> {
+    return this.http.post(this.url + `?productId=${productId}`, { productId: productId, text: text });
+  }
 }

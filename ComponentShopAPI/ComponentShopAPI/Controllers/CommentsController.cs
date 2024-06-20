@@ -1,5 +1,6 @@
 ﻿using ComponentShopAPI.Dtos;
 using ComponentShopAPI.Entities;
+using ComponentShopAPI.Helpers;
 using ComponentShopAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -49,7 +50,7 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(int productId, [FromBody] string text)
+        public async Task<ActionResult<Comment>> PostComment(CommentPostParameters parameters)
         {
             var user = await GetCurrentUserAsync();
 
@@ -62,8 +63,8 @@ namespace ComponentShopAPI.Controllers
             var comment = new Comment
             {
                 UserId = userId,
-                ProductId = productId,
-                Text = text
+                ProductId = parameters.ProductId,
+                Text = parameters.Text
             };
 
             _context.Comments.Add(comment);
