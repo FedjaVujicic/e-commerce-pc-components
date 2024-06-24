@@ -37,11 +37,41 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = $"Product with the id {productId} does not exist." });
             }
 
-            var cart = await _cartManager.GetOrCreateCartAsync(user.Id);
+            var cart = await _cartManager.GetCartAsync(user.Id);
+            if (cart == null)
+            {
+                cart = await _cartManager.CreateCartAsync(user.Id);
+            }
 
             await _cartManager.AddProductToCartAsync(cart, product);
 
             return Ok(new { message = $"Added product {product.Name} to cart for user {user.UserName}." });
+        }
+
+        [HttpPut("remove")]
+        public async Task<ActionResult> RemoveFromCart([FromQuery] int productId)
+        {
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return BadRequest(new { message = "Must be logged in to purchase." });
+            }
+
+            var product = await _cartManager.GetProductByIdAsync(productId);
+            if (product == null)
+            {
+                return BadRequest(new { message = $"Product with the id {productId} does not exist." });
+            }
+
+            var cart = await _cartManager.GetCartAsync(user.Id);
+            if (cart == null)
+            {
+                return BadRequest(new { message = $"No products in cart for user {user.UserName}" });
+            }
+
+            await _cartManager.RemoveProductFromCartAsync(cart, product);
+
+            return Ok(new { message = $"Removed product {product.Name} from cart for user {user.UserName}." });
         }
 
         private async Task<ApplicationUser?> GetCurrentUserAsync()

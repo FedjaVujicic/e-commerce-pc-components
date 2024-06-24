@@ -27,16 +27,47 @@ namespace ComponentShopAPI.Services.CartManager
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Cart> GetOrCreateCartAsync(string userId)
+        public async Task RemoveProductFromCartAsync(Cart cart, Product product)
         {
-            var cart = _context.Carts.FirstOrDefault(c => c.UserId == userId);
-            if (cart == null)
+            var cartProduct = await GetCartProduct(cart, product);
+            if (cartProduct == null || cartProduct.Quantity == 0)
             {
-                cart = new Cart { UserId = userId };
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
+                throw new BadHttpRequestException($"Product {product.Name} is not in cart");
             }
+
+            cartProduct.Quantity -= 1;
+            if (cartProduct.Quantity <= 0)
+            {
+                cart.Products.Remove(product);
+            }
+            await _context.SaveChangesAsync();
+
+            if (IsCartEmpty(cart))
+            {
+                await DeleteCartAsync(cart);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCartAsync(Cart cart)
+        {
+            _context.Carts.Remove(cart);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Cart> CreateCartAsync(string userId)
+        {
+            var cart = new Cart { UserId = userId };
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+
             return cart;
+        }
+
+        public async Task<Cart?> GetCartAsync(string userId)
+        {
+            return await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
@@ -47,6 +78,12 @@ namespace ComponentShopAPI.Services.CartManager
         private async Task<CartProduct?> GetCartProduct(Cart cart, Product product)
         {
             return await _context.CartProduct.FirstOrDefaultAsync(cp => cp.CartId == cart.Id && cp.ProductId == product.Id);
+        }
+
+        private bool IsCartEmpty(Cart cart)
+        {
+            var productsInCart = _context.CartProduct.Where(cp => cp.CartId == cart.Id).ToList();
+            return productsInCart.Count <= 0;
         }
     }
 }

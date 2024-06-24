@@ -6,7 +6,11 @@ namespace ComponentShopAPI.Services.CartManager
     {
         public Task AddProductToCartAsync(Cart cart, Product product);
 
-        public Task<Cart> GetOrCreateCartAsync(string userId);
+        public Task RemoveProductFromCartAsync(Cart cart, Product product);
+
+        public Task<Cart> CreateCartAsync(string userId);
+
+        public Task<Cart?> GetCartAsync(string userId);
 
         public Task<Product?> GetProductByIdAsync(int id);
     }
