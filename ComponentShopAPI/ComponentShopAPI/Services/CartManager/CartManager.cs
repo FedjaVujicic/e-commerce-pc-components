@@ -15,7 +15,15 @@ namespace ComponentShopAPI.Services.CartManager
 
         public async Task AddProductToCartAsync(Cart cart, Product product)
         {
-            cart.Products.Add(product);
+            var cartProduct = await GetCartProduct(cart, product);
+            if (cartProduct == null)
+            {
+                cart.Products.Add(product);
+                await _context.SaveChangesAsync();
+            }
+
+            cartProduct = await GetCartProduct(cart, product);
+            cartProduct!.Quantity += 1;
             await _context.SaveChangesAsync();
         }
 
@@ -34,6 +42,11 @@ namespace ComponentShopAPI.Services.CartManager
         public async Task<Product?> GetProductByIdAsync(int id)
         {
             return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        private async Task<CartProduct?> GetCartProduct(Cart cart, Product product)
+        {
+            return await _context.CartProduct.FirstOrDefaultAsync(cp => cp.CartId == cart.Id && cp.ProductId == product.Id);
         }
     }
 }

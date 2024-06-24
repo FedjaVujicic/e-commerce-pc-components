@@ -29,5 +29,6 @@ namespace ComponentShopAPI.Entities
         public string ImageName { get; set; } = "";
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+        public List<CartProduct> CartProducts { get; } = [];
     }
 }

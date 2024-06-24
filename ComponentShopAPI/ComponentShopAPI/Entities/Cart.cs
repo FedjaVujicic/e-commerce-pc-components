@@ -6,5 +6,6 @@
         public string UserId { get; set; } = "";
         public ApplicationUser User { get; set; } = null!;
         public List<Product> Products { get; } = [];
+        public List<CartProduct> CartProducts { get; } = [];
     }
 }

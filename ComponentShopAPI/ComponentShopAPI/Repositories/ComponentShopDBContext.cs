@@ -17,7 +17,8 @@ namespace ComponentShopAPI.Repositories
 
             modelBuilder.Entity<Cart>()
                 .HasMany(c => c.Products)
-                .WithMany();
+                .WithMany()
+                .UsingEntity<CartProduct>();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -25,5 +26,6 @@ namespace ComponentShopAPI.Repositories
         public DbSet<Gpu> Gpus { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartProduct> CartProduct { get; set; }
     }
 }
