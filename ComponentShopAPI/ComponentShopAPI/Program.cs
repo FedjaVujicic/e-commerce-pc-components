@@ -1,5 +1,6 @@
 using ComponentShopAPI.Entities;
 using ComponentShopAPI.Repositories;
+using ComponentShopAPI.Services.CartManager;
 using ComponentShopAPI.Services.Image;
 using ComponentShopAPI.Services.Pagination;
 using ComponentShopAPI.Services.ProductDtoFactory;
@@ -45,6 +46,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPaginationService, PaginationService>();
 builder.Services.AddScoped<IProductDtoFactory, ProductDtoFactory>();
 builder.Services.AddScoped<IProductFactory, ProductFactory>();
+builder.Services.AddScoped<ICartManager, CartManager>();
 
 var app = builder.Build();
 
