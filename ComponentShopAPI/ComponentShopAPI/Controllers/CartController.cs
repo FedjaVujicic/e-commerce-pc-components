@@ -8,13 +8,13 @@ namespace ComponentShopAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartsController : ControllerBase
+    public class CartController : ControllerBase
     {
         private readonly ComponentShopDBContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICartManager _cartManager;
 
-        public CartsController(ComponentShopDBContext context, UserManager<ApplicationUser> userManager,
+        public CartController(ComponentShopDBContext context, UserManager<ApplicationUser> userManager,
             ICartManager cartManager)
         {
             _context = context;
