@@ -78,15 +78,6 @@ namespace ComponentShopAPI.Services.CartManager
             return await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
-        public async Task<Product?> GetProductByIdAsync(int id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
-        }
-        public Product? GetProductById(int id)
-        {
-            return _context.Products.FirstOrDefault(p => p.Id == id);
-        }
-
         private async Task<CartProduct?> GetCartProduct(Cart cart, Product product)
         {
             return await _context.CartProduct.FirstOrDefaultAsync(cp => cp.CartId == cart.Id && cp.ProductId == product.Id);
@@ -110,7 +101,7 @@ namespace ComponentShopAPI.Services.CartManager
             double total = 0;
             foreach (var cartProduct in cartProducts)
             {
-                var product = await GetProductByIdAsync(cartProduct.ProductId);
+                var product = await _context.Products.FindAsync(cartProduct.ProductId);
                 if (product == null)
                 {
                     throw new Exception("Product from cart was deleted");
@@ -127,7 +118,7 @@ namespace ComponentShopAPI.Services.CartManager
 
             foreach (var cartProduct in cartProducts)
             {
-                var product = await GetProductByIdAsync(cartProduct.ProductId);
+                var product = await _context.Products.FindAsync(cartProduct.ProductId);
                 if (product == null)
                 {
                     throw new Exception("Product from cart was deleted");
@@ -147,7 +138,7 @@ namespace ComponentShopAPI.Services.CartManager
 
             var products = cartProducts.Select(cp =>
             {
-                var product = GetProductById(cp.ProductId);
+                var product = _context.Products.Find(cp.ProductId);
                 return product;
             }).ToList();
 

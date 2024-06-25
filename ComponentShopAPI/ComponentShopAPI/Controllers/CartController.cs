@@ -51,7 +51,7 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = "Must be logged in to purchase." });
             }
 
-            var product = await _cartManager.GetProductByIdAsync(productId);
+            var product = await _context.Products.FindAsync(productId);
             if (product == null)
             {
                 return BadRequest(new { message = $"Product with the id {productId} does not exist." });
@@ -77,7 +77,7 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = "Must be logged in to purchase." });
             }
 
-            var product = await _cartManager.GetProductByIdAsync(productId);
+            var product = await _context.Products.FindAsync(productId);
             if (product == null)
             {
                 return BadRequest(new { message = $"Product with the id {productId} does not exist." });
