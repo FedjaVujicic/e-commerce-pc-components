@@ -8,19 +8,10 @@ import { CartService } from '../../shared/cart.service';
 })
 export class CartComponent {
 
-  errorMessage: string = "";
-
   constructor(public cartService: CartService) { }
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe({
-      next: res => {
-
-      },
-      error: err => {
-        this.errorMessage = err.message;
-      }
-    });
+    this.cartService.getCart();
   }
 
 }
