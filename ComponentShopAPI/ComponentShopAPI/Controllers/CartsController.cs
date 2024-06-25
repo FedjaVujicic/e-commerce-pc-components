@@ -69,7 +69,7 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = $"No products in cart for user {user.UserName}" });
             }
 
-            await _cartManager.RemoveProductFromCartAsync(cart, product);
+            await _cartManager.RemoveProductFromCartAsync(cart, product, 1);
 
             return Ok(new { message = $"Removed product {product.Name} from cart for user {user.UserName}." });
         }

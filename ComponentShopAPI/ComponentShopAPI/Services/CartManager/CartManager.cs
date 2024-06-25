@@ -27,16 +27,20 @@ namespace ComponentShopAPI.Services.CartManager
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveProductFromCartAsync(Cart cart, Product product)
+        public async Task RemoveProductFromCartAsync(Cart cart, Product product, int quantity)
         {
             var cartProduct = await GetCartProduct(cart, product);
             if (cartProduct == null || cartProduct.Quantity == 0)
             {
                 throw new BadHttpRequestException($"Product {product.Name} is not in cart");
             }
+            if (quantity > cartProduct.Quantity)
+            {
+                throw new BadHttpRequestException($"Not enough products {product.Name} in cart.");
+            }
 
-            cartProduct.Quantity -= 1;
-            if (cartProduct.Quantity <= 0)
+            cartProduct.Quantity -= quantity;
+            if (cartProduct.Quantity == 0)
             {
                 cart.Products.Remove(product);
             }
@@ -125,12 +129,7 @@ namespace ComponentShopAPI.Services.CartManager
 
                 product.Quantity -= cartProduct.Quantity;
 
-                // This is really bad and has to be fixed
-                int quantity = cartProduct.Quantity;
-                for (int i = 0; i < quantity; i++)
-                {
-                    await RemoveProductFromCartAsync(cart, product);
-                }
+                await RemoveProductFromCartAsync(cart, product, cartProduct.Quantity);
             }
         }
     }
