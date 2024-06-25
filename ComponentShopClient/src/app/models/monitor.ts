@@ -1,13 +1,8 @@
-export class Monitor {
-    id: number = 0;
-    name: string;
-    price: number;
-    availability: boolean;
-    quantity: number;
+import { Product } from "./product";
+
+export class Monitor extends Product {
     size: number;
     width: number;
     height: number;
     refreshRate: number;
-    imageName: string = "";
-    imageFile: any = null;
 };

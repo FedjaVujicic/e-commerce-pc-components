@@ -23,7 +23,7 @@ namespace ComponentShopAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCarts()
+        public async Task<ActionResult> GetCart()
         {
             var user = await GetCurrentUserAsync();
             if (user == null)

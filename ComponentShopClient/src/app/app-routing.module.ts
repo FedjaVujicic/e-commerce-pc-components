@@ -8,6 +8,7 @@ import { GpusComponent } from './components/products/gpus/gpus.component';
 import { GpuInfoComponent } from './components/products/gpu-info/gpu-info.component';
 import { MonitorInfoComponent } from './components/products/monitor-info/monitor-info.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: "profile",
     component: ProfileComponent,
+  },
+  {
+    path: "cart",
+    component: CartComponent,
   },
 ];
 
