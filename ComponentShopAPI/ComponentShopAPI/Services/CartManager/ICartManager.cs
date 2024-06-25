@@ -13,5 +13,8 @@ namespace ComponentShopAPI.Services.CartManager
         public Task<Cart?> GetCartAsync(string userId);
 
         public Task<Product?> GetProductByIdAsync(int id);
+        public bool IsCartEmpty(Cart cart);
+        public Task<double> GetCartTotalAsync(Cart cart);
+        public Task ProcessPurchaseAsync(Cart cart, ApplicationUser user);
     }
 }

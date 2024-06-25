@@ -74,6 +74,32 @@ namespace ComponentShopAPI.Controllers
             return Ok(new { message = $"Removed product {product.Name} from cart for user {user.UserName}." });
         }
 
+        [HttpPut("purchase")]
+        public async Task<ActionResult> Purchase()
+        {
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return BadRequest(new { message = "Must be logged in to purchase." });
+            }
+
+            var cart = await _cartManager.GetCartAsync(user.Id);
+            if (cart == null || _cartManager.IsCartEmpty(cart))
+            {
+                return BadRequest(new { message = $"No products in cart for user {user.UserName}." });
+            }
+
+            var total = await _cartManager.GetCartTotalAsync(cart);
+            if (user.Credits < total)
+            {
+                return BadRequest(new { message = "Not enough credits for purchase." });
+            }
+
+            await _cartManager.ProcessPurchaseAsync(cart, user);
+
+            return Ok(new { message = "Purchase successful." });
+        }
+
         private async Task<ApplicationUser?> GetCurrentUserAsync()
         {
             if (User.Identity == null || User.Identity.Name == null)

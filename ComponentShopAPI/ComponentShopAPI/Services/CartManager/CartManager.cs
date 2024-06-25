@@ -80,10 +80,58 @@ namespace ComponentShopAPI.Services.CartManager
             return await _context.CartProduct.FirstOrDefaultAsync(cp => cp.CartId == cart.Id && cp.ProductId == product.Id);
         }
 
-        private bool IsCartEmpty(Cart cart)
+        public bool IsCartEmpty(Cart cart)
         {
-            var productsInCart = _context.CartProduct.Where(cp => cp.CartId == cart.Id).ToList();
+            var productsInCart = GetProductsInCart(cart);
             return productsInCart.Count <= 0;
+        }
+
+        public List<CartProduct> GetProductsInCart(Cart cart)
+        {
+            return _context.CartProduct.Where(cp => cp.CartId == cart.Id).ToList();
+        }
+
+        public async Task<double> GetCartTotalAsync(Cart cart)
+        {
+            var cartProducts = GetProductsInCart(cart);
+
+            double total = 0;
+            foreach (var cartProduct in cartProducts)
+            {
+                var product = await GetProductByIdAsync(cartProduct.ProductId);
+                if (product == null)
+                {
+                    throw new Exception("Product from cart was deleted");
+                }
+                total += cartProduct.Quantity * product.Price;
+            }
+
+            return total;
+        }
+
+        public async Task ProcessPurchaseAsync(Cart cart, ApplicationUser user)
+        {
+            var cartProducts = GetProductsInCart(cart);
+
+            foreach (var cartProduct in cartProducts)
+            {
+                var product = await GetProductByIdAsync(cartProduct.ProductId);
+                if (product == null)
+                {
+                    throw new Exception("Product from cart was deleted");
+                }
+
+                user.Credits -= cartProduct.Quantity * product.Price;
+
+                product.Quantity -= cartProduct.Quantity;
+
+                // This is really bad and has to be fixed
+                int quantity = cartProduct.Quantity;
+                for (int i = 0; i < quantity; i++)
+                {
+                    await RemoveProductFromCartAsync(cart, product);
+                }
+            }
         }
     }
 }
