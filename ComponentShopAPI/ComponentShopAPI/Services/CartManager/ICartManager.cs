@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Entities;
+﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Entities;
 
 namespace ComponentShopAPI.Services.CartManager
 {
@@ -20,5 +21,6 @@ namespace ComponentShopAPI.Services.CartManager
 
         public Task ProcessPurchaseAsync(Cart cart, ApplicationUser user);
 
+        public List<CartDto> GetCartDtos(Cart cart);
     }
 }

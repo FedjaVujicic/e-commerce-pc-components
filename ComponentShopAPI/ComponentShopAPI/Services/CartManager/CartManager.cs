@@ -1,5 +1,7 @@
-﻿using ComponentShopAPI.Entities;
+﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Repositories;
+using ComponentShopAPI.Services.ProductDtoFactory;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComponentShopAPI.Services.CartManager
@@ -7,10 +9,12 @@ namespace ComponentShopAPI.Services.CartManager
     public class CartManager : ICartManager
     {
         private readonly ComponentShopDBContext _context;
+        private readonly IProductDtoFactory _productDtoFactory;
 
-        public CartManager(ComponentShopDBContext context)
+        public CartManager(ComponentShopDBContext context, IProductDtoFactory productDtoFactory)
         {
             _context = context;
+            _productDtoFactory = productDtoFactory;
         }
 
         public async Task AddProductToCartAsync(Cart cart, Product product)
@@ -78,6 +82,10 @@ namespace ComponentShopAPI.Services.CartManager
         {
             return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
+        public Product? GetProductById(int id)
+        {
+            return _context.Products.FirstOrDefault(p => p.Id == id);
+        }
 
         private async Task<CartProduct?> GetCartProduct(Cart cart, Product product)
         {
@@ -131,6 +139,32 @@ namespace ComponentShopAPI.Services.CartManager
 
                 await RemoveProductFromCartAsync(cart, product, cartProduct.Quantity);
             }
+        }
+
+        public List<CartDto> GetCartDtos(Cart cart)
+        {
+            var cartProducts = GetProductsInCart(cart);
+
+            var products = cartProducts.Select(cp =>
+            {
+                var product = GetProductById(cp.ProductId);
+                return product;
+            }).ToList();
+
+            List<CartDto> cartDtos = [];
+
+            foreach (var product in products)
+            {
+                ProductDto productDto = _productDtoFactory.Create(product!);
+                var cartProduct = cartProducts.FirstOrDefault(cp => cp.ProductId == product!.Id);
+                if (cartProduct == null)
+                {
+                    throw new Exception($"Product {product!.Id} not in cart.");
+                }
+                cartDtos.Add(new CartDto(productDto, cartProduct.Quantity));
+            }
+
+            return cartDtos;
         }
     }
 }

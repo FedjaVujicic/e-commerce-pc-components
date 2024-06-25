@@ -22,6 +22,26 @@ namespace ComponentShopAPI.Controllers
             _cartManager = cartManager;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetCarts()
+        {
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return BadRequest(new { message = "Must be logged in to purchase." });
+            }
+
+            var cart = await _cartManager.GetCartAsync(user.Id);
+            if (cart == null)
+            {
+                return Ok(new { });
+            }
+
+            var result = _cartManager.GetCartDtos(cart);
+
+            return Ok(result);
+        }
+
         [HttpPut("add")]
         public async Task<ActionResult> AddToCart([FromQuery] int productId)
         {
