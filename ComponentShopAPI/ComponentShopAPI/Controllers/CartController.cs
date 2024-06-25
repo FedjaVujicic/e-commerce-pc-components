@@ -1,4 +1,5 @@
-﻿using ComponentShopAPI.Entities;
+﻿using ComponentShopAPI.Dtos;
+using ComponentShopAPI.Entities;
 using ComponentShopAPI.Repositories;
 using ComponentShopAPI.Services.CartManager;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +35,7 @@ namespace ComponentShopAPI.Controllers
             var cart = await _cartManager.GetCartAsync(user.Id);
             if (cart == null)
             {
-                return Ok(new { });
+                return Ok(new List<CartDto>());
             }
 
             var result = _cartManager.GetCartDtos(cart);

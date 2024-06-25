@@ -3,6 +3,7 @@ import { GpuService } from '../../../shared/gpu.service';
 import { UserService } from '../../../shared/user.service';
 import { Gpu } from '../../../models/gpu';
 import { Router } from '@angular/router';
+import { CartService } from '../../../shared/cart.service';
 
 @Component({
   selector: 'app-gpus',
@@ -13,7 +14,7 @@ export class GpusComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public gpuService: GpuService, public userService: UserService, private router: Router) { }
+  constructor(public gpuService: GpuService, public userService: UserService, private router: Router, public cartService: CartService) { }
 
   ngOnInit() {
     this.gpuService.getGpus();

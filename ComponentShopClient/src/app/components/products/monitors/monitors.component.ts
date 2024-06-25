@@ -3,6 +3,7 @@ import { MonitorService } from '../../../shared/monitor.service';
 import { UserService } from '../../../shared/user.service';
 import { Monitor } from '../../../models/monitor';
 import { Router } from '@angular/router';
+import { CartService } from '../../../shared/cart.service';
 
 @Component({
   selector: 'app-monitors',
@@ -13,7 +14,7 @@ export class MonitorsComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public monitorService: MonitorService, public userService: UserService, private router: Router) { }
+  constructor(public monitorService: MonitorService, public userService: UserService, private router: Router, public cartService: CartService) { }
 
   ngOnInit() {
     this.monitorService.getMonitors();

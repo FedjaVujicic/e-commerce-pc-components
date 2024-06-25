@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CartDto } from '../models/cart-dto';
 
 @Injectable({
@@ -24,10 +24,14 @@ export class CartService {
   }
 
   getTotal(cartItems: Array<CartDto>): number {
+    if (cartItems.length == 0) {
+    }
+
     let total: number = 0;
     cartItems.forEach(cartItem => {
       total += cartItem.product.price * cartItem.quantity;
     });
+
     return total;
   }
 
@@ -40,6 +44,32 @@ export class CartService {
       error: err => {
         console.log(err.message);
       }
-    });;
+    });
+  }
+
+  addToCart(productId: number): Subscription {
+    return this.http.put(this.url + `/add?productId=${productId}`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        this.getCart();
+      },
+      error: err => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  removeFromCart(productId: number): Subscription {
+    return this.http.put(this.url + `/remove?productId=${productId}`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        this.getCart();
+      },
+      error: err => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  purchase(): Observable<Object> {
+    return this.http.put(this.url + `/purchase`, {}, { withCredentials: true });
   }
 }
