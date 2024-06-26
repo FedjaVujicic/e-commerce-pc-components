@@ -34,9 +34,8 @@
                     </select>
                 </div>
                 <ul class="list-group mb-2 flex-grow-1">
-                    <li class="d-flex list-group-item mb-2 border rounded-3 mouse-hover"
-                        *ngFor="let gpu of gpuService.gpuList" (click)="goToGpu(gpu.id)">
-                        <div class="d-flex flex-grow-1">
+                    <li class="d-flex list-group-item mb-2 border rounded-3" *ngFor="let gpu of gpuService.gpuList">
+                        <div class="d-flex flex-grow-1 mouse-hover" (click)="goToGpu(gpu.id)">
                             <div class="mx-2">
                                 <img style="width: 120px; height: 120px; object-fit: cover;"
                                     [src]="gpuService.getImageSrc(gpu.imageFile)" alt="">
@@ -52,12 +51,13 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="d-flex flex-column justify-content-center align-items-end">
-                                <div class="fw-bold fs-5 my-2">{{ gpu.price }}€</div>
-                                <div class="text-success" *ngIf="gpu.availability">In Stock</div>
-                                <div class="text-danger" *ngIf="!gpu.availability">Out of Stock</div>
-                                <button *ngIf="gpu.availability" class=" btn btn-light-gray my-2">Add to cart</button>
-                            </div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center align-items-end">
+                            <div class="fw-bold fs-5 my-2">{{ gpu.price }}€</div>
+                            <div class="text-success" *ngIf="gpu.availability">In Stock</div>
+                            <div class="text-danger" *ngIf="!gpu.availability">Out of Stock</div>
+                            <button (click)="addToCart(gpu.id)" *ngIf="gpu.availability"
+                                class=" btn btn-light-gray my-2">Add to cart</button>
                         </div>
                         <div class="d-flex flex-column justify-content-around ms-4"
                             *ngIf="userService.isAdminLoggedIn()">

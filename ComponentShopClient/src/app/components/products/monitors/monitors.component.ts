@@ -3,6 +3,8 @@ import { MonitorService } from '../../../shared/monitor.service';
 import { UserService } from '../../../shared/user.service';
 import { Monitor } from '../../../models/monitor';
 import { Router } from '@angular/router';
+import { CartService } from '../../../shared/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-monitors',
@@ -13,7 +15,8 @@ export class MonitorsComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public monitorService: MonitorService, public userService: UserService, private router: Router) { }
+  constructor(public monitorService: MonitorService, public userService: UserService, private router: Router,
+    public cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.monitorService.getMonitors();
@@ -86,6 +89,17 @@ export class MonitorsComponent {
     this.monitorService.getMonitor(id).subscribe((res: Monitor) => {
       this.monitorService.currentMonitor = res;
       this.router.navigate(["../monitor-info", id]);
+    });
+  }
+
+  addToCart(productId: number) {
+    this.cartService.addToCart(productId).subscribe({
+      next: () => {
+        this.toastr.success("Added");
+      },
+      error: err => {
+        console.log(err.error.message);
+      }
     });
   }
 }
