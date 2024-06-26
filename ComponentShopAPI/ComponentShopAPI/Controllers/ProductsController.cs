@@ -190,12 +190,12 @@ namespace ComponentShopAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetQuantity(int id)
         {
-            var gpu = await _context.Products.FindAsync(id);
-            if (gpu == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return Ok(gpu.Quantity);
+            return Ok(product.Quantity);
         }
 
 
