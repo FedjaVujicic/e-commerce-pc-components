@@ -32,7 +32,7 @@ export class CartService {
       total += cartItem.product.price * cartItem.quantity;
     });
 
-    return total;
+    return Math.round(total * 100) / 100;
   }
 
   getCart(): Subscription {
