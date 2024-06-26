@@ -16,7 +16,8 @@
                 <div class="fw-bold fs-4 my-2">{{ monitorService.currentMonitor.price }}€</div>
                 <div class="text-success fs-5" *ngIf="monitorService.currentMonitor.availability">In Stock</div>
                 <div class="text-danger fs-5" *ngIf="!monitorService.currentMonitor.availability">Out of Stock</div>
-                <button *ngIf="monitorService.currentMonitor.availability" class=" btn btn-success my-2 fs-5 px-3">Add
+                <button (click)="addToCart(productId)" *ngIf="monitorService.currentMonitor.availability"
+                    class=" btn btn-success my-2 fs-5 px-3">Add
                     to cart</button>
             </div>
         </div>

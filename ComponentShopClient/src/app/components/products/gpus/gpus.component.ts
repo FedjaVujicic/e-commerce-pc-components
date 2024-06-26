@@ -4,6 +4,7 @@ import { UserService } from '../../../shared/user.service';
 import { Gpu } from '../../../models/gpu';
 import { Router } from '@angular/router';
 import { CartService } from '../../../shared/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gpus',
@@ -14,7 +15,8 @@ export class GpusComponent {
 
   isFormVisible: boolean = false;
 
-  constructor(public gpuService: GpuService, public userService: UserService, private router: Router, public cartService: CartService) { }
+  constructor(public gpuService: GpuService, public userService: UserService, private router: Router,
+    public cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.gpuService.getGpus();
@@ -87,6 +89,17 @@ export class GpusComponent {
     this.gpuService.getGpu(id).subscribe((res: Gpu) => {
       this.gpuService.currentGpu = res;
       this.router.navigate(["../gpu-info", id]);
+    });
+  }
+
+  addToCart(productId: number) {
+    this.cartService.addToCart(productId).subscribe({
+      next: () => {
+        this.toastr.success("Added");
+      },
+      error: err => {
+        console.log(err.message);
+      }
     });
   }
 }

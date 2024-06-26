@@ -16,12 +16,26 @@ export class CartComponent {
     this.cartService.getCart();
   }
 
-  addToCart(productId: number): void {
-    this.cartService.addToCart(productId);
+  addToCart(productId: number) {
+    this.cartService.addToCart(productId).subscribe({
+      next: () => {
+        this.cartService.getCart();
+      },
+      error: err => {
+        console.log(err.message);
+      }
+    });
   }
 
   removeFromCart(productId: number): void {
-    this.cartService.removeFromCart(productId);
+    this.cartService.removeFromCart(productId).subscribe({
+      next: () => {
+        this.cartService.getCart();
+      },
+      error: err => {
+        console.log(err.message);
+      }
+    });
   }
 
   purchase(): void {

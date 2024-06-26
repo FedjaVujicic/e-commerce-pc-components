@@ -47,26 +47,12 @@ export class CartService {
     });
   }
 
-  addToCart(productId: number): Subscription {
-    return this.http.put(this.url + `/add?productId=${productId}`, {}, { withCredentials: true }).subscribe({
-      next: () => {
-        this.getCart();
-      },
-      error: err => {
-        console.log(err.message);
-      }
-    });
+  addToCart(productId: number): Observable<Object> {
+    return this.http.put(this.url + `/add?productId=${productId}`, {}, { withCredentials: true });
   }
 
-  removeFromCart(productId: number): Subscription {
-    return this.http.put(this.url + `/remove?productId=${productId}`, {}, { withCredentials: true }).subscribe({
-      next: () => {
-        this.getCart();
-      },
-      error: err => {
-        console.log(err.message);
-      }
-    });
+  removeFromCart(productId: number): Observable<Object> {
+    return this.http.put(this.url + `/remove?productId=${productId}`, {}, { withCredentials: true });
   }
 
   purchase(): Observable<Object> {

@@ -5,6 +5,7 @@ import { Gpu } from '../../../models/gpu';
 import { CommentService } from '../../../shared/comment.service';
 import { UserComment } from '../../../models/user-comment';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from '../../../shared/cart.service';
 
 @Component({
   selector: 'app-gpu-info',
@@ -21,7 +22,8 @@ export class GpuInfoComponent {
 
   errorMessage: string = "";
 
-  constructor(public gpuService: GpuService, public commentService: CommentService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(public gpuService: GpuService, public commentService: CommentService, private route: ActivatedRoute,
+    private toastr: ToastrService, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.retrieveGpuFromRoute();
@@ -51,6 +53,17 @@ export class GpuInfoComponent {
       },
       error: err => {
         this.errorMessage = err.error.message;
+      }
+    });
+  }
+
+  addToCart(productId: number) {
+    this.cartService.addToCart(productId).subscribe({
+      next: () => {
+        this.toastr.success("Added");
+      },
+      error: err => {
+        console.log(err.message);
       }
     });
   }

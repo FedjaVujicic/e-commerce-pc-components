@@ -5,6 +5,7 @@ import { Monitor } from '../../../models/monitor';
 import { CommentService } from '../../../shared/comment.service';
 import { UserComment } from '../../../models/user-comment';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from '../../../shared/cart.service';
 
 @Component({
   selector: 'app-monitor-info',
@@ -21,7 +22,8 @@ export class MonitorInfoComponent {
 
   errorMessage: string = "";
 
-  constructor(public monitorService: MonitorService, public commentService: CommentService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(public monitorService: MonitorService, public commentService: CommentService, private route: ActivatedRoute,
+    private toastr: ToastrService, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.retrieveMonitorFromRoute();
@@ -51,6 +53,17 @@ export class MonitorInfoComponent {
       },
       error: err => {
         this.errorMessage = err.error.message;
+      }
+    });
+  }
+
+  addToCart(productId: number) {
+    this.cartService.addToCart(productId).subscribe({
+      next: () => {
+        this.toastr.success("Added");
+      },
+      error: err => {
+        console.log(err.message);
       }
     });
   }
