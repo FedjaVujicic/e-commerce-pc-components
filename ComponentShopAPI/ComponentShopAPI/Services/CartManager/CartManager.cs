@@ -132,6 +132,21 @@ namespace ComponentShopAPI.Services.CartManager
             }
         }
 
+        public bool CheckProductsAvailable(Cart cart)
+        {
+            var cartProducts = GetProductsInCart(cart);
+
+            foreach (var cartProduct in cartProducts)
+            {
+                var product = _context.Products.Find(cartProduct.ProductId);
+                if (product == null || product.Quantity < cartProduct.Quantity)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public List<CartDto> GetCartDtos(Cart cart)
         {
             var cartProducts = GetProductsInCart(cart);

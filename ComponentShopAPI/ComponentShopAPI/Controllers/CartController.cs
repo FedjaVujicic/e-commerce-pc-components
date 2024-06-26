@@ -116,6 +116,11 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = "Not enough credits for purchase." });
             }
 
+            if (_cartManager.CheckProductsAvailable(cart) == false)
+            {
+                return BadRequest(new { message = "Not enough products in stock." });
+            }
+
             await _cartManager.ProcessPurchaseAsync(cart, user);
 
             return Ok(new { message = "Purchase successful." });

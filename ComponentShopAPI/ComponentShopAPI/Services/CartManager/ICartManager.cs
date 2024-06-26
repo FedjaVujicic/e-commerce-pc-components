@@ -15,6 +15,8 @@ namespace ComponentShopAPI.Services.CartManager
 
         public bool IsCartEmpty(Cart cart);
 
+        public bool CheckProductsAvailable(Cart cart);
+
         public Task<double> GetCartTotalAsync(Cart cart);
 
         public Task ProcessPurchaseAsync(Cart cart, ApplicationUser user);
