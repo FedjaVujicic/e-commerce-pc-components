@@ -42,7 +42,7 @@ export class CartService {
         this.cartTotal = this.getTotal(this.cartItems);
       },
       error: err => {
-        console.log(err.message);
+        console.log(err.error.message);
       }
     });
   }
