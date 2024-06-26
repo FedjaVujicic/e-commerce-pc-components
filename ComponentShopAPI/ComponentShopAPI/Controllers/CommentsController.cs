@@ -89,14 +89,9 @@ namespace ComponentShopAPI.Controllers
             return NoContent();
         }
 
-        [NonAction]
-        public async Task<ApplicationUser?> GetCurrentUserAsync()
+        private async Task<ApplicationUser?> GetCurrentUserAsync()
         {
-            if (User.Identity == null)
-            {
-                return null;
-            }
-            if (User.Identity.Name == null)
+            if (User.Identity == null || User.Identity.Name == null)
             {
                 return null;
             }
