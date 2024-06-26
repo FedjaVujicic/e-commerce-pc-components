@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class CartComponent {
 
+  errorMessage: string = "";
+
   constructor(public cartService: CartService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class CartComponent {
         this.cartService.getCart();
       },
       error: err => {
-        console.log(err.message);
+        console.log(err.error.message);
       }
     });
   }
@@ -33,7 +35,7 @@ export class CartComponent {
         this.cartService.getCart();
       },
       error: err => {
-        console.log(err.message);
+        console.log(err.error.message);
       }
     });
   }
@@ -46,7 +48,7 @@ export class CartComponent {
         this.router.navigate([""]);
       },
       error: err => {
-        console.log(err.message);
+        this.errorMessage = err.error.message;
       }
     });
   }

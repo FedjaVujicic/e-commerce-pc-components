@@ -98,7 +98,7 @@ export class GpusComponent {
         this.toastr.success("Added");
       },
       error: err => {
-        console.log(err.message);
+        console.log(err.error.message);
       }
     });
   }

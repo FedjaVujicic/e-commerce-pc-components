@@ -24,6 +24,7 @@
             </ul>
             <div class="d-flex justify-content-end">
                 <div class="d-flex flex-column align-items-stretch">
+                    <div class="text-danger">{{ errorMessage }}</div>
                     <span class="text-end fs-5">Total: <span class="fw-bold">{{ cartService.cartTotal }}€</span></span>
                     <button class="btn btn-success mt-2" (click)="purchase()">Purchase</button>
                 </div>

@@ -98,7 +98,7 @@ export class MonitorsComponent {
         this.toastr.success("Added");
       },
       error: err => {
-        console.log(err.message);
+        console.log(err.error.message);
       }
     });
   }
