@@ -1,1 +1,28 @@
-<p>register-requests works!</p>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h1 class="fw-bold mb-4">Register requests</h1>
+        <ul class="list-group mb-2 flex-grow-1">
+            <li class="d-flex list-group-item mb-2 border rounded-3" *ngFor="let user of users">
+                <div class="d-flex flex-grow-1 mouse-hover align-items-center">
+                    <div class="flex-grow-1">
+                        <div class="mb-1">
+                            <span class="fw-bold">First name: </span>
+                            <span>{{ user.firstName }}</span>
+                        </div>
+                        <div class="mb-1">
+                            <span class="fw-bold">Last name: </span>
+                            <span>{{ user.lastName }}</span>
+                        </div>
+                        <div class="mb-1">
+                            <span class="fw-bold">E-mail: </span>
+                            <span>{{ user.username }}</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-2x fa-square-check me-2"
+                        (click)="putUserStatus(user.username, 'Approved')"></i>
+                    <i class="fa-solid fa-2x fa-square-xmark" (click)="putUserStatus(user.username, 'Rejected')"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
