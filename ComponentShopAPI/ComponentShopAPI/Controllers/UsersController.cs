@@ -241,6 +241,11 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = $"User {username} does not exist." });
             }
 
+            if (status != "Created" && status != "Approved" && status != "Rejected")
+            {
+                return BadRequest(new { message = $"Invalid value for status: {status}" });
+            }
+
             user.Status = status;
             await _context.SaveChangesAsync();
 
