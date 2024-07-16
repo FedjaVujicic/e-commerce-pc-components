@@ -145,7 +145,8 @@ namespace ComponentShopAPI.Controllers
                 firstName = user.FirstName,
                 lastName = user.LastName,
                 birthday = user.Birthday,
-                credits = user.Credits
+                credits = user.Credits,
+                status = user.Status
             });
         }
 
