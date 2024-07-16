@@ -9,6 +9,7 @@ import { GpuInfoComponent } from './components/products/gpu-info/gpu-info.compon
 import { MonitorInfoComponent } from './components/products/monitor-info/monitor-info.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CartComponent } from './components/cart/cart.component';
+import { RegisterRequestsComponent } from './components/register-requests/register-requests.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: "cart",
     component: CartComponent,
+  },
+  {
+    path: "register-requests",
+    component: RegisterRequestsComponent,
   },
 ];
 
