@@ -1,9 +1,11 @@
 ﻿using ComponentShopAPI.Dtos;
 using ComponentShopAPI.Entities;
+using ComponentShopAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace ComponentShopAPI.Controllers
 {
@@ -11,15 +13,18 @@ namespace ComponentShopAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ComponentShopDBContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager
+            , ComponentShopDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         [HttpPost("register")]
@@ -205,6 +210,38 @@ namespace ComponentShopAPI.Controllers
             }
             await _userManager.RemovePasswordAsync(user);
             await _userManager.AddPasswordAsync(user, newPassword);
+
+            return Ok();
+        }
+
+        [HttpGet("usersForApproval")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<IEnumerable<ApplicationUser>> GetUsersForApproval()
+        {
+            var users = _context.Users.Where(user => user.Status == "Created");
+            return Ok(users.Select(user => new
+            {
+                username = user.UserName,
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                birthday = user.Birthday,
+                credits = user.Credits
+            }));
+        }
+
+        [HttpPut("userStatus")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeUserStatus(string username, string status)
+        {
+            var user = await _userManager.FindByEmailAsync(username);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = $"User {username} does not exist." });
+            }
+
+            user.Status = status;
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
