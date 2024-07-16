@@ -74,4 +74,12 @@ export class UserService {
     }
     return true;
   }
+
+  getUsersForApproval() {
+    return this.http.get(this.url + `/api/Users/usersForApproval`, { withCredentials: true });
+  }
+
+  putUserStatus(username: string, status: string) {
+    return this.http.put(this.url + `/api/Users/userStatus?username=${username}&status=${status}`, {}, { withCredentials: true });
+  }
 }

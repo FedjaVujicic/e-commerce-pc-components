@@ -104,6 +104,11 @@ namespace ComponentShopAPI.Controllers
                 return BadRequest(new { message = "Must be logged in to purchase." });
             }
 
+            if (user.Status != "Approved")
+            {
+                return BadRequest(new { message = "User must be approved by an administrator." });
+            }
+
             var cart = await _cartManager.GetCartAsync(user.Id);
             if (cart == null || _cartManager.IsCartEmpty(cart))
             {

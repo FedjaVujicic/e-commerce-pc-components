@@ -16,5 +16,8 @@ namespace ComponentShopAPI.Entities
 
         [Column(TypeName = "decimal(10, 2)")]
         public double Credits { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string Status { get; set; } = "Created";
     }
 }
