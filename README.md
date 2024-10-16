@@ -1,4 +1,7 @@
 # PC Component Shop
+* Full stack e-commerce web app built using .NET and Angular.
+* Uses Identity API for authentication and EFC for database management.
+* Features dynamic product filtering, user reviews and admin CRUD functionality
 
 ## Installation
 
@@ -9,8 +12,3 @@
 ```
 
 * In ComponentShopAPI -> appsettings.json change DevConnection string Server and Database parameters
-
-* Install ngx-toastr package in ComponentShopClient folder
-```git
-npm i ngx-toastr
-```
